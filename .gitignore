@@ -1,0 +1,66 @@
+# Python
+__pycache__/
+*.pyc
+*.pyo
+*.egg-info/
+.venv/
+venv/
+
+# Backend runtime data
+ontop-backend/data/*.json
+ontop-backend/data/*.json.migrated
+ontop-backend/data/*.db
+ontop-backend/data/*.db-shm
+ontop-backend/data/*.db-wal
+ontop-backend/data/.encryption_key
+ontop-backend/data/*/
+ontop-backend/data-lvfa/
+ontop-backend/data-mysql/
+ontop-backend/=*
+
+# Frontend
+ontop-ui/node_modules/
+ontop-ui/dist/
+ontop-ui/.next/
+ontop-ui/*.tsbuildinfo
+
+# Java
+ontop-engine/target/
+ontop-engine/.idea/
+
+# Ontop CLI (downloaded at build time)
+ontop-endpoint/ontop-cli/
+ontop-test/ontop-cli/
+ontop-test/ontop.zip
+ontop-test/lib/
+
+# Endpoint runtime active dirs (seed is committed, active is runtime)
+ontop-endpoint/active/
+ontop-endpoint/lvfa-active/
+ontop-endpoint/mysql-active/
+
+# Generated output (seeded initially, overwritten at runtime)
+ontop-output/*.ttl
+ontop-output/*.obda
+ontop-output/*.properties
+!ontop-output/.gitkeep
+
+# Logs
+logs/*.log
+*.log
+
+# IDE
+.idea/
+.vscode/
+*.swp
+*.swo
+
+# OS
+.DS_Store
+Thumbs.db
+
+# Large archives
+*.zip
+
+# Playwright cache
+.playwright*/

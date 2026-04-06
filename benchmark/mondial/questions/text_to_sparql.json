@@ -1,0 +1,34 @@
+[
+  {
+    "id": "NL2SPARQL-001",
+    "category": "basic_lookup",
+    "difficulty": "easy",
+    "question": "哪些国家属于欧洲？",
+    "target_sparql_shape": [
+      "type_filter",
+      "relationship_filter"
+    ],
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY"
+      }
+    ],
+    "notes": "Direct NL to SPARQL benchmark."
+  },
+  {
+    "id": "NL2SPARQL-002",
+    "category": "multi_hop",
+    "difficulty": "hard",
+    "question": "哪些城市位于人口超过五百万的国家，并且靠近流经多个国家的河流？",
+    "target_sparql_shape": [
+      "multi_hop",
+      "aggregation_filter"
+    ],
+    "expected_rows": [
+      {
+        "city": "SAMPLE_CITY"
+      }
+    ],
+    "notes": "Designed to expose weak ontology relation modeling."
+  }
+]

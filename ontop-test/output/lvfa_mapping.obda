@@ -1,0 +1,150 @@
+[PrefixDeclaration]
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+owl:		http://www.w3.org/2002/07/owl#
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+
+[MappingDeclaration] @collection [[
+mappingId	MAP_PROPERTY_PROJECT
+target		<http://ontology.lvfa-property.com/v1/PropertyProject/project_id={project_id}> a <http://ontology.lvfa-property.com/v1/PropertyProject> ; <http://ontology.lvfa-property.com/v1/projectId> {project_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/projectName> {project_name}^^xsd:string ; <http://ontology.lvfa-property.com/v1/projectStatus> {project_status}^^xsd:string ; <http://ontology.lvfa-property.com/v1/region> {region}^^xsd:string .
+source		SELECT * FROM public.property_project
+
+
+mappingId	MAP_SPACE_UNIT
+target		<http://ontology.lvfa-property.com/v1/SpaceUnit/space_id={space_id}> a <http://ontology.lvfa-property.com/v1/SpaceUnit> ; <http://ontology.lvfa-property.com/v1/spaceId> {space_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/billingArea> {billing_area}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/buildingArea> {building_area}^^xsd:decimal .
+source		SELECT * FROM public.space_unit
+
+
+mappingId	MAP_PARKING_SPACE
+target		<http://ontology.lvfa-property.com/v1/ParkingSpace/parking_id={parking_id}> a <http://ontology.lvfa-property.com/v1/ParkingSpace> ; <http://ontology.lvfa-property.com/v1/parkingId> {parking_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/parkingType> {parking_type}^^xsd:string .
+source		SELECT * FROM public.parking_space
+
+
+mappingId	MAP_METER
+target		<http://ontology.lvfa-property.com/v1/Meter/meter_id={meter_id}> a <http://ontology.lvfa-property.com/v1/Meter> ; <http://ontology.lvfa-property.com/v1/meterId> {meter_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/meterType> {meter_type}^^xsd:string .
+source		SELECT * FROM public.meter
+
+mappingId	MAP_CUSTOMER
+target		<http://ontology.lvfa-property.com/v1/Customer/global_id={global_id}> a <http://ontology.lvfa-property.com/v1/Customer> ; <http://ontology.lvfa-property.com/v1/globalId> {global_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/legalName> {legal_name}^^xsd:string ; <http://ontology.lvfa-property.com/v1/idNumber> {id_number}^^xsd:string ; <http://ontology.lvfa-property.com/v1/customerStatus> {customer_status}^^xsd:string .
+source		SELECT * FROM public.customer
+
+
+mappingId	MAP_ACCOUNT
+target		<http://ontology.lvfa-property.com/v1/Account/account_id={account_id}> a <http://ontology.lvfa-property.com/v1/Account> ; <http://ontology.lvfa-property.com/v1/accountId> {account_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/balance> {balance}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/accountStatus> {account_status}^^xsd:string .
+source		SELECT * FROM public.account
+
+
+mappingId	MAP_SUBSCRIPTION
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={subscr_id}> a <http://ontology.lvfa-property.com/v1/Subscription> ; <http://ontology.lvfa-property.com/v1/subscrId> {subscr_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/subscrStart> {subscr_start}^^xsd:date ; <http://ontology.lvfa-property.com/v1/subscrEnd> {subscr_end}^^xsd:date ; <http://ontology.lvfa-property.com/v1/subscrStatus> {subscr_status}^^xsd:string .
+source		SELECT * FROM public.subscription
+
+
+mappingId	MAP_PERSON
+target		<http://ontology.lvfa-property.com/v1/Person/person_id={person_id}> a <http://ontology.lvfa-property.com/v1/Person> ; <http://ontology.lvfa-property.com/v1/personId> {person_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/personName> {person_name}^^xsd:string ; <http://ontology.lvfa-property.com/v1/workType> {work_type}^^xsd:string .
+source		SELECT * FROM public.person
+
+mappingId	MAP_CONTRACT
+target		<http://ontology.lvfa-property.com/v1/Contract/contract_id={contract_id}> a <http://ontology.lvfa-property.com/v1/Contract> ; <http://ontology.lvfa-property.com/v1/contractId> {contract_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/contractStart> {contract_start}^^xsd:date ; <http://ontology.lvfa-property.com/v1/contractEnd> {contract_end}^^xsd:date .
+source		SELECT * FROM public.contract
+
+
+mappingId	MAP_BUSINESS_CLASS
+target		<http://ontology.lvfa-property.com/v1/BusinessClass/bc_id={bc_id}> a <http://ontology.lvfa-property.com/v1/BusinessClass> ; <http://ontology.lvfa-property.com/v1/bcId> {bc_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/billingBaseType> {billing_base_type}^^xsd:string ; <http://ontology.lvfa-property.com/v1/unitPrice> {unit_price}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/taxRate> {tax_rate}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/settlementFrequency> {settlement_frequency}^^xsd:string ; <http://ontology.lvfa-property.com/v1/settlementAnchor> {settlement_anchor}^^xsd:string ; <http://ontology.lvfa-property.com/v1/accountingMode> {accounting_mode}^^xsd:string .
+source		SELECT * FROM public.business_class
+
+
+mappingId	MAP_BILL
+target		<http://ontology.lvfa-property.com/v1/Bill/bill_id={bill_id}> a <http://ontology.lvfa-property.com/v1/Bill> ; <http://ontology.lvfa-property.com/v1/billId> {bill_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/period> {period}^^xsd:string ; <http://ontology.lvfa-property.com/v1/amountDue> {amount_due}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/amountPaid> {amount_paid}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/amountBalance> {amount_balance}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/billStatus> {bill_status}^^xsd:string ; <http://ontology.lvfa-property.com/v1/sourceFlag> {source_flag}^^xsd:string .
+source		SELECT * FROM public.bill
+
+
+mappingId	MAP_PAYMENT
+target		<http://ontology.lvfa-property.com/v1/Payment/pay_id={pay_id}> a <http://ontology.lvfa-property.com/v1/Payment> ; <http://ontology.lvfa-property.com/v1/payId> {pay_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/payChannel> {pay_channel}^^xsd:string ; <http://ontology.lvfa-property.com/v1/payAmount> {pay_amount}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/matchStatus> {match_status}^^xsd:string .
+source		SELECT * FROM public.payment
+
+mappingId	MAP_WORK_ORDER
+target		<http://ontology.lvfa-property.com/v1/WorkOrder/order_id={order_id}> a <http://ontology.lvfa-property.com/v1/WorkOrder> ; <http://ontology.lvfa-property.com/v1/orderId> {order_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/orderType> {order_type}^^xsd:string ; <http://ontology.lvfa-property.com/v1/serviceFee> {service_fee}^^xsd:decimal .
+source		SELECT * FROM public.work_order
+
+
+mappingId	MAP_COST_ALLOCATION
+target		<http://ontology.lvfa-property.com/v1/CostAllocation/alloc_id={alloc_id}> a <http://ontology.lvfa-property.com/v1/CostAllocation> ; <http://ontology.lvfa-property.com/v1/allocId> {alloc_id}^^xsd:string ; <http://ontology.lvfa-property.com/v1/costType> {cost_type}^^xsd:string ; <http://ontology.lvfa-property.com/v1/allocAmount> {alloc_amount}^^xsd:decimal ; <http://ontology.lvfa-property.com/v1/allocPeriod> {alloc_period}^^xsd:string .
+source		SELECT * FROM public.cost_allocation
+
+mappingId	MAP_HAS_SPACE
+target		<http://ontology.lvfa-property.com/v1/PropertyProject/project_id={pp_id}> <http://ontology.lvfa-property.com/v1/hasSpace> <http://ontology.lvfa-property.com/v1/SpaceUnit/space_id={su_id}> .
+source		SELECT pp.project_id AS pp_id, su.space_id AS su_id FROM public.property_project pp JOIN public.space_unit su ON pp.project_id = su.project_id
+
+
+mappingId	MAP_HAS_PARKING
+target		<http://ontology.lvfa-property.com/v1/PropertyProject/project_id={pp_id}> <http://ontology.lvfa-property.com/v1/hasParkingSpace> <http://ontology.lvfa-property.com/v1/ParkingSpace/parking_id={pk_id}> .
+source		SELECT pp.project_id AS pp_id, pk.parking_id AS pk_id FROM public.property_project pp JOIN public.parking_space pk ON pp.project_id = pk.project_id
+
+
+mappingId	MAP_HAS_METER
+target		<http://ontology.lvfa-property.com/v1/SpaceUnit/space_id={su_id}> <http://ontology.lvfa-property.com/v1/hasMeter> <http://ontology.lvfa-property.com/v1/Meter/meter_id={mt_id}> .
+source		SELECT su.space_id AS su_id, mt.meter_id AS mt_id FROM public.space_unit su JOIN public.meter mt ON su.space_id = mt.space_id
+
+
+mappingId	MAP_HAS_ACCOUNT
+target		<http://ontology.lvfa-property.com/v1/Customer/global_id={cust_id}> <http://ontology.lvfa-property.com/v1/hasAccount> <http://ontology.lvfa-property.com/v1/Account/account_id={acct_id}> .
+source		SELECT c.global_id AS cust_id, a.account_id AS acct_id FROM public.customer c JOIN public.account a ON c.global_id = a.global_id
+
+
+mappingId	MAP_ACCOUNT_TO_PROJECT
+target		<http://ontology.lvfa-property.com/v1/Account/account_id={acct_id}> <http://ontology.lvfa-property.com/v1/accountBelongsToProject> <http://ontology.lvfa-property.com/v1/PropertyProject/project_id={proj_id}> .
+source		SELECT account_id AS acct_id, project_id AS proj_id FROM public.account
+
+
+mappingId	MAP_HAS_SUBSCRIPTION
+target		<http://ontology.lvfa-property.com/v1/Account/account_id={acct_id}> <http://ontology.lvfa-property.com/v1/hasSubscription> <http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> .
+source		SELECT account_id AS acct_id, subscr_id AS sub_id FROM public.subscription
+
+
+mappingId	MAP_SUBSCR_SERVES_SPACE
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> <http://ontology.lvfa-property.com/v1/servesSpaceUnit> <http://ontology.lvfa-property.com/v1/SpaceUnit/space_id={su_id}> .
+source		SELECT subscr_id AS sub_id, space_id AS su_id FROM public.subscription WHERE space_id IS NOT NULL
+
+
+mappingId	MAP_SUBSCR_SERVES_PARKING
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> <http://ontology.lvfa-property.com/v1/servesParkingSpace> <http://ontology.lvfa-property.com/v1/ParkingSpace/parking_id={pk_id}> .
+source		SELECT subscr_id AS sub_id, parking_id AS pk_id FROM public.subscription WHERE parking_id IS NOT NULL
+
+
+mappingId	MAP_SUBSCR_HAS_BC
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> <http://ontology.lvfa-property.com/v1/hasBusinessClass> <http://ontology.lvfa-property.com/v1/BusinessClass/bc_id={bc_id}> .
+source		SELECT subscr_id AS sub_id, bc_id FROM public.subscription WHERE bc_id IS NOT NULL
+
+
+mappingId	MAP_SUBSCR_UNDER_CONTRACT
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> <http://ontology.lvfa-property.com/v1/underContract> <http://ontology.lvfa-property.com/v1/Contract/contract_id={ct_id}> .
+source		SELECT subscr_id AS sub_id, contract_id AS ct_id FROM public.subscription WHERE contract_id IS NOT NULL
+
+
+mappingId	MAP_GENERATES_BILL
+target		<http://ontology.lvfa-property.com/v1/Subscription/subscr_id={sub_id}> <http://ontology.lvfa-property.com/v1/generatesBill> <http://ontology.lvfa-property.com/v1/Bill/bill_id={bl_id}> .
+source		SELECT subscr_id AS sub_id, bill_id AS bl_id FROM public.bill
+
+
+mappingId	MAP_SETTLED_BY
+target		<http://ontology.lvfa-property.com/v1/Bill/bill_id={bl_id}> <http://ontology.lvfa-property.com/v1/settledBy> <http://ontology.lvfa-property.com/v1/Payment/pay_id={py_id}> .
+source		SELECT bill_id AS bl_id, pay_id AS py_id FROM public.payment
+
+
+mappingId	MAP_TRIGGERS_BILL
+target		<http://ontology.lvfa-property.com/v1/WorkOrder/order_id={wo_id}> <http://ontology.lvfa-property.com/v1/triggersBill> <http://ontology.lvfa-property.com/v1/Bill/bill_id={bl_id}> .
+source		SELECT order_id AS wo_id, bill_id AS bl_id FROM public.work_order WHERE bill_id IS NOT NULL
+
+
+mappingId	MAP_WORKS_FOR_PROJECT
+target		<http://ontology.lvfa-property.com/v1/Person/person_id={ps_id}> <http://ontology.lvfa-property.com/v1/worksForProject> <http://ontology.lvfa-property.com/v1/PropertyProject/project_id={proj_id}> .
+source		SELECT person_id AS ps_id, project_id AS proj_id FROM public.person
+
+
+mappingId	MAP_COST_ALLOC_TO_PROJECT
+target		<http://ontology.lvfa-property.com/v1/CostAllocation/alloc_id={ca_id}> <http://ontology.lvfa-property.com/v1/costAllocatedTo> <http://ontology.lvfa-property.com/v1/PropertyProject/project_id={proj_id}> .
+source		SELECT alloc_id AS ca_id, project_id AS proj_id FROM public.cost_allocation
+
+
+]]

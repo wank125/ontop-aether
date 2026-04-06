@@ -1,0 +1,24 @@
+{
+  "dataset": "mondial",
+  "dbms": "postgresql",
+  "database_name": "mondial",
+  "connection": {
+    "host": "localhost",
+    "port": 5432,
+    "user": "postgres",
+    "password_env": "MONDIAL_DB_PASSWORD"
+  },
+  "source_artifacts": {
+    "schema_sql": "path/to/mondial-schema.sql",
+    "data_sql": "path/to/mondial-data.sql"
+  },
+  "generated_artifacts": {
+    "properties": "path/to/mondial.properties",
+    "ontology": "path/to/mondial_ontology.ttl",
+    "mapping": "path/to/mondial_mapping.obda"
+  },
+  "run_outputs": {
+    "predictions": "path/to/predictions.json",
+    "mapping_report": "path/to/mapping_report.json"
+  }
+}

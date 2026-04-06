@@ -1,0 +1,43 @@
+[
+  {
+    "id": "SPARQL-001",
+    "category": "basic_lookup",
+    "difficulty": "easy",
+    "question": "列出所有国家及其首都。",
+    "query_intent": "country with capital",
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY",
+        "capital": "SAMPLE_CAPITAL"
+      }
+    ],
+    "notes": "Replace sample rows with Mondial gold answers after loading the real dataset."
+  },
+  {
+    "id": "SPARQL-002",
+    "category": "multi_hop",
+    "difficulty": "hard",
+    "question": "哪些国家的河流流经两个以上大洲？",
+    "query_intent": "river crossing more than two continents grouped by country",
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY"
+      }
+    ],
+    "notes": "Core multi-hop benchmark question for ontology QA."
+  },
+  {
+    "id": "SPARQL-003",
+    "category": "aggregation",
+    "difficulty": "medium",
+    "question": "每个国家有多少种官方语言？按数量倒序返回前十名。",
+    "query_intent": "count official languages by country top 10",
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY",
+        "language_count": 1
+      }
+    ],
+    "notes": "Good for GROUP BY, ORDER BY, and filtering."
+  }
+]

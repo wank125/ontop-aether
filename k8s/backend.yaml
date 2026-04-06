@@ -1,0 +1,105 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: backend
+  namespace: ontop-ui
+  labels:
+    app: backend
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: backend
+  template:
+    metadata:
+      labels:
+        app: backend
+    spec:
+      containers:
+        - name: backend
+          image: ontop-ui-backend:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8000
+          env:
+            - name: FASTAPI_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: FASTAPI_PORT
+            - name: ONTOP_CLI
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: ONTOP_CLI
+            - name: ONTOP_OUTPUT
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: ONTOP_OUTPUT
+            - name: ONTOP_ENDPOINT_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: ONTOP_ENDPOINT_URL
+            - name: ONTOP_ENDPOINT_PORT
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: ONTOP_ENDPOINT_PORT
+            - name: LLM_BASE_URL
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: LLM_BASE_URL
+            - name: LLM_MODEL
+              valueFrom:
+                configMapKeyRef:
+                  name: ontop-config
+                  key: LLM_MODEL
+            - name: LLM_API_KEY
+              valueFrom:
+                secretKeyRef:
+                  name: ontop-secrets
+                  key: LLM_API_KEY
+          volumeMounts:
+            - name: ontop-cli
+              mountPath: /opt/ontop-cli
+              readOnly: true
+            - name: ontop-output
+              mountPath: /opt/ontop-output
+          readinessProbe:
+            httpGet:
+              path: /api/v1/health
+              port: 8000
+            initialDelaySeconds: 10
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m
+              memory: 256Mi
+            limits:
+              cpu: "2"
+              memory: 1Gi
+      volumes:
+        - name: ontop-cli
+          hostPath:
+            path: /opt/ontop-cli
+            type: DirectoryOrCreate
+        - name: ontop-output
+          hostPath:
+            path: /opt/ontop-output
+            type: DirectoryOrCreate
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: backend
+  namespace: ontop-ui
+spec:
+  selector:
+    app: backend
+  ports:
+    - port: 8000
+      targetPort: 8000

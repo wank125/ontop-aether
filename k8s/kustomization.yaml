@@ -1,0 +1,22 @@
+# ontop-ui / Kubernetes
+#
+# Deploy:
+#   kubectl apply -k k8s/
+#
+# Port-forward for local testing:
+#   kubectl port-forward -n ontop-ui svc/frontend 3001:5000
+#   kubectl port-forward -n ontop-ui svc/backend  8001:8000
+#
+apiVersion: kustomize.config.k8s.io/v1beta1
+kind: Kustomization
+
+namespace: ontop-ui
+
+resources:
+  - namespace.yaml
+  - secrets.yaml
+  - configmap.yaml
+  - postgres.yaml
+  - backend.yaml
+  - frontend.yaml
+  - ingress.yaml

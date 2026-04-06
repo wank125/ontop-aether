@@ -1,0 +1,35 @@
+[
+  {
+    "id": "NL2SQL-001",
+    "category": "join",
+    "difficulty": "easy",
+    "question": "哪些国家使用德语？",
+    "target_sql_shape": [
+      "join",
+      "filter"
+    ],
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY"
+      }
+    ],
+    "notes": "Replace expected rows after the real dataset is loaded."
+  },
+  {
+    "id": "NL2SQL-002",
+    "category": "aggregation",
+    "difficulty": "medium",
+    "question": "人口超过一亿的国家中，平均预期寿命最高的是哪个国家？",
+    "target_sql_shape": [
+      "where",
+      "order_by",
+      "limit"
+    ],
+    "expected_rows": [
+      {
+        "country": "SAMPLE_COUNTRY"
+      }
+    ],
+    "notes": "Useful for comparing generated SQL against execution results."
+  }
+]

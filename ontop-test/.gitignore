@@ -1,0 +1,6 @@
+ontop-cli/
+ontop.zip
+lib/
+__pycache__/
+*.pyc
+*.jar

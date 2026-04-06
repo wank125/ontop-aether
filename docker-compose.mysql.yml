@@ -1,0 +1,109 @@
+services:
+  # ── MySQL 8（电商 Demo）────────────────────────────
+  mysql-test:
+    image: mysql:8.0
+    container_name: ontop-mysql-db
+    environment:
+      MYSQL_ROOT_PASSWORD: test123
+      MYSQL_DATABASE: ecommerce
+    ports:
+      - "3307:3306"
+    volumes:
+      - ./ontop-db/mysql/init_mysql.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - mysqldata:/var/lib/mysql
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-ptest123"]
+      interval: 5s
+      timeout: 5s
+      retries: 15
+
+  # ── Native Java Ontop Builder API（MySQL）────────────
+  ontop-engine-mysql:
+    build:
+      context: ./ontop-engine
+      dockerfile: Dockerfile
+    container_name: ontop-engine-mysql
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms512m -Xmx2g"
+    ports:
+      - "8084:8081"
+
+  # ── Dedicated Ontop SPARQL Endpoint（MySQL）──────────
+  ontop-endpoint-mysql:
+    build:
+      context: ./ontop-endpoint
+      dockerfile: Dockerfile
+    container_name: ontop-endpoint-mysql
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+    environment:
+      ONTOP_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_ACTIVE_ONTOLOGY_FILE: /opt/ontop-endpoint/active/active_ontology.ttl
+      ONTOP_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
+      ONTOP_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
+      ONTOP_ENDPOINT_PORT: "8080"
+    ports:
+      - "18082:8080"
+    volumes:
+      - ./ontop-endpoint/mysql-active:/opt/ontop-endpoint/active
+
+  # ── FastAPI Backend（MySQL）──────────────────────────
+  backend-mysql:
+    build:
+      context: ./ontop-backend
+      dockerfile: Dockerfile
+    container_name: ontop-mysql-backend
+    depends_on:
+      mysql-test:
+        condition: service_healthy
+      ontop-engine-mysql:
+        condition: service_started
+      ontop-endpoint-mysql:
+        condition: service_started
+    environment:
+      ONTOP_OUTPUT: /opt/ontop-output
+      ONTOLOGY_FILE: /opt/ontop-output/mysql_ontology.ttl
+      MAPPING_FILE: /opt/ontop-output/mysql_mapping.obda
+      PROPERTIES_FILE: /opt/ontop-output/mysql.properties
+      ONTOP_ENDPOINT_URL: http://ontop-endpoint-mysql:8080
+      ONTOP_ENDPOINT_ADMIN_URL: http://ontop-endpoint-mysql:8080
+      ONTOP_ENDPOINT_PORT: "8080"
+      ONTOP_ENDPOINT_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_ENDPOINT_ACTIVE_ONTOLOGY_FILE: /opt/ontop-endpoint/active/active_ontology.ttl
+      ONTOP_ENDPOINT_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
+      ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
+      ONTOP_ENGINE_URL: http://ontop-engine-mysql:8081
+      FASTAPI_PORT: "8000"
+      LLM_BASE_URL: http://host.docker.internal:1234/v1
+      LLM_MODEL: zai-org/glm-4.7-flash
+    ports:
+      - "8002:8000"
+    volumes:
+      - ./ontop-output:/opt/ontop-output
+      - ./ontop-backend/data-mysql:/app/data
+      - ./ontop-endpoint/mysql-active:/opt/ontop-endpoint/active
+      - ./ontop-db/properties/mysql.properties:/opt/ontop-output/mysql.properties:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # ── Next.js Frontend（MySQL）──────────────────────────
+  frontend-mysql:
+    build:
+      context: ./ontop-ui
+      dockerfile: Dockerfile
+    container_name: ontop-mysql-frontend
+    depends_on:
+      - backend-mysql
+    environment:
+      BACKEND_URL: http://backend-mysql:8000
+      PORT: "5000"
+      COZE_PROJECT_ENV: PROD
+    ports:
+      - "3002:5000"
+
+volumes:
+  mysqldata:

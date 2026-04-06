@@ -1,0 +1,14 @@
+{
+  "dataset": "mondial",
+  "required_metrics": {
+    "table_to_class_coverage": 0.9,
+    "column_to_datatype_property_coverage": 0.85,
+    "foreign_key_to_object_property_coverage": 0.9,
+    "identifier_coverage": 1.0
+  },
+  "advisory_checks": [
+    "Bridge tables are reviewed manually.",
+    "Country and city identifiers are stable and not derived from mutable labels.",
+    "Object properties use FK semantics rather than duplicated scalar ids."
+  ]
+}

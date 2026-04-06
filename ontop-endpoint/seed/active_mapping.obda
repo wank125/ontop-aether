@@ -1,0 +1,33 @@
+[PrefixDeclaration]
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+owl:		http://www.w3.org/2002/07/owl#
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+
+[MappingDeclaration] @collection [[
+mappingId	MAPPING-ID1
+target		<http://example.com/retail/dim_employee/emp_id={emp_id}> a <http://example.com/retail/dim_employee> ; <http://example.com/retail/dim_employee#emp_id> {emp_id}^^xsd:integer ; <http://example.com/retail/dim_employee#name> {name}^^xsd:string ; <http://example.com/retail/dim_employee#role> {role}^^xsd:string ; <http://example.com/retail/dim_employee#store_id> {store_id}^^xsd:integer . 
+source		SELECT * FROM "dim_employee"
+
+mappingId	MAPPING-ID2
+target		<http://example.com/retail/dim_employee/emp_id={dim_employee_emp_id}> <http://example.com/retail/dim_employee#ref-store_id> <http://example.com/retail/dim_store/store_id={dim_store_store_id}> . 
+source		SELECT "dim_employee"."emp_id" AS "dim_employee_emp_id", "dim_store"."store_id" AS "dim_store_store_id" FROM "dim_employee", "dim_store" WHERE "dim_employee"."store_id" = "dim_store"."store_id"
+
+mappingId	MAPPING-ID3
+target		<http://example.com/retail/fact_sales/sale_id={sale_id}> a <http://example.com/retail/fact_sales> ; <http://example.com/retail/fact_sales#sale_id> {sale_id}^^xsd:integer ; <http://example.com/retail/fact_sales#emp_id> {emp_id}^^xsd:integer ; <http://example.com/retail/fact_sales#store_id> {store_id}^^xsd:integer ; <http://example.com/retail/fact_sales#amount> {amount}^^xsd:decimal ; <http://example.com/retail/fact_sales#sale_date> {sale_date}^^xsd:date . 
+source		SELECT * FROM "fact_sales"
+
+mappingId	MAPPING-ID4
+target		<http://example.com/retail/fact_sales/sale_id={fact_sales_sale_id}> <http://example.com/retail/fact_sales#ref-emp_id> <http://example.com/retail/dim_employee/emp_id={dim_employee_emp_id}> . 
+source		SELECT "fact_sales"."sale_id" AS "fact_sales_sale_id", "dim_employee"."emp_id" AS "dim_employee_emp_id" FROM "fact_sales", "dim_employee" WHERE "fact_sales"."emp_id" = "dim_employee"."emp_id"
+
+mappingId	MAPPING-ID5
+target		<http://example.com/retail/fact_sales/sale_id={fact_sales_sale_id}> <http://example.com/retail/fact_sales#ref-store_id> <http://example.com/retail/dim_store/store_id={dim_store_store_id}> . 
+source		SELECT "fact_sales"."sale_id" AS "fact_sales_sale_id", "dim_store"."store_id" AS "dim_store_store_id" FROM "fact_sales", "dim_store" WHERE "fact_sales"."store_id" = "dim_store"."store_id"
+
+mappingId	MAPPING-ID6
+target		<http://example.com/retail/dim_store/store_id={store_id}> a <http://example.com/retail/dim_store> ; <http://example.com/retail/dim_store#store_id> {store_id}^^xsd:integer ; <http://example.com/retail/dim_store#name> {name}^^xsd:string ; <http://example.com/retail/dim_store#region> {region}^^xsd:string . 
+source		SELECT * FROM "dim_store"
+]]
+

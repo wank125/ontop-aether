@@ -1,0 +1,27 @@
+{
+  "SPARQL-001": {
+    "status": "passed",
+    "generated_query": "SELECT ?country ?capital WHERE { ... }",
+    "predicted_rows": [
+      {
+        "country": "SAMPLE_COUNTRY",
+        "capital": "SAMPLE_CAPITAL"
+      }
+    ]
+  },
+  "SPARQL-002": {
+    "status": "failed",
+    "generated_query": "SELECT ?country WHERE { ... }",
+    "predicted_rows": []
+  },
+  "SPARQL-003": {
+    "status": "passed",
+    "generated_query": "SELECT ?country (COUNT(?language) AS ?language_count) WHERE { ... }",
+    "predicted_rows": [
+      {
+        "country": "SAMPLE_COUNTRY",
+        "language_count": 1
+      }
+    ]
+  }
+}

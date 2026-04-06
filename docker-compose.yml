@@ -1,0 +1,115 @@
+services:
+  # ── PostgreSQL ─────────────────────────────────────────
+  postgres:
+    image: postgres:16-alpine
+    container_name: ontop-ui-db
+    environment:
+      POSTGRES_USER: admin
+      POSTGRES_PASSWORD: test123
+      POSTGRES_DB: retail_db
+    ports:
+      - "5435:5432"
+    volumes:
+      - ./ontop-db/postgres/init.sql:/docker-entrypoint-initdb.d/01-init.sql:ro
+      - pgdata:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U admin -d retail_db"]
+      interval: 5s
+      timeout: 5s
+      retries: 10
+
+  # ── Native Java Ontop Builder API ─────────────────────
+  ontop-engine:
+    build:
+      context: ./ontop-engine
+      dockerfile: Dockerfile
+    container_name: ontop-engine
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      JAVA_TOOL_OPTIONS: "-Xms512m -Xmx2g"
+    ports:
+      - "8081:8081"
+
+  # ── Dedicated Ontop SPARQL Endpoint ───────────────────
+  ontop-endpoint:
+    build:
+      context: ./ontop-endpoint
+      dockerfile: Dockerfile
+    container_name: ontop-endpoint
+    depends_on:
+      postgres:
+        condition: service_healthy
+    environment:
+      ONTOP_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_ACTIVE_ONTOLOGY_FILE: /opt/ontop-endpoint/active/active_ontology.ttl
+      ONTOP_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
+      ONTOP_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
+      ONTOP_ENDPOINT_PORT: "8080"
+    ports:
+      - "18080:8080"
+    volumes:
+      - ./ontop-endpoint/active:/opt/ontop-endpoint/active
+
+  # ── FastAPI Backend ────────────────────────────────────
+  backend:
+    build:
+      context: ./ontop-backend
+      dockerfile: Dockerfile
+    container_name: ontop-backend
+    depends_on:
+      postgres:
+        condition: service_healthy
+      ontop-engine:
+        condition: service_started
+      ontop-endpoint:
+        condition: service_started
+    environment:
+      ONTOP_OUTPUT: /opt/ontop-output
+      ONTOLOGY_FILE: /opt/ontop-output/retail_ontology.ttl
+      MAPPING_FILE: /opt/ontop-output/retail_mapping.obda
+      PROPERTIES_FILE: /opt/ontop-output/retail.properties
+      ONTOP_ENDPOINT_URL: http://ontop-endpoint:8080
+      ONTOP_ENDPOINT_ADMIN_URL: http://ontop-endpoint:8080
+      ONTOP_ENDPOINT_PORT: "8080"
+      ONTOP_ENDPOINT_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_ENDPOINT_ACTIVE_ONTOLOGY_FILE: /opt/ontop-endpoint/active/active_ontology.ttl
+      ONTOP_ENDPOINT_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
+      ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
+      ONTOP_ENGINE_URL: http://ontop-engine:8081
+      FASTAPI_PORT: "8000"
+      # LLM on host (LM Studio)
+      LLM_BASE_URL: http://host.docker.internal:1234/v1
+      LLM_MODEL: zai-org/glm-4.7-flash
+    ports:
+      - "8000:8000"
+    volumes:
+      # Mount ontop output files (read-write for bootstrap)
+      - ./ontop-output:/opt/ontop-output
+      # Persist generated bootstrap history and endpoint config
+      - ./ontop-backend/data:/app/data
+      # Shared active endpoint files written by backend and consumed by ontop-endpoint
+      - ./ontop-endpoint/active:/opt/ontop-endpoint/active
+      # Override properties file with Docker-specific config
+      - ./ontop-db/properties/retail.properties:/opt/ontop-output/retail.properties:ro
+    extra_hosts:
+      - "host.docker.internal:host-gateway"
+
+  # ── Next.js Frontend ───────────────────────────────────
+  frontend:
+    build:
+      context: ./ontop-ui
+      dockerfile: Dockerfile
+    container_name: ontop-frontend
+    depends_on:
+      - backend
+    environment:
+      BACKEND_URL: http://backend:8000
+      PORT: "5000"
+      COZE_PROJECT_ENV: PROD
+    ports:
+      - "3000:5000"
+
+volumes:
+  pgdata:

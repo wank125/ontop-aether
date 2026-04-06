@@ -1,0 +1,719 @@
+@prefix rdf:  <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@prefix owl:  <http://www.w3.org/2002/07/owl#> .
+@prefix xsd:  <http://www.w3.org/2001/XMLSchema#> .
+@prefix skos: <http://www.w3.org/2004/02/skos/core#> .
+@prefix sh:   <http://www.w3.org/ns/shacl#> .
+
+@prefix lvfa: <https://ontology.lvfa-property.com/v1/> .
+
+####################################################################
+# 绿发物业数智化平台 · 物业领域知识本体
+# Green Property Digital Platform · Property Domain Ontology
+# 版本: v1.0  日期: 2026-04-04
+# 覆盖: 14个核心类 / 15个对象属性 / 18个数据属性 / 9条约束规则
+####################################################################
+
+#-------------------------------------------------------------------
+# 本体声明
+#-------------------------------------------------------------------
+lvfa: rdf:type owl:Ontology ;
+    rdfs:label "绿发物业领域本体"@zh ;
+    rdfs:label "Green Property Domain Ontology"@en ;
+    rdfs:comment "基于《绿发集团数据标准手册》四域二十实体架构，形式化定义物业业财一体化平台的核心概念、关系与约束规则。"@zh ;
+    owl:versionInfo "1.0.0" ;
+    owl:versionIRI <https://ontology.lvfa-property.com/v1/> .
+
+
+####################################################################
+# 一、核心类定义（14个）
+# SECTION 1: Core Class Definitions (14 Classes)
+####################################################################
+
+#--- W域：物（资产/空间）-------------------------------------------
+
+lvfa:PropertyProject rdf:type owl:Class ;
+    rdfs:label "物业项目"@zh ;
+    rdfs:label "PropertyProject"@en ;
+    rdfs:comment "绿发物业管理的每一个具体项目实体，以P-ID为全平台唯一锚点。所有成本归集、账单生成、数据分析均以项目为基本维度。"@zh ;
+    rdfs:comment "A specific property management project entity, uniquely anchored by a P-ID across the platform."@en ;
+    skos:example "P100123（望京花园）、P200456（三亚某项目）" .
+
+lvfa:SpaceUnit rdf:type owl:Class ;
+    rdfs:label "业权空间单元"@zh ;
+    rdfs:label "SpaceUnit"@en ;
+    rdfs:comment "住宅、商业等可计费的物理空间单元，对应W2实体。包含建筑面积和计费面积（BILLING_AREA）。"@zh ;
+    rdfs:comment "Billable physical space unit (residential, commercial), corresponding to W2 entity."@en .
+
+lvfa:ParkingSpace rdf:type owl:Class ;
+    rdfs:label "停车位"@zh ;
+    rdfs:label "ParkingSpace"@en ;
+    rdfs:comment "停车场中的独立车位，对应W4实体。区分产权车位（OWNED）、月租车位（MONTHLY）和临时停放（TEMP）。"@zh ;
+    rdfs:comment "Individual parking space in a parking lot, corresponding to W4 entity."@en .
+
+lvfa:Meter rdf:type owl:Class ;
+    rdfs:label "表计设备"@zh ;
+    rdfs:label "Meter"@en ;
+    rdfs:comment "用于水、电、气计量的设备，对应W6实体。每月抄表读数是水电账单生成的数据来源。"@zh ;
+    rdfs:comment "Metering device for water, electricity, and gas measurement, corresponding to W6 entity."@en .
+
+#--- H域：人（客户/账户/人员）--------------------------------------
+
+lvfa:Customer rdf:type owl:Class ;
+    rdfs:label "客户"@zh ;
+    rdfs:label "Customer"@en ;
+    rdfs:comment "经H1客户去重后具有全局唯一GLOBAL_ID的客户主体。个人客户以身份证号为去重键，企业客户以统一社会信用代码为去重键。同一客户在多个项目共享同一H1记录。"@zh ;
+    rdfs:comment "A customer entity with a globally unique GLOBAL_ID after deduplication (H1 entity)."@en .
+
+lvfa:Account rdf:type owl:Class ;
+    rdfs:label "客户账户"@zh ;
+    rdfs:label "Account"@en ;
+    rdfs:comment "客户在某一项目下的付款账户，对应H2实体。同一客户在不同项目有不同账户。账户持有预存款余额，可跨订阅关系冲抵应收账单。"@zh ;
+    rdfs:comment "A customer payment account under a specific project (H2 entity). One customer can have accounts in multiple projects."@en .
+
+lvfa:Subscription rdf:type owl:Class ;
+    rdfs:label "订阅关系"@zh ;
+    rdfs:label "Subscription"@en ;
+    rdfs:comment "连接H2账户、W2/W4空间、F2业务项、F1合同的核心关联实体，对应H3实体。是全量账单引擎自动生成账单的直接依据：无有效订阅关系则无法自动出账。"@zh ;
+    rdfs:comment "Core association entity linking H2 Account, W2/W4 Space, F2 BusinessClass, and F1 Contract (H3 entity). The direct basis for automatic bill generation."@en .
+
+lvfa:Person rdf:type owl:Class ;
+    rdfs:label "人员"@zh ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "项目管理处的在职人员，对应H4（外包）和H5（自有）实体。外包人员须满足48小时档案录入规则和证件有效期要求，是M⑤成本分摊的数据来源之一。"@zh ;
+    rdfs:comment "On-site staff including outsourced (H4) and in-house (H5) personnel. Outsourced staff must comply with 48-hour record entry rules."@en .
+
+#--- F域：财（合同/账单/收款）--------------------------------------
+
+lvfa:Contract rdf:type owl:Class ;
+    rdfs:label "合同"@zh ;
+    rdfs:label "Contract"@en ;
+    rdfs:comment "业主与物业公司签订的服务合同，对应F1实体。合同是订阅关系的法律依据，包含服务期限、服务内容、计费约定等核心条款。"@zh ;
+    rdfs:comment "Service contract between owner and property management company (F1 entity)."@en .
+
+lvfa:BusinessClass rdf:type owl:Class ;
+    rdfs:label "业务项（含BLA属性）"@zh ;
+    rdfs:label "BusinessClass"@en ;
+    rdfs:comment "计费规则的最小原子单位，对应F2实体。包含BLA六维属性：计费基数类型、单价、税率、结算频次、结算锚点、核算模式。账单引擎通过读取BLA属性自动计算账单金额。"@zh ;
+    rdfs:comment "The smallest unit of billing rule (F2 entity), containing BLA six-dimensional attributes: billing base type, unit price, tax rate, settlement frequency, anchor point, and accounting mode."@en .
+
+lvfa:Bill rdf:type owl:Class ;
+    rdfs:label "账单"@zh ;
+    rdfs:label "Bill"@en ;
+    rdfs:comment "账单引擎自动生成的应收凭据，对应F3实体。一旦生成，禁止手工修改金额和税率，确保数据可追溯。账单金额可以通过BLA属性从本体关系中逆向验证。"@zh ;
+    rdfs:comment "Receivable document automatically generated by the billing engine (F3 entity). Amount and tax rate are immutable after generation."@en .
+
+lvfa:Payment rdf:type owl:Class ;
+    rdfs:label "收款记录"@zh ;
+    rdfs:label "Payment"@en ;
+    rdfs:comment "统一收款Hub汇聚的各渠道收款流水记录。每条收款记录通过BILL_ID关联到账单，由核算引擎执行核销处理，推送SAP财务凭证。"@zh ;
+    rdfs:comment "Payment flow records aggregated by the unified Payment Hub across all channels."@en .
+
+#--- E域：事（工单/事件）-------------------------------------------
+
+lvfa:WorkOrder rdf:type owl:Class ;
+    rdfs:label "工单"@zh ;
+    rdfs:label "WorkOrder"@en ;
+    rdfs:comment "运营过程中产生的服务事件，对应E1实体。增值服务工单完工后触发对应账单的生成（事件驱动型账单）。"@zh ;
+    rdfs:comment "Service event generated during operations (E1 entity). Completion of value-added service work orders triggers bill generation."@en .
+
+lvfa:CostAllocation rdf:type owl:Class ;
+    rdfs:label "成本分摊结果"@zh ;
+    rdfs:label "CostAllocation"@en ;
+    rdfs:comment "成本分摊规则引擎（M⑤）的输出，将劳务外包、服务外包、公区水电、管理费用四类成本按规则分摊到各项目，是项目损益计算的成本端数据来源。"@zh ;
+    rdfs:comment "Output of the cost allocation engine (M5), distributing four cost types to projects for P&L calculation."@en .
+
+
+####################################################################
+# 二、数据属性定义（Data Properties）
+# SECTION 2: Data Property Definitions
+####################################################################
+
+#--- PropertyProject 属性 ------------------------------------------
+
+lvfa:projectId rdf:type owl:DatatypeProperty ;
+    rdfs:label "项目P-ID"@zh ;
+    rdfs:label "projectId"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range xsd:string ;
+    rdfs:comment "全平台唯一的项目标识符，格式：P[6位数字]，如P100123。一经分配不可修改。"@zh .
+
+lvfa:projectName rdf:type owl:DatatypeProperty ;
+    rdfs:label "项目名称"@zh ;
+    rdfs:label "projectName"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range xsd:string .
+
+lvfa:projectStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "项目状态"@zh ;
+    rdfs:label "projectStatus"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：PLANNING（筹备）/ OPERATING（运营中）/ TERMINATED（已退出）"@zh .
+
+lvfa:region rdf:type owl:DatatypeProperty ;
+    rdfs:label "所属区域"@zh ;
+    rdfs:label "region"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range xsd:string .
+
+#--- SpaceUnit 属性 -------------------------------------------------
+
+lvfa:spaceId rdf:type owl:DatatypeProperty ;
+    rdfs:label "空间单元ID"@zh ;
+    rdfs:label "spaceId"@en ;
+    rdfs:domain lvfa:SpaceUnit ;
+    rdfs:range xsd:string .
+
+lvfa:billingArea rdf:type owl:DatatypeProperty ;
+    rdfs:label "计费面积（平方米）"@zh ;
+    rdfs:label "billingArea"@en ;
+    rdfs:domain lvfa:SpaceUnit ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "用于物业费账单金额计算的面积基数，优先使用测绘报告面积。"@zh .
+
+lvfa:buildingArea rdf:type owl:DatatypeProperty ;
+    rdfs:label "建筑面积（平方米）"@zh ;
+    rdfs:label "buildingArea"@en ;
+    rdfs:domain lvfa:SpaceUnit ;
+    rdfs:range xsd:decimal .
+
+#--- Customer 属性 -------------------------------------------------
+
+lvfa:globalId rdf:type owl:DatatypeProperty ;
+    rdfs:label "全局客户ID"@zh ;
+    rdfs:label "globalId"@en ;
+    rdfs:domain lvfa:Customer ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：G-[8位日期]-[6位序号]，如G-20260401-000001。跨项目去重后分配，全公司唯一。"@zh .
+
+lvfa:legalName rdf:type owl:DatatypeProperty ;
+    rdfs:label "法定姓名/企业名称"@zh ;
+    rdfs:label "legalName"@en ;
+    rdfs:domain lvfa:Customer ;
+    rdfs:range xsd:string .
+
+lvfa:idNumber rdf:type owl:DatatypeProperty ;
+    rdfs:label "证件号码"@zh ;
+    rdfs:label "idNumber"@en ;
+    rdfs:domain lvfa:Customer ;
+    rdfs:range xsd:string ;
+    rdfs:comment "个人客户填身份证号，企业客户填统一社会信用代码。H1去重的核心字段。"@zh .
+
+lvfa:customerStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "客户状态"@zh ;
+    rdfs:label "customerStatus"@en ;
+    rdfs:domain lvfa:Customer ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：ACTIVE / INACTIVE / BLACKLIST"@zh .
+
+#--- Account 属性 --------------------------------------------------
+
+lvfa:accountId rdf:type owl:DatatypeProperty ;
+    rdfs:label "账户ID"@zh ;
+    rdfs:label "accountId"@en ;
+    rdfs:domain lvfa:Account ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：ACCT-[PROJECT_ID]-[6位序号]"@zh .
+
+lvfa:balance rdf:type owl:DatatypeProperty ;
+    rdfs:label "账户余额（预存款）"@zh ;
+    rdfs:label "balance"@en ;
+    rdfs:domain lvfa:Account ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "业主预存款余额，可用于冲抵应收账单。初始值=0.00。"@zh .
+
+lvfa:accountStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "账户状态"@zh ;
+    rdfs:label "accountStatus"@en ;
+    rdfs:domain lvfa:Account ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：ACTIVE / FROZEN / CLOSED"@zh .
+
+#--- Subscription 属性 ---------------------------------------------
+
+lvfa:subscrId rdf:type owl:DatatypeProperty ;
+    rdfs:label "订阅ID"@zh ;
+    rdfs:label "subscrId"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：SUB-[PROJECT_ID]-[BC_TYPE]-[6位序号]"@zh .
+
+lvfa:subscrStart rdf:type owl:DatatypeProperty ;
+    rdfs:label "订阅开始日期"@zh ;
+    rdfs:label "subscrStart"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range xsd:date ;
+    rdfs:comment "合同生效日期/收楼日期。账单引擎不允许生成早于此日期的账单（约束OC-02）。"@zh .
+
+lvfa:subscrEnd rdf:type owl:DatatypeProperty ;
+    rdfs:label "订阅结束日期"@zh ;
+    rdfs:label "subscrEnd"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range xsd:date ;
+    rdfs:comment "合同到期日。产权物业费类订阅此字段为空（无固定期限）。"@zh .
+
+lvfa:subscrStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "订阅状态"@zh ;
+    rdfs:label "subscrStatus"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：ACTIVE / SUSPENDED / TERMINATED / PENDING_RENEWAL"@zh .
+
+#--- BusinessClass（BLA）属性 --------------------------------------
+
+lvfa:bcId rdf:type owl:DatatypeProperty ;
+    rdfs:label "业务项ID"@zh ;
+    rdfs:label "bcId"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:string ;
+    rdfs:comment "如BC-PROP-RES（住宅物业费）、BC-PARK-MON（月租停车费）。"@zh .
+
+lvfa:unitPrice rdf:type owl:DatatypeProperty ;
+    rdfs:label "计费单价"@zh ;
+    rdfs:label "unitPrice"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "BLA第二维：元/平方米/月 或 元/车位/月。禁止为负数。"@zh .
+
+lvfa:taxRate rdf:type owl:DatatypeProperty ;
+    rdfs:label "税率"@zh ;
+    rdfs:label "taxRate"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "BLA第三维：增值税税率，如0.06（6%）/ 0.09（9%）。"@zh .
+
+lvfa:settlementFrequency rdf:type owl:DatatypeProperty ;
+    rdfs:label "结算频次"@zh ;
+    rdfs:label "settlementFrequency"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:string ;
+    rdfs:comment "BLA第四维：枚举值：MONTHLY（月结）/ QUARTERLY（季结）/ YEARLY（年结）"@zh .
+
+lvfa:settlementAnchor rdf:type owl:DatatypeProperty ;
+    rdfs:label "结算锚点"@zh ;
+    rdfs:label "settlementAnchor"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:string ;
+    rdfs:comment "BLA第五维：每月结算基准日，如D01（每月1日）、合同签订日当月对应日。"@zh .
+
+lvfa:accountingMode rdf:type owl:DatatypeProperty ;
+    rdfs:label "核算模式"@zh ;
+    rdfs:label "accountingMode"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:string ;
+    rdfs:comment "BLA第六维：枚举值：ACCRUAL（权责发生制）/ CASH（收付实现制）/ AGENCY（代收代付）"@zh .
+
+lvfa:billingBaseType rdf:type owl:DatatypeProperty ;
+    rdfs:label "计费基数类型"@zh ;
+    rdfs:label "billingBaseType"@en ;
+    rdfs:domain lvfa:BusinessClass ;
+    rdfs:range xsd:string ;
+    rdfs:comment "BLA第一维：枚举值：AREA（按面积）/ FIXED（固定金额）/ USAGE（按用量）/ COUNT（按数量）"@zh .
+
+#--- Bill 属性 -----------------------------------------------------
+
+lvfa:billId rdf:type owl:DatatypeProperty ;
+    rdfs:label "账单ID"@zh ;
+    rdfs:label "billId"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：BL-[PROJECT_ID]-[YYYYMM]-[5位序号]，如BL-P100123-202610-00001"@zh .
+
+lvfa:amountDue rdf:type owl:DatatypeProperty ;
+    rdfs:label "应收金额"@zh ;
+    rdfs:label "amountDue"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "生成时自动计算，禁止手工修改。约束：amountDue >= 0（OC-04约束）。"@zh .
+
+lvfa:amountPaid rdf:type owl:DatatypeProperty ;
+    rdfs:label "实收金额"@zh ;
+    rdfs:label "amountPaid"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:decimal .
+
+lvfa:amountBalance rdf:type owl:DatatypeProperty ;
+    rdfs:label "待收余额"@zh ;
+    rdfs:label "amountBalance"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "amountBalance = amountDue - amountPaid，由系统自动维护。不允许超过amountDue。"@zh .
+
+lvfa:billStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "账单状态"@zh ;
+    rdfs:label "billStatus"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：PENDING（待缴费）/ PARTIAL（部分缴费）/ SETTLED（已缴清）/ OVERDUE（逾期）/ VOID（已作废）"@zh .
+
+lvfa:period rdf:type owl:DatatypeProperty ;
+    rdfs:label "账期"@zh ;
+    rdfs:label "period"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：YYYY-MM，如2026-10。同一订阅同一账期只允许一张有效账单（约束OC-06）。"@zh .
+
+lvfa:sourceFlag rdf:type owl:DatatypeProperty ;
+    rdfs:label "账单来源标记"@zh ;
+    rdfs:label "sourceFlag"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：SYSTEM_AUTO（系统自动生成）/ MANUAL（人工补录）。试点验收标准要求SYSTEM_AUTO >= 99%。"@zh .
+
+#--- Payment 属性 --------------------------------------------------
+
+lvfa:payId rdf:type owl:DatatypeProperty ;
+    rdfs:label "收款流水ID"@zh ;
+    rdfs:label "payId"@en ;
+    rdfs:domain lvfa:Payment ;
+    rdfs:range xsd:string ;
+    rdfs:comment "格式：PAY-[渠道]-[YYYYMMDD]-[序号]，全平台唯一。"@zh .
+
+lvfa:payChannel rdf:type owl:DatatypeProperty ;
+    rdfs:label "收款渠道"@zh ;
+    rdfs:label "payChannel"@en ;
+    rdfs:domain lvfa:Payment ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：WECHAT / ALIPAY / BANK / POS / CASH / AUTOPAY / CORP_WECHAT"@zh .
+
+lvfa:payAmount rdf:type owl:DatatypeProperty ;
+    rdfs:label "收款金额"@zh ;
+    rdfs:label "payAmount"@en ;
+    rdfs:domain lvfa:Payment ;
+    rdfs:range xsd:decimal ;
+    rdfs:comment "实际到账金额，使用DECIMAL类型，禁止FLOAT（精度损失风险）。约束：payAmount > 0。"@zh .
+
+lvfa:matchStatus rdf:type owl:DatatypeProperty ;
+    rdfs:label "核销状态"@zh ;
+    rdfs:label "matchStatus"@en ;
+    rdfs:domain lvfa:Payment ;
+    rdfs:range xsd:string ;
+    rdfs:comment "枚举值：UNMATCHED / AUTO_MATCHED / MANUAL_MATCHED / PARTIAL_MATCHED"@zh .
+
+
+####################################################################
+# 三、对象属性定义（Object Properties / Relations）
+# SECTION 3: Object Property (Relation) Definitions
+####################################################################
+
+lvfa:hasSpace rdf:type owl:ObjectProperty ;
+    rdfs:label "包含空间单元"@zh ;
+    rdfs:label "hasSpace"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range lvfa:SpaceUnit ;
+    rdfs:comment "项目 → 空间单元（1:N）：一个项目包含多个住宅/商业空间单元。"@zh ;
+    owl:inverseOf lvfa:belongsToProject .
+
+lvfa:hasParkingSpace rdf:type owl:ObjectProperty ;
+    rdfs:label "包含停车位"@zh ;
+    rdfs:label "hasParkingSpace"@en ;
+    rdfs:domain lvfa:PropertyProject ;
+    rdfs:range lvfa:ParkingSpace ;
+    rdfs:comment "项目 → 停车位（1:N）：一个项目包含多个停车位。"@zh .
+
+lvfa:hasMeter rdf:type owl:ObjectProperty ;
+    rdfs:label "安装有表计"@zh ;
+    rdfs:label "hasMeter"@en ;
+    rdfs:domain lvfa:SpaceUnit ;
+    rdfs:range lvfa:Meter ;
+    rdfs:comment "空间单元 → 表计（1:N）：一个单元可安装多个表计（水表/电表）。"@zh .
+
+lvfa:hasAccount rdf:type owl:ObjectProperty ;
+    rdfs:label "持有账户"@zh ;
+    rdfs:label "hasAccount"@en ;
+    rdfs:domain lvfa:Customer ;
+    rdfs:range lvfa:Account ;
+    rdfs:comment "客户 → 账户（1:N）：同一客户在不同项目各有一个账户，一对多。"@zh ;
+    owl:inverseOf lvfa:accountBelongsToCustomer .
+
+lvfa:accountBelongsToProject rdf:type owl:ObjectProperty ;
+    rdfs:label "账户归属项目"@zh ;
+    rdfs:label "accountBelongsToProject"@en ;
+    rdfs:domain lvfa:Account ;
+    rdfs:range lvfa:PropertyProject ;
+    rdfs:comment "账户 → 项目（N:1）：每个账户归属于唯一的项目。"@zh .
+
+lvfa:hasSubscription rdf:type owl:ObjectProperty ;
+    rdfs:label "关联订阅关系"@zh ;
+    rdfs:label "hasSubscription"@en ;
+    rdfs:domain lvfa:Account ;
+    rdfs:range lvfa:Subscription ;
+    rdfs:comment "账户 → 订阅关系（1:N）：一个账户可关联多个业务订阅。"@zh ;
+    owl:inverseOf lvfa:subscriptionPaysVia .
+
+lvfa:servesSpaceUnit rdf:type owl:ObjectProperty ;
+    rdfs:label "服务于空间单元"@zh ;
+    rdfs:label "servesSpaceUnit"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range lvfa:SpaceUnit ;
+    rdfs:comment "订阅关系 → 空间单元（N:1）：该订阅服务于哪个住宅/商业单元。"@zh .
+
+lvfa:servesParkingSpace rdf:type owl:ObjectProperty ;
+    rdfs:label "服务于停车位"@zh ;
+    rdfs:label "servesParkingSpace"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range lvfa:ParkingSpace ;
+    rdfs:comment "订阅关系 → 停车位（N:1）：月租停车订阅服务于哪个车位。约束：同一车位同一时段只允许一个ACTIVE订阅（OC-08）。"@zh .
+
+lvfa:hasBusinessClass rdf:type owl:ObjectProperty ;
+    rdfs:label "适用业务项（BLA）"@zh ;
+    rdfs:label "hasBusinessClass"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range lvfa:BusinessClass ;
+    rdfs:comment "订阅关系 → 业务项（N:1）：该订阅适用哪个BLA计费规则。"@zh .
+
+lvfa:underContract rdf:type owl:ObjectProperty ;
+    rdfs:label "依据合同"@zh ;
+    rdfs:label "underContract"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range lvfa:Contract ;
+    rdfs:comment "订阅关系 → 合同（N:1，可空）：合同是订阅的法律依据。增值服务按次计费的订阅此关系可为空。"@zh .
+
+lvfa:generatesBill rdf:type owl:ObjectProperty ;
+    rdfs:label "产生账单"@zh ;
+    rdfs:label "generatesBill"@en ;
+    rdfs:domain lvfa:Subscription ;
+    rdfs:range lvfa:Bill ;
+    rdfs:comment "订阅关系 → 账单（1:N）：一个订阅跨多个账期产生多张账单。约束：同一账期只允许一张有效账单（OC-06）。"@zh ;
+    owl:inverseOf lvfa:billFromSubscription .
+
+lvfa:settledBy rdf:type owl:ObjectProperty ;
+    rdfs:label "通过收款核销"@zh ;
+    rdfs:label "settledBy"@en ;
+    rdfs:domain lvfa:Bill ;
+    rdfs:range lvfa:Payment ;
+    rdfs:comment "账单 → 收款记录（N:M）：一张账单可通过多笔收款部分或全额核销。约束：累计核销金额不超过amountDue（OC-07）。"@zh .
+
+lvfa:triggersBill rdf:type owl:ObjectProperty ;
+    rdfs:label "触发账单生成"@zh ;
+    rdfs:label "triggersBill"@en ;
+    rdfs:domain lvfa:WorkOrder ;
+    rdfs:range lvfa:Bill ;
+    rdfs:comment "工单 → 账单（1:1，增值服务）：工单完工后触发生成一张对应账单。"@zh .
+
+lvfa:worksForProject rdf:type owl:ObjectProperty ;
+    rdfs:label "服务于项目"@zh ;
+    rdfs:label "worksForProject"@en ;
+    rdfs:domain lvfa:Person ;
+    rdfs:range lvfa:PropertyProject ;
+    rdfs:comment "人员 → 项目（N:M）：一名人员可同时服务多个项目。"@zh .
+
+lvfa:costAllocatedTo rdf:type owl:ObjectProperty ;
+    rdfs:label "成本分摊至项目"@zh ;
+    rdfs:label "costAllocatedTo"@en ;
+    rdfs:domain lvfa:CostAllocation ;
+    rdfs:range lvfa:PropertyProject ;
+    rdfs:comment "成本分摊结果 → 项目（N:1）：每笔分摊结果归属唯一项目，是项目损益成本端的来源。"@zh .
+
+lvfa:belongsToProject rdf:type owl:ObjectProperty ;
+    rdfs:label "归属于项目"@zh ;
+    rdfs:label "belongsToProject"@en ;
+    rdfs:domain lvfa:SpaceUnit ;
+    rdfs:range lvfa:PropertyProject ;
+    rdfs:comment "空间单元 → 项目（N:1）。"@zh .
+
+
+####################################################################
+# 四、SHACL约束规则（9条核心业务约束）
+# SECTION 4: SHACL Constraint Rules (9 Core Business Rules)
+####################################################################
+
+# OC-01: 每个Subscription必须关联一个ACTIVE状态的Account
+lvfa:OC01_SubscriptionNeedsActiveAccount rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Subscription ;
+    rdfs:label "OC-01: 订阅必须关联有效账户"@zh ;
+    rdfs:comment "每个订阅关系必须通过hasSubscription关联到一个状态为ACTIVE的Account。账单引擎生成账单前执行此校验（V1前置条件）。"@zh ;
+    sh:property [
+        sh:path [ sh:inverse lvfa:hasSubscription ] ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path lvfa:accountStatus ;
+            sh:hasValue "ACTIVE"
+        ]
+    ] .
+
+# OC-02: Subscription.subscrStart必须早于或等于账单账期开始日
+lvfa:OC02_BillPeriodAfterSubscrStart rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Bill ;
+    rdfs:label "OC-02: 账单账期不得早于订阅开始日"@zh ;
+    rdfs:comment "禁止账单引擎生成账期早于对应Subscription.subscrStart的账单。防止出现'合同还没签，账单已生成'的逻辑错误。"@zh ;
+    sh:property [
+        sh:path lvfa:period ;
+        sh:minCount 1
+    ] ;
+    sh:property [
+        sh:path [ sh:inverse lvfa:generatesBill ] ;
+        sh:minCount 1 ;
+        sh:property [
+            sh:path lvfa:subscrStatus ;
+            sh:in ( "ACTIVE" "SUSPENDED" )
+        ]
+    ] .
+
+# OC-03: 账单金额合理性校验（基于BLA单价×面积×系数推算）
+lvfa:OC03_BillAmountVerification rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Bill ;
+    rdfs:label "OC-03: 账单金额可从BLA属性验证"@zh ;
+    rdfs:comment "账单引擎生成的账单金额须等于：BusinessClass.unitPrice × SpaceUnit.billingArea × 系数（精度误差<1分）。用于AI异常检测层的金额逆向验证。"@zh ;
+    sh:property [
+        sh:path lvfa:amountDue ;
+        sh:minInclusive 0.0 ;
+        sh:datatype xsd:decimal
+    ] .
+
+# OC-04: BLACKLIST客户名下账户不得生成新账单
+lvfa:OC04_BlacklistNoNewBill rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Subscription ;
+    rdfs:label "OC-04: 黑名单客户停止出账"@zh ;
+    rdfs:comment "若Subscription → Account → Customer.customerStatus = BLACKLIST，则账单引擎对该订阅不生成新账单，并在账单生成日志中记录拦截原因。"@zh ;
+    sh:sparql [
+        sh:message "该订阅关联客户为黑名单状态，禁止生成新账单。"@zh ;
+        sh:prefixes lvfa: ;
+        sh:select """
+            SELECT $this
+            WHERE {
+                $this lvfa:subscriptionPaysVia/lvfa:accountBelongsToCustomer/lvfa:customerStatus "BLACKLIST" .
+            }
+        """
+    ] .
+
+# OC-05: WorkOrder触发的账单金额须等于工单服务费
+lvfa:OC05_WorkOrderBillAmount rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Bill ;
+    rdfs:label "OC-05: 工单触发账单金额一致性"@zh ;
+    rdfs:comment "工单（WorkOrder）触发的账单（SOURCE_FLAG=WORK_ORDER）其amountDue须等于对应WorkOrder.serviceFee。防止工单完工金额与实际账单金额不一致。"@zh .
+
+# OC-06: 同一订阅同一账期只允许一张有效账单（防止重复出账）
+lvfa:OC06_NoDuplicateBillPerPeriod rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Subscription ;
+    rdfs:label "OC-06: 同一账期禁止重复账单"@zh ;
+    rdfs:comment "同一Subscription在同一period内，BILL_STATUS != VOID的账单数量必须 <= 1。账单引擎的V7前置校验（账期重叠检查）基于此约束。"@zh ;
+    sh:sparql [
+        sh:message "同一订阅同一账期已存在有效账单，禁止重复生成。"@zh ;
+        sh:prefixes lvfa: ;
+        sh:select """
+            SELECT $this ?period (COUNT(?bill) AS ?billCount)
+            WHERE {
+                $this lvfa:generatesBill ?bill .
+                ?bill lvfa:period ?period .
+                FILTER(?bill != "VOID")
+            }
+            GROUP BY $this ?period
+            HAVING (COUNT(?bill) > 1)
+        """
+    ] .
+
+# OC-07: 收款核销金额不得超过账单应收余额
+lvfa:OC07_PaymentNotExceedBalance rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Payment ;
+    rdfs:label "OC-07: 收款核销不超过账单余额"@zh ;
+    rdfs:comment "Payment.payAmount须 <= 对应Bill.amountBalance（核销时账单剩余应收金额）。防止超额核销导致负应收出现。"@zh ;
+    sh:property [
+        sh:path lvfa:payAmount ;
+        sh:minExclusive 0.0 ;
+        sh:datatype xsd:decimal
+    ] .
+
+# OC-08: 同一停车位同一时段只允许一个ACTIVE月租订阅
+lvfa:OC08_NoDuplicateActiveParkingSubscr rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:ParkingSpace ;
+    rdfs:label "OC-08: 停车位不得同时有两个有效月租订阅"@zh ;
+    rdfs:comment "月租停车位（ParkingSpace.parkingType=MONTHLY）在同一时段内，通过servesParkingSpace关联的ACTIVE状态Subscription数量必须 <= 1。防止同一车位双重出租。"@zh ;
+    sh:sparql [
+        sh:message "该停车位已有一个有效的月租订阅，不能再次出租，须先终止当前订阅。"@zh ;
+        sh:prefixes lvfa: ;
+        sh:select """
+            SELECT $this (COUNT(?subscr) AS ?count)
+            WHERE {
+                ?subscr lvfa:servesParkingSpace $this ;
+                        lvfa:subscrStatus "ACTIVE" .
+            }
+            GROUP BY $this
+            HAVING (COUNT(?subscr) > 1)
+        """
+    ] .
+
+# OC-09: 外包人员必须有有效档案且证件/保险未过期
+lvfa:OC09_OutsourcedPersonMustHaveValidRecord rdf:type sh:NodeShape ;
+    sh:targetClass lvfa:Person ;
+    rdfs:label "OC-09: 外包人员合规约束（48小时规则）"@zh ;
+    rdfs:comment "workType=OUTSOURCED的Person必须有完整的H4档案记录。档案中身份证、劳动合同、意外险到期日须 >= 今日。进场后48小时内未完成档案录入须触发管理处告警。"@zh ;
+    sh:property [
+        sh:path lvfa:worksForProject ;
+        sh:minCount 1
+    ] .
+
+
+####################################################################
+# 五、本体实例示例（供验证用）
+# SECTION 5: Sample Instances (for validation testing)
+####################################################################
+
+# 示例项目
+lvfa:Project_P100123 rdf:type lvfa:PropertyProject ;
+    lvfa:projectId "P100123" ;
+    lvfa:projectName "望京花园" ;
+    lvfa:projectStatus "OPERATING" ;
+    lvfa:region "北京·朝阳" .
+
+# 示例业务项（物业费BLA）
+lvfa:BC_PROP_RES_P100123 rdf:type lvfa:BusinessClass ;
+    lvfa:bcId "BC-PROP-RES-P100123" ;
+    lvfa:billingBaseType "AREA" ;
+    lvfa:unitPrice 3.50 ;
+    lvfa:taxRate 0.06 ;
+    lvfa:settlementFrequency "MONTHLY" ;
+    lvfa:settlementAnchor "D01" ;
+    lvfa:accountingMode "CASH" ;
+    rdfs:comment "望京花园住宅物业费，3.5元/平方米/月，6%增值税，收付实现制，每月1日结算。"@zh .
+
+# 示例客户
+lvfa:Customer_G20260401_000001 rdf:type lvfa:Customer ;
+    lvfa:globalId "G-20260401-000001" ;
+    lvfa:legalName "张三" ;
+    lvfa:idNumber "110105199001011234" ;
+    lvfa:customerStatus "ACTIVE" .
+
+# 示例账户
+lvfa:Account_P100123_000001 rdf:type lvfa:Account ;
+    lvfa:accountId "ACCT-P100123-000001" ;
+    lvfa:balance 500.00 ;
+    lvfa:accountStatus "ACTIVE" ;
+    lvfa:accountBelongsToProject lvfa:Project_P100123 .
+
+# 建立客户→账户关系
+lvfa:Customer_G20260401_000001 lvfa:hasAccount lvfa:Account_P100123_000001 .
+
+# 示例空间单元
+lvfa:Space_P100123_3_2_101 rdf:type lvfa:SpaceUnit ;
+    lvfa:spaceId "P100123-B3-U2-101" ;
+    lvfa:billingArea 98.50 ;
+    lvfa:buildingArea 102.30 ;
+    lvfa:belongsToProject lvfa:Project_P100123 .
+
+# 示例订阅关系（H3）
+lvfa:Subscr_P100123_PROP_000001 rdf:type lvfa:Subscription ;
+    lvfa:subscrId "SUB-P100123-PROP-000001" ;
+    lvfa:subscrStart "2023-04-01"^^xsd:date ;
+    lvfa:subscrStatus "ACTIVE" ;
+    lvfa:hasBusinessClass lvfa:BC_PROP_RES_P100123 ;
+    lvfa:servesSpaceUnit lvfa:Space_P100123_3_2_101 .
+
+# 账户→订阅
+lvfa:Account_P100123_000001 lvfa:hasSubscription lvfa:Subscr_P100123_PROP_000001 .
+
+# 示例账单（2026年10月）
+lvfa:Bill_P100123_202610_00001 rdf:type lvfa:Bill ;
+    lvfa:billId "BL-P100123-202610-00001" ;
+    lvfa:period "2026-10" ;
+    lvfa:amountDue 344.75 ;
+    lvfa:amountPaid 0.00 ;
+    lvfa:amountBalance 344.75 ;
+    lvfa:billStatus "PENDING" ;
+    lvfa:sourceFlag "SYSTEM_AUTO" ;
+    rdfs:comment "计算：98.50 平方米 × 3.50 元/平方米 = 344.75 元（不含税），与本体OC-03验证一致。"@zh .
+
+# 订阅→账单
+lvfa:Subscr_P100123_PROP_000001 lvfa:generatesBill lvfa:Bill_P100123_202610_00001 .
+
