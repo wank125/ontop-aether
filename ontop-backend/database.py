@@ -203,7 +203,63 @@ CREATE TABLE IF NOT EXISTS ontology_suggestions (
 CREATE INDEX IF NOT EXISTS idx_sug_ds     ON ontology_suggestions(ds_id, status);
 CREATE INDEX IF NOT EXISTS idx_sug_type   ON ontology_suggestions(ds_id, type);
 
+-- 用户表：支持多用户登录
+CREATE TABLE IF NOT EXISTS users (
+    id            TEXT PRIMARY KEY,
+    username      TEXT NOT NULL UNIQUE,
+    password_hash TEXT NOT NULL,
+    salt          TEXT NOT NULL,
+    display_name  TEXT NOT NULL DEFAULT '',
+    email         TEXT NOT NULL DEFAULT '',
+    role          TEXT NOT NULL DEFAULT 'admin',
+    created_at    TEXT NOT NULL,
+    updated_at    TEXT
+);
+
+-- 会话表：token-based session
+CREATE TABLE IF NOT EXISTS sessions (
+    token      TEXT PRIMARY KEY,
+    user_id    TEXT NOT NULL,
+    created_at TEXT NOT NULL,
+    expires_at TEXT NOT NULL,
+    FOREIGN KEY (user_id) REFERENCES users(id) ON DELETE CASCADE
+);
+
+CREATE INDEX IF NOT EXISTS idx_session_user ON sessions(user_id);
+
 """
+
+
+def _hash_password(password: str, salt: str) -> str:
+    """SHA-256 password hashing with salt."""
+    import hashlib
+    return hashlib.sha256(f"{salt}:{password}".encode()).hexdigest()
+
+
+def _seed_admin_user(conn):
+    """Create default admin user if no users exist."""
+    count = conn.execute("SELECT COUNT(*) FROM users").fetchone()[0]
+    if count > 0:
+        return
+    import secrets
+    from datetime import datetime, timezone
+    salt = secrets.token_hex(16)
+    conn.execute(
+        """INSERT INTO users (id, username, password_hash, salt, display_name, email, role, created_at)
+           VALUES (?, ?, ?, ?, ?, ?, ?, ?)""",
+        (
+            secrets.token_hex(8),
+            "admin",
+            _hash_password("admin123", salt),
+            salt,
+            "管理员",
+            "admin@tianzhi.local",
+            "admin",
+            datetime.now(timezone.utc).isoformat(),
+        ),
+    )
+    conn.commit()
+    logger.info("Seeded default admin user (admin/admin123)")
 
 
 def init_db():
@@ -211,6 +267,7 @@ def init_db():
     conn = get_connection()
     conn.executescript(_SCHEMA_SQL)
     conn.commit()
+    _seed_admin_user(conn)
 
     # ── Schema migrations (idempotent) ───────────────────
     _migrations = [

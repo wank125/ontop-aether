@@ -1,10 +1,34 @@
 const API_BASE = '/api/v1';
 
+function getAuthToken(): string | null {
+  if (typeof window === 'undefined') return null;
+  return localStorage.getItem('auth_token') || sessionStorage.getItem('auth_token');
+}
+
 async function api<T>(path: string, options?: RequestInit): Promise<T> {
-  const res = await fetch(`${API_BASE}${path}`, {
-    headers: { 'Content-Type': 'application/json', 'X-Internal-Request': 'true', ...options?.headers },
-    ...options,
-  });
+  const token = getAuthToken();
+  const headers: Record<string, string> = {
+    'Content-Type': 'application/json',
+    'X-Internal-Request': 'true',
+    ...(options?.headers as Record<string, string>),
+  };
+  // Attach Bearer token if available (skip for auth endpoints)
+  if (token && !path.startsWith('/auth/')) {
+    headers['Authorization'] = `Bearer ${token}`;
+  }
+
+  const res = await fetch(`${API_BASE}${path}`, { ...options, headers });
+
+  // Auto-redirect on 401
+  if (res.status === 401 && !path.startsWith('/auth/')) {
+    localStorage.removeItem('auth_token');
+    sessionStorage.removeItem('auth_token');
+    if (typeof window !== 'undefined') {
+      window.location.href = '/login';
+    }
+    throw new Error('未登录或会话已过期');
+  }
+
   if (res.status === 204) return undefined as T;
   if (!res.ok) {
     const err = await res.json().catch(() => ({ detail: res.statusText }));

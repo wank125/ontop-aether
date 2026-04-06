@@ -1,4 +1,4 @@
-"""API Key authentication dependency for FastAPI."""
+"""API Key + Bearer token authentication dependency for FastAPI."""
 
 import logging
 
@@ -9,17 +9,42 @@ logger = logging.getLogger(__name__)
 # Header used by frontend to mark internal requests
 INTERNAL_HEADER = "X-Internal-Request"
 
+# Paths that never require authentication
+PUBLIC_PATHS = ("/api/v1/auth/login", "/api/v1/health", "/api/v1/docs", "/api/v1/openapi.json", "/api/v1/redoc")
+
 
 async def verify_api_key(request: Request):
-    """FastAPI dependency that enforces API key when enabled.
+    """FastAPI dependency that enforces authentication.
 
-    Skip conditions (no key required):
-    1. api_enabled is false in publishing_config
-    2. Request has X-Internal-Request header (frontend)
-    3. Source IP is localhost (127.0.0.1 / ::1)
+    Auth chain (first match wins):
+    1. PUBLIC_PATHS — skip auth
+    2. Bearer token — validate against sessions table
+    3. X-Internal-Request header — frontend internal bypass
+    4. Localhost — local access bypass
+    5. X-API-Key / ?api_key= — legacy API key auth
 
-    Otherwise requires X-API-Key header or ?api_key= query param.
+    Otherwise raises 401.
     """
+    path = request.url.path
+
+    # Public paths
+    if path in PUBLIC_PATHS:
+        return
+
+    # Bearer token
+    auth_header = request.headers.get("Authorization", "")
+    if auth_header.startswith("Bearer "):
+        from routers.auth import _validate_token
+        from database import get_connection
+        token = auth_header[7:]
+        conn = get_connection()
+        user = _validate_token(conn, token)
+        if user:
+            request.state.user = user
+            return
+        raise HTTPException(status_code=401, detail="token 无效或已过期")
+
+    # API key enforcement check
     from repositories.publishing_repo import load_publishing_config
     from database import decrypt_value
 

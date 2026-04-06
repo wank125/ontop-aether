@@ -11,6 +11,7 @@ import { Badge } from '@/components/ui/badge';
 import { Checkbox } from '@/components/ui/checkbox';
 import { toast } from 'sonner';
 import { ArrowRight, KeyRound, ShieldCheck, Sparkles, Zap } from 'lucide-react';
+import { useAuth } from '@/lib/auth';
 
 const featureItems = [
   '连接数据源并生成本体',
@@ -20,26 +21,28 @@ const featureItems = [
 
 export default function LoginPage() {
   const router = useRouter();
-  const [account, setAccount] = useState('admin@tianzhi.local');
+  const { login } = useAuth();
+  const [username, setUsername] = useState('admin');
   const [password, setPassword] = useState('');
   const [remember, setRemember] = useState(true);
   const [submitting, setSubmitting] = useState(false);
 
   const handleLogin = async (event: React.FormEvent<HTMLFormElement>) => {
     event.preventDefault();
-    setSubmitting(true);
-
-    await new Promise((resolve) => setTimeout(resolve, 500));
-
-    if (!account.trim() || !password.trim()) {
+    if (!username.trim() || !password.trim()) {
       toast.error('请输入账号和密码');
-      setSubmitting(false);
       return;
     }
-
-    toast.success(remember ? '已进入工作台，并记住当前设备' : '已进入工作台');
-    router.push('/');
-    setSubmitting(false);
+    setSubmitting(true);
+    try {
+      await login(username, password, remember);
+      toast.success(remember ? '已进入工作台，并记住当前设备' : '已进入工作台');
+      router.push('/');
+    } catch (err: any) {
+      toast.error(err.message || '登录失败');
+    } finally {
+      setSubmitting(false);
+    }
   };
 
   return (
@@ -90,10 +93,6 @@ export default function LoginPage() {
               <ShieldCheck className="h-4 w-4 text-emerald-300" />
               <span>当前演示环境支持本地快速登录</span>
             </div>
-            <Link href="/" className="inline-flex items-center gap-1 text-white transition-colors hover:text-[oklch(0.82_0.14_85)]">
-              跳过登录查看工作台
-              <ArrowRight className="h-4 w-4" />
-            </Link>
           </div>
         </section>
 
@@ -112,12 +111,12 @@ export default function LoginPage() {
 
               <form className="space-y-6" onSubmit={handleLogin}>
                 <div className="space-y-2.5">
-                  <Label htmlFor="account">账号</Label>
+                  <Label htmlFor="username">账号</Label>
                   <Input
-                    id="account"
-                    value={account}
-                    onChange={(event) => setAccount(event.target.value)}
-                    placeholder="name@company.com"
+                    id="username"
+                    value={username}
+                    onChange={(event) => setUsername(event.target.value)}
+                    placeholder="admin"
                     className="h-11 border-border/80 bg-background/80 shadow-sm"
                   />
                 </div>
@@ -162,7 +161,7 @@ export default function LoginPage() {
                   <p className="font-medium text-foreground">演示账号</p>
                   <Badge variant="outline">免接入</Badge>
                 </div>
-                <p className="mt-2 leading-6">账号已预填，密码可输入任意非空内容进入首页。</p>
+                <p className="mt-2 leading-6">账号已预填，默认密码 admin123，登录后可修改。</p>
               </div>
             </CardContent>
           </Card>

@@ -26,19 +26,7 @@ import {
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
 import { sparql, mappings } from '@/lib/api';
-
-interface UserInfo {
-  name: string;
-  email: string;
-  avatar?: string;
-  role: string;
-}
-
-const mockUser: UserInfo = {
-  name: '张三',
-  email: 'zhangsan@example.com',
-  role: '管理员',
-};
+import { useAuth } from '@/lib/auth';
 
 interface EndpointStatus {
   status: 'running' | 'stopped' | 'error';
@@ -46,7 +34,7 @@ interface EndpointStatus {
 }
 
 export function TopBar() {
-  const [user] = useState<UserInfo>(mockUser);
+  const { user, logout } = useAuth();
   const [endpointStatus, setEndpointStatus] = useState<EndpointStatus>({
     status: 'stopped',
     port: 8080,
@@ -190,14 +178,15 @@ export function TopBar() {
           <DropdownMenuTrigger asChild>
             <Button variant="ghost" className="h-9 gap-2 px-2">
               <Avatar className="h-7 w-7">
-                <AvatarImage src={user.avatar} alt={user.name} />
+                <AvatarImage src={user?.email ? undefined : undefined} alt={user?.display_name || ''} />
                 <AvatarFallback className="bg-gradient-to-br from-[oklch(0.70_0.15_280)] to-[oklch(0.65_0.18_200)] text-xs text-white">
-                  {getInitials(user.name)}
+                  {getInitials(user?.display_name || user?.username || 'U')}
                 </AvatarFallback>
               </Avatar>
               <div className="hidden flex-col items-start text-left md:flex">
-                <span className="text-sm font-medium">{user.name}</span>
-                <span className="text-xs text-muted-foreground">{user.role}</span>
+                <span className="text-sm font-medium">{user?.display_name || user?.username || ''}</span>
+                <span className="text-xs text-muted-foreground">{user?.role === 'admin' ? '管理员' : user?.role || ''}</span>
+              </div>
               </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </Button>
@@ -205,9 +194,9 @@ export function TopBar() {
           <DropdownMenuContent align="end" className="w-56">
             <DropdownMenuLabel className="font-normal">
               <div className="flex flex-col space-y-1">
-                <p className="text-sm font-medium leading-none">{user.name}</p>
+                <p className="text-sm font-medium leading-none">{user?.display_name || user?.username || ''}</p>
                 <p className="text-xs leading-none text-muted-foreground">
-                  {user.email}
+                  {user?.email || ''}
                 </p>
               </div>
             </DropdownMenuLabel>
@@ -225,7 +214,7 @@ export function TopBar() {
               </Link>
             </DropdownMenuItem>
             <DropdownMenuSeparator />
-            <DropdownMenuItem className="text-red-500 focus:text-red-500">
+            <DropdownMenuItem className="text-red-500 focus:text-red-500" onClick={logout}>
               <LogOut className="mr-2 h-4 w-4" />
               退出登录
             </DropdownMenuItem>

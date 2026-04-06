@@ -76,9 +76,10 @@ app.add_middleware(
 from routers import (
     datasources, mappings, sparql, ai_query, ontology,
     workbench, publishing, annotations, glossary,
-    endpoint_registry, suggestions,
+    endpoint_registry, suggestions, auth,
 )
 
+app.include_router(auth.router,              prefix="/api/v1")
 app.include_router(datasources.router,       prefix="/api/v1")
 app.include_router(mappings.router,          prefix="/api/v1")
 app.include_router(sparql.router,            prefix="/api/v1")
