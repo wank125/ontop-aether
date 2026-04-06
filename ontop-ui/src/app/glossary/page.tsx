@@ -1,6 +1,7 @@
 'use client';
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
@@ -39,7 +40,14 @@ import {
   Layers,
   Link2,
 } from 'lucide-react';
-import { glossary, datasources, type GlossaryTerm, type GlossaryEntityKind, type DataSource } from '@/lib/api';
+import {
+  glossary,
+  datasources,
+  endpointRegistry,
+  type GlossaryTerm,
+  type GlossaryEntityKind,
+  type DataSource,
+} from '@/lib/api';
 
 // ── Constants ─────────────────────────────────────────────
 
@@ -109,10 +117,19 @@ export default function GlossaryPage() {
 
   // Load datasources
   useEffect(() => {
-    datasources.list().then(list => {
-      setDsList(list);
-      if (list.length > 0) setDsId(list[0].id);
-    }).catch(e => toast.error('获取数据源失败: ' + e.message));
+    Promise.all([datasources.list(), endpointRegistry.current()])
+      .then(([list, current]) => {
+        setDsList(list);
+
+        const currentDsId = 'ds_id' in current ? current.ds_id : '';
+        const initialDsId =
+          (currentDsId && list.some((item) => item.id === currentDsId) && currentDsId) ||
+          list[0]?.id ||
+          '';
+
+        setDsId(initialDsId);
+      })
+      .catch(e => toast.error('获取数据源失败: ' + e.message));
   }, []);
 
   // Load glossary
@@ -266,7 +283,7 @@ export default function GlossaryPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary">
-            当前数据源: {selectedDs?.name ?? '未选择'}
+            当前激活数据源: {selectedDs?.name ?? '未选择'}
           </Badge>
           <Badge variant="outline" className="border-border/70 bg-card/70">
             Host: {hostLabel}
@@ -278,10 +295,10 @@ export default function GlossaryPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
-        <StatCard title="词汇总数" value={String(stats.total)} hint="当前数据源已收录条目" icon={BookMarked} />
+        <StatCard title="词汇总数" value={String(stats.total)} hint="当前审核数据源已收录条目" icon={BookMarked} />
         <StatCard title="LLM 生成" value={String(stats.llm)} hint="由已审核注释自动推导" icon={Sparkles} />
         <StatCard title="人工添加" value={String(stats.human)} hint="手工维护且不会被覆盖" icon={User} />
-        <StatCard title="映射范围" value={dsId ? '当前数据源' : '未选择'} hint="可映射到本体属性 / 类" icon={Database} />
+        <StatCard title="映射范围" value={dsId ? '当前审核数据源' : '未选择'} hint="可映射到本体属性 / 类" icon={Database} />
       </div>
 
       <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
@@ -298,7 +315,7 @@ export default function GlossaryPage() {
           <CardContent className="space-y-3 p-4">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Database className="h-4 w-4 text-muted-foreground" />
-              分析上下文
+              审核数据源
             </div>
             <Select value={dsId} onValueChange={setDsId}>
               <SelectTrigger className="w-full bg-background border-[var(--border)]">
@@ -351,6 +368,13 @@ export default function GlossaryPage() {
             }
             自动生成
           </Button>
+          <Link
+            href="/ai-assistant"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <Bot className="h-4 w-4" />
+            AI 查询
+          </Link>
           <Button
             size="sm"
             onClick={openCreate}

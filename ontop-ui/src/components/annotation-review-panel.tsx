@@ -6,6 +6,7 @@
  */
 
 import { useCallback, useEffect, useState } from 'react';
+import Link from 'next/link';
 import { toast } from 'sonner';
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
@@ -35,10 +36,11 @@ import {
   Bot,
   User,
   BookOpen,
+  BookMarked,
   Layers,
   Link2,
 } from 'lucide-react';
-import { annotations, type SemanticAnnotation, type AnnotationStatus, type AnnotationKind } from '@/lib/api';
+import { annotations, mappings, type SemanticAnnotation, type AnnotationStatus, type AnnotationKind } from '@/lib/api';
 
 // ── Types ──────────────────────────────────────────────
 
@@ -204,6 +206,14 @@ export function AnnotationReviewPanel({ dsId, bootstrapVersion }: Props) {
     try {
       const res = await annotations.merge(dsId);
       toast.success(`合并完成：${res.merged_entities} 个实体写入 active TTL`);
+      // 重启端点使新标注生效
+      try {
+        await mappings.restartEndpoint();
+        toast.success('端点已重启，新标注已生效');
+      } catch {
+        toast.warning('合并成功但端点重启失败，请手动重启');
+      }
+      await load();
     } catch (e: any) {
       toast.error('合并失败: ' + e.message);
     } finally {
@@ -289,6 +299,13 @@ export function AnnotationReviewPanel({ dsId, bootstrapVersion }: Props) {
               </span>
             )}
           </Button>
+          <Link
+            href="/glossary"
+            className="inline-flex items-center gap-1.5 rounded-md border border-border/70 bg-background px-3 py-1.5 text-sm text-muted-foreground transition-colors hover:bg-accent hover:text-foreground"
+          >
+            <BookMarked className="h-4 w-4" />
+            生成词汇表
+          </Link>
         </div>
       </div>
 
