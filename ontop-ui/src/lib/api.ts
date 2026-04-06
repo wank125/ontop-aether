@@ -813,7 +813,7 @@ export interface TaskProgress {
   id:         string;
   task_type:  string;
   ds_id:      string;
-  status:     'running' | 'completed' | 'failed';
+  status:     'running' | 'completed' | 'failed' | 'none';
   progress:   number;
   current:    number;
   total:      number;
