@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: StatefulSet
 metadata:
   name: postgres
-  namespace: ontop-ui
+  namespace: ontop-aether
   labels:
     app: postgres
 spec:
@@ -76,21 +76,22 @@ apiVersion: v1
 kind: Service
 metadata:
   name: postgres
-  namespace: ontop-ui
+  namespace: ontop-aether
 spec:
   selector:
     app: postgres
   ports:
     - port: 5432
       targetPort: 5432
-  clusterIP: None  # Headless for StatefulSet
+  clusterIP: None
 
 ---
 apiVersion: v1
 kind: ConfigMap
 metadata:
   name: init-sql
-  namespace: ontop-ui
+  namespace: ontop-aether
 data:
-  # 将初始化 SQL 放入此 ConfigMap，或使用已有 PV 挂载
-  01-init.sql: "-- placeholder: put your init SQL here\n"
+  01-lvfa.sql: |
+    -- LVFA 物业管理演示数据
+    -- 完整 SQL 见 examples/lvfa/sql/schema.sql

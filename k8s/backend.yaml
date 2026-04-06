@@ -2,7 +2,7 @@ apiVersion: apps/v1
 kind: Deployment
 metadata:
   name: backend
-  namespace: ontop-ui
+  namespace: ontop-aether
   labels:
     app: backend
 spec:
@@ -17,7 +17,7 @@ spec:
     spec:
       containers:
         - name: backend
-          image: ontop-ui-backend:latest
+          image: ontop-aether-backend:latest
           imagePullPolicy: IfNotPresent
           ports:
             - containerPort: 8000
@@ -27,26 +27,16 @@ spec:
                 configMapKeyRef:
                   name: ontop-config
                   key: FASTAPI_PORT
-            - name: ONTOP_CLI
+            - name: ONTOP_ENGINE_URL
               valueFrom:
                 configMapKeyRef:
                   name: ontop-config
-                  key: ONTOP_CLI
-            - name: ONTOP_OUTPUT
-              valueFrom:
-                configMapKeyRef:
-                  name: ontop-config
-                  key: ONTOP_OUTPUT
+                  key: ONTOP_ENGINE_URL
             - name: ONTOP_ENDPOINT_URL
               valueFrom:
                 configMapKeyRef:
                   name: ontop-config
                   key: ONTOP_ENDPOINT_URL
-            - name: ONTOP_ENDPOINT_PORT
-              valueFrom:
-                configMapKeyRef:
-                  name: ontop-config
-                  key: ONTOP_ENDPOINT_PORT
             - name: LLM_BASE_URL
               valueFrom:
                 configMapKeyRef:
@@ -63,14 +53,11 @@ spec:
                   name: ontop-secrets
                   key: LLM_API_KEY
           volumeMounts:
-            - name: ontop-cli
-              mountPath: /opt/ontop-cli
-              readOnly: true
-            - name: ontop-output
-              mountPath: /opt/ontop-output
+            - name: data
+              mountPath: /app/data
           readinessProbe:
             httpGet:
-              path: /api/v1/health
+              path: /api/v1/datasources
               port: 8000
             initialDelaySeconds: 10
             periodSeconds: 10
@@ -82,21 +69,28 @@ spec:
               cpu: "2"
               memory: 1Gi
       volumes:
-        - name: ontop-cli
-          hostPath:
-            path: /opt/ontop-cli
-            type: DirectoryOrCreate
-        - name: ontop-output
-          hostPath:
-            path: /opt/ontop-output
-            type: DirectoryOrCreate
+        - name: data
+          persistentVolumeClaim:
+            claimName: backend-data
+
+---
+apiVersion: v1
+kind: PersistentVolumeClaim
+metadata:
+  name: backend-data
+  namespace: ontop-aether
+spec:
+  accessModes: ["ReadWriteOnce"]
+  resources:
+    requests:
+      storage: 2Gi
 
 ---
 apiVersion: v1
 kind: Service
 metadata:
   name: backend
-  namespace: ontop-ui
+  namespace: ontop-aether
 spec:
   selector:
     app: backend

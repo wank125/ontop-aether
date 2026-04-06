@@ -1,16 +1,18 @@
-# ontop-ui / Kubernetes
+# ontop-aether / Kubernetes
 #
 # Deploy:
 #   kubectl apply -k k8s/
 #
 # Port-forward for local testing:
-#   kubectl port-forward -n ontop-ui svc/frontend 3001:5000
-#   kubectl port-forward -n ontop-ui svc/backend  8001:8000
+#   kubectl port-forward -n ontop-aether svc/frontend 3001:5000
+#   kubectl port-forward -n ontop-aether svc/backend  8001:8000
+#   kubectl port-forward -n ontop-aether svc/endpoint 18081:8080
+#   kubectl port-forward -n ontop-aether svc/engine   8083:8081
 #
 apiVersion: kustomize.config.k8s.io/v1beta1
 kind: Kustomization
 
-namespace: ontop-ui
+namespace: ontop-aether
 
 resources:
   - namespace.yaml
@@ -18,5 +20,7 @@ resources:
   - configmap.yaml
   - postgres.yaml
   - backend.yaml
+  - engine.yaml
+  - endpoint.yaml
   - frontend.yaml
   - ingress.yaml

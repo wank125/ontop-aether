@@ -1,0 +1,67 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: endpoint
+  namespace: ontop-aether
+  labels:
+    app: endpoint
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: endpoint
+  template:
+    metadata:
+      labels:
+        app: endpoint
+    spec:
+      containers:
+        - name: endpoint
+          image: ontop-aether-endpoint:latest
+          imagePullPolicy: IfNotPresent
+          ports:
+            - containerPort: 8080
+          env:
+            - name: JAVA_TOOL_OPTIONS
+              value: "-Xms256m -Xmx1g"
+            - name: ONTOP_ACTIVE_MAPPING_FILE
+              value: "/app/data/active/active_mapping.obda"
+            - name: ONTOP_ACTIVE_ONTOLOGY_FILE
+              value: "/app/data/active/active_ontology.ttl"
+            - name: ONTOP_ACTIVE_PROPERTIES_FILE
+              value: "/app/data/active/active.properties"
+            - name: ONTOP_SEED_DIR
+              value: "/opt/ontop-seed"
+          volumeMounts:
+            - name: data
+              mountPath: /app/data
+          readinessProbe:
+            httpGet:
+              path: /health
+              port: 8080
+            initialDelaySeconds: 30
+            periodSeconds: 10
+          resources:
+            requests:
+              cpu: 200m
+              memory: 512Mi
+            limits:
+              cpu: "2"
+              memory: 2Gi
+      volumes:
+        - name: data
+          persistentVolumeClaim:
+            claimName: backend-data
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  name: endpoint
+  namespace: ontop-aether
+spec:
+  selector:
+    app: endpoint
+  ports:
+    - port: 8080
+      targetPort: 8080
