@@ -107,7 +107,14 @@ def _refine_xsd_type(ttl_path: str, property_uri: str, proposed_type: str) -> tu
     local = property_uri.lstrip(":")
     escaped = re.escape(local)
 
-    # ── 策略 1: 替换已有的 rdfs:range xsd:xxx ──
+    # ── 检查是否已有该属性的 rdfs:range（去重）──
+    range_check = re.compile(
+        r'(?m)^.*' + escaped + r'.*rdfs:range\s+xsd:' + re.escape(proposed_type) + r'\b',
+    )
+    if range_check.search(original):
+        return False, f"'{property_uri}' 已有 rdfs:range xsd:{proposed_type}，无需修改"
+
+    # ── 策略 1: 替换已有的 rdfs:range xsd:xxx（不同类型）──
     replace_pattern = re.compile(
         r'(?m)^(.*' + escaped + r'.*rdfs:range\s+)xsd:\w+(.*)$',
     )
@@ -116,17 +123,14 @@ def _refine_xsd_type(ttl_path: str, property_uri: str, proposed_type: str) -> tu
         def _replacer(m):
             return f"{m.group(1)}xsd:{proposed_type}{m.group(2)}"
         content = replace_pattern.sub(_replacer, content)
-        count = len(matches)
-        if content != original:
-            backup = path.with_suffix(".ttl.bak")
-            backup.write_text(original, encoding="utf-8")
-            path.write_text(content, encoding="utf-8")
-            logger.info("Replaced rdfs:range for '%s' → xsd:%s (%d occurrences) in %s",
-                        property_uri, proposed_type, count, ttl_path)
-            return True, f"已将 '{property_uri}' 的 rdfs:range 替换为 xsd:{proposed_type}（{count} 处），备份：{backup}"
+        backup = path.with_suffix(".ttl.bak")
+        backup.write_text(original, encoding="utf-8")
+        path.write_text(content, encoding="utf-8")
+        logger.info("Replaced rdfs:range for '%s' → xsd:%s (%d occurrences) in %s",
+                    property_uri, proposed_type, len(matches), ttl_path)
+        return True, f"已将 '{property_uri}' 的 rdfs:range 替换为 xsd:{proposed_type}（{len(matches)} 处），备份：{backup}"
 
     # ── 策略 2: 属性声明无 rdfs:range，追加新行 ──
-    # 匹配 <…#propertyName> rdf:type owl:DatatypeProperty . 或 ObjectProperty
     decl_pattern = re.compile(
         r'(<[^>]*' + escaped + r'[^>]*>\s+rdf:type\s+owl:(?:Datatype|Object)Property\s*\.)',
     )
