@@ -1,175 +1,334 @@
 # Docker 镜像设计说明
 
-本文说明 `ontop-aether` monorepo 中各镜像的职责、构建方式、运行关系。
+本文说明 `ontop-aether` 当前 Docker 镜像与容器编排的设计。重点覆盖：
 
-## 1. 镜像总览
+- 默认 `retail` 环境的 5 个服务
+- `LVFA / Mondial` 与 `MySQL` 演示环境的端口差异
+- `ontop-engine`、`ontop-endpoint`、`ontop-backend`、`ontop-ui` 的职责边界
+- 为什么采用“Builder API + Endpoint”双 Java 服务拆分
 
-编排文件位于仓库根目录（retail 默认环境）。
+默认编排文件见 [docker-compose.yml](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/docker-compose.yml)。
 
-| Service | 镜像来源 | 宿主端口 | 构建上下文 | 主要职责 |
-|---|---|---:|---|---|
-| `postgres` | 官方镜像 `postgres:16-alpine` | `5435` | — | 示例业务库 `retail_db` |
-| `ontop-engine` | 自定义镜像 | `8081` | `./ontop-engine` | Ontop 建模：提取元数据、Bootstrap、Validate、Materialize |
-| `ontop-endpoint` | 自定义镜像 | `18080` | `./ontop-endpoint` | Ontop 在线查询：SPARQL、SQL 改写、在线重启 |
-| `backend` | 自定义镜像 | `8000` | `./ontop-backend` | FastAPI 业务编排层 |
-| `frontend` | 自定义镜像 | `3000` | `./ontop-ui` | Next.js 前端 UI |
+## 1. 当前镜像总览
 
-三套环境端口映射：
+### 1.1 默认 retail 环境
 
-| 环境 | 前端 | 后端 | Ontop Engine | SPARQL 端点 | 数据库 |
-|------|------|------|-------------|------------|--------|
-| Retail | 3000 | 8000 | 8081 | 18080 | 5435 (PG) |
-| LVFA | 3001 | 8001 | 8083 | 18081 | 5436 (PG) |
-| MySQL | 3002 | 8002 | 8084 | 18082 | 3307 (MySQL) |
+| Service | 构建/来源 | 宿主端口 | 主要职责 |
+|---|---|---:|---|
+| `postgres` | 官方镜像 `postgres:16-alpine` | `5435` | 示例业务库 `retail_db` |
+| `ontop-engine` | 本仓库自定义镜像 | `8081` | Ontop 建模期能力：元数据提取、Bootstrap、Validate、Parse Mapping |
+| `ontop-endpoint` | 本仓库自定义镜像 | `18080` | Ontop 在线查询服务：`/sparql`、`/ontop/reformulate`、`/ontop/restart` |
+| `backend` | 本仓库自定义镜像 | `8000` | FastAPI 业务编排层 |
+| `frontend` | 本仓库自定义镜像 | `3000` | Next.js 工作台前端 |
+
+### 1.2 演示环境端口
+
+仓库同时维护三套 compose：
+
+- [docker-compose.yml](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/docker-compose.yml)
+- [docker-compose.lvfa.yml](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/docker-compose.lvfa.yml)
+- [docker-compose.mysql.yml](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/docker-compose.mysql.yml)
+
+| 环境 | Frontend | Backend | DB | Ontop Engine | Ontop Endpoint |
+|---|---:|---:|---:|---:|---:|
+| Retail | `3000` | `8000` | `5435` | `8081` | `18080` |
+| LVFA / Mondial | `3001` | `8001` | `5436` | `8083` | `18081` |
+| MySQL | `3002` | `8002` | `3307` | `8084` | `18082` |
 
 ## 2. 设计目标
 
-1. **建模期独立** — `extract-metadata`、`bootstrap`、`validate` 不再由 Python 子进程拉起 JVM
-2. **在线查询独立** — SPARQL endpoint 以独立容器常驻运行
-3. **Python 瘦身** — backend 只做业务编排、文件管理、状态切换，不承载 Java 运行时
-4. **模块化构建** — 每个模块 Dockerfile 与源码同目录，独立构建、独立迭代
+这套 Docker 设计的目标不是简单把旧单体应用容器化，而是明确拆成 4 个职责层：
+
+1. 建模期引擎独立
+   `extract-metadata`、`bootstrap`、`validate`、`parse-mapping` 由 JVM 内的 `ontop-engine` 提供，不再由 Python `subprocess` 拉起 CLI。
+
+2. 在线查询独立
+   SPARQL endpoint 不由 backend 本地持有子进程，而是作为常驻 `ontop-endpoint` 容器运行。
+
+3. 业务编排与 Java 解耦
+   `ontop-backend` 只做 API、版本管理、active 文件切换、AI 流程、审计与发布能力，不再内嵌 JRE。
+
+4. 前端只消费 backend
+   `ontop-ui` 不直接连数据库，也不直接打 `ontop-engine` / `ontop-endpoint`。
 
 ## 3. 各镜像说明
 
 ### 3.1 `postgres`
 
-- 基于官方 `postgres:16-alpine`
-- 初始化 SQL 位于 `ontop-db/postgres/`（retail 用 `init.sql`，LVFA 用 `init_lvfa.sql`）
-- Mondial 数据集在 `ontop-db/postgres/mondial/`
-- 它是示例数据库，不参与本体引擎逻辑
+默认环境使用官方镜像：
+
+- `postgres:16-alpine`
+- 暴露 `5435:5432`
+- 启动 SQL 位于 [ontop-db/postgres/init.sql](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-db/postgres/init.sql)
+
+职责很单纯：
+
+- 提供示例关系库
+- 为 `ontop-engine` 和 `ontop-endpoint` 提供 JDBC / 查询源
 
 ### 3.2 `ontop-engine`
 
-- **Dockerfile**: `ontop-engine/Dockerfile`
-- **构建**: 两阶段 — Maven 编译（`maven:3.9.9-eclipse-temurin-17`） → JRE 运行（`eclipse-temurin:17-jre`）
-- **API 契约**:
+Dockerfile：
+[ontop-engine/Dockerfile](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-engine/Dockerfile)
 
-| 端点 | 方法 | 说明 | 超时 |
-|------|------|------|------|
-| `/api/ontop/extract-metadata` | POST | 探测数据库结构元数据 | 60s |
-| `/api/ontop/bootstrap` | POST | 从关系库生成本体+映射 | 120s |
-| `/api/ontop/validate` | POST | 验证 OBDA 映射合规性 | 60s |
-| `/api/ontop/materialize` | POST | 物化虚拟三元组 | 300s |
-| `/health` | GET | 健康检查 | 5s |
-| `/version` | GET | 版本信息 | 5s |
+构建方式：
 
-- 直接在 JVM 内调用 Ontop 5.5.0 原生 API
-- 内置 PostgreSQL / MySQL JDBC 驱动
-- Caffeine 缓存 Configuration 对象，避免重复 Guice 初始化
+1. 基于 `maven:3.9.9-eclipse-temurin-17` 多阶段构建
+2. 在构建阶段执行 `mvn -q -DskipTests package`
+3. 运行阶段基于 `eclipse-temurin:17-jre`
+4. 仅复制 fat jar 到最终镜像
+
+运行特点：
+
+- 默认监听 `8081`
+- 默认 `ENTRYPOINT` 使用 `-XX:MaxRAMPercentage=75.0`
+- compose 里还可通过 `JAVA_TOOL_OPTIONS` 指定 `-Xms/-Xmx`
+
+当前职责：
+
+- `POST /api/ontop/extract-metadata`
+- `POST /api/ontop/bootstrap`
+- `POST /api/ontop/validate`
+- `POST /api/ontop/parse-mapping`
+
+边界：
+
+- 不直接写 `.ttl/.obda/.properties` 文件
+- 不负责 active 版本切换
+- 不提供 `/sparql`
 
 ### 3.3 `ontop-endpoint`
 
-- **Dockerfile**: `ontop-endpoint/Dockerfile`
-- **构建**: 两阶段 — **第一阶段从 GitHub 下载 ontop-cli**，第二阶段运行
+Dockerfile：
+[ontop-endpoint/Dockerfile](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/Dockerfile)
 
-```dockerfile
-# Stage 1: 下载 Ontop CLI（不存入仓库）
-FROM eclipse-temurin:17-jre AS downloader
-ARG ONTOP_VERSION=5.5.0
-RUN curl -L -o /tmp/ontop-cli.zip \
-    "https://github.com/ontop/ontop/releases/download/ontop-${ONTOP_VERSION}/ontop-cli-${ONTOP_VERSION}.zip" \
-    && unzip /tmp/ontop-cli.zip -d /opt/ontop-cli
+启动脚本：
+[ontop-endpoint/entrypoint.sh](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/entrypoint.sh)
 
-# Stage 2: 运行
-FROM eclipse-temurin:17-jre
-COPY --from=downloader /opt/ontop-cli /opt/ontop-cli
-COPY entrypoint.sh seed/ /opt/ontop-endpoint/
-```
+构建方式：
 
-- **启动**: `entrypoint.sh` 管理 active 文件初始化 + `ontop endpoint` 启动
-- **seed 数据**: `ontop-endpoint/seed/` 提供初始本体/映射/属性
-- **active 文件**: 运行时由 backend 写入共享目录，endpoint 读取
+1. 下载官方发布的 `ontop-cli-5.5.0.zip`
+2. 在运行镜像内保留 `/opt/ontop-cli`
+3. 复制 [ontop-endpoint/seed](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/seed) 的种子文件
+4. 启动时如 active 文件不存在，则从 seed 初始化
 
-设计要点：
+运行模式：
 
-- **ontop-cli 不存入仓库**，构建时从 GitHub Release 下载，通过 `--build-arg ONTOP_VERSION=5.5.0` 控制版本
-- active 文件通过 volume 挂载（`./ontop-endpoint/active:/opt/ontop-endpoint/active`）
-- 切换映射不需要重建镜像，只需写入新 active 文件 + 调用 restart
+- 容器内端口固定 `8080`
+- 宿主机端口按环境映射为 `18080 / 18081 / 18082`
+- 通过 `--dev` 启动，支持 `/ontop/restart`
+- 开启 `--enable-download-ontology`
+
+固定读取的运行时文件：
+
+- `active_ontology.ttl`
+- `active_mapping.obda`
+- `active.properties`
+
+这些文件来自共享卷，由 backend 写入，endpoint 读取。
 
 ### 3.4 `backend`
 
-- **Dockerfile**: `ontop-backend/Dockerfile`
-- **构建**: 基于 `python:3.11-slim`，安装 `requirements.txt`，启动 `uvicorn`
-- **职责**: 数据源 CRUD、Bootstrap 编排、映射管理、端点切换、SPARQL 代理、AI/MCP/发布
+Dockerfile：
+[ontop-backend/Dockerfile](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-backend/Dockerfile)
 
-通过环境变量感知 Java 服务：
+构建方式：
+
+- 基于 `python:3.11-slim`
+- 安装 [requirements.txt](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-backend/requirements.txt)
+- 启动 `uvicorn main:app`
+
+职责：
+
+- 数据源管理
+- Bootstrap 编排
+- 版本目录与 manifest 管理
+- active 映射切换
+- SPARQL 代理与审计
+- AI 查询、语义标注、词汇表、精化建议、发布能力
+
+backend 通过环境变量连接两个 Java 服务：
+
 - `ONTOP_ENGINE_URL=http://ontop-engine:8081`
 - `ONTOP_ENDPOINT_URL=http://ontop-endpoint:8080`
 
-挂载目录：
-- `./ontop-backend/data:/app/data` — SQLite、bootstrap 版本、配置
-- `./ontop-output:/opt/ontop-output` — 生成的本体/映射/属性文件
-- `./ontop-endpoint/active:/opt/ontop-endpoint/active` — 共享 active 目录
-- `./ontop-db/properties/retail.properties:/opt/ontop-output/retail.properties:ro` — JDBC 属性
+默认挂载的关键目录：
+
+1. `./ontop-output:/opt/ontop-output`
+   保存当前默认输出文件。
+
+2. `./ontop-backend/data:/app/data`
+   保存 SQLite、bootstrap 历史版本、审计与发布状态。
+
+3. `./ontop-endpoint/active:/opt/ontop-endpoint/active`
+   backend 把选中的 ontology / mapping / properties 复制到这里，供 `ontop-endpoint` 读取。
 
 ### 3.5 `frontend`
 
-- **Dockerfile**: `ontop-ui/Dockerfile`
-- **构建**: 两阶段 — `node:20-slim` + pnpm build → runtime 仅复制产物
-- **职责**: UI 展示 + 后端 API 调用，不直接与 Java 服务通信
-- `BACKEND_URL=http://backend:8000`
+Dockerfile：
+[ontop-ui/Dockerfile](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-ui/Dockerfile)
+
+构建方式：
+
+1. builder 阶段基于 `node:20-slim`
+2. 通过 `pnpm next build` 构建前端
+3. 使用 `tsup` 打包 `src/server.ts`
+4. 运行阶段保留 `.next`、`dist` 与生产依赖
+
+运行特点：
+
+- 容器内端口 `5000`
+- 宿主机端口按环境映射为 `3000 / 3001 / 3002`
+- 通过 `BACKEND_URL=http://backend:8000` 访问 backend
+
+职责：
+
+- 页面渲染
+- 统一从 Node 侧代理 `/api/*`
+- 不直接调用 `ontop-engine` 或 `ontop-endpoint`
 
 ## 4. 运行关系
 
 ### 4.1 建模链路
 
 ```text
-Frontend → Backend → ontop-engine → 返回 metadata / ontology / mapping
-                                       → Backend 落盘到 ontop-output/
+Frontend
+  -> Backend
+  -> ontop-engine
+  -> 返回 metadata / ontology / mapping / parse result
+  -> Backend 落盘到 ontop-output 或 data 版本目录
 ```
 
 ### 4.2 在线查询链路
 
 ```text
-Frontend → Backend → ontop-endpoint → 返回 SPARQL 结果 / SQL reformulation
+Frontend
+  -> Backend
+  -> ontop-endpoint
+  -> 返回 SPARQL 查询结果 / SQL reformulation
 ```
 
 ### 4.3 切换在线映射链路
 
 ```text
-Frontend → Backend (/mappings/restart-endpoint)
-         → Backend 写入 ontop-endpoint/active/
-         → Backend 调用 ontop-endpoint /ontop/restart
-         → Endpoint 重新加载 active 文件
+Frontend
+  -> Backend (/api/v1/mappings/restart-endpoint)
+  -> Backend 将指定 ontology / mapping / properties 复制到 active 目录
+  -> Backend 调用 ontop-endpoint /ontop/restart
+  -> ontop-endpoint 重新加载 active 文件
 ```
 
-## 5. 为什么拆两个 Java 容器
+## 5. 为什么不是一个 Java 容器
 
-- 建模任务（bootstrap/validate）与在线查询（SPARQL）生命周期不同
-- Bootstrap 失败不应影响在线查询
-- builder 适合 API 化，endpoint 适合常驻服务化
-- 便于分别替换实现和独立扩缩容
+理论上可以把 Builder API 和 SPARQL Endpoint 合成一个 Java 容器，但当前不这样做，原因是：
 
-## 6. 与旧架构的对比
+1. 生命周期不同
+   Bootstrap / validate 属于构建期任务，SPARQL 属于在线常驻任务。
 
-| 对比项 | 旧架构（ontop-ui 独立仓库） | 新架构（ontop-aether monorepo） |
-|--------|--------------------------|-------------------------------|
-| 构建上下文 | 跨仓库引用 `context: ../ontop-engine` | 仓库内引用 `context: ./ontop-engine` |
-| ontop-cli | 仓库内 `docker/ontop-cli/`（~200MB） | 构建时从 GitHub 下载，不存仓库 |
-| Dockerfile 位置 | 集中在 `docker/` 子目录 | 各模块自包含 `ontop-*/Dockerfile` |
-| DB 初始化 | 散落在 `docker/postgres/` | 独立模块 `ontop-db/` |
-| JDBC 属性 | 在 `docker/backend/ontop*.properties` | `ontop-db/properties/` |
-| 构建 | 手动 docker compose | `make build` / `make up` |
+2. 故障域不同
+   建模任务失败不应拖垮在线查询端点。
 
-## 7. 常用命令
+3. 资源模式不同
+   Builder 更偏短时重负载；Endpoint 更偏长驻稳定吞吐。
+
+4. 演进方向不同
+   `ontop-engine` 未来可能继续增加解析、校验、物化等 API；`ontop-endpoint` 则更适合继续保持查询服务形态。
+
+因此当前采用：
+
+- `ontop-engine`：建模期 Java Builder API
+- `ontop-endpoint`：在线查询 Java Endpoint
+
+## 6. 当前镜像与官方 Ontop 镜像的关系
+
+`ontop-endpoint` 是自定义镜像，但它并不是简单复制旧仓库中的 CLI 目录，而是：
+
+1. 构建时直接下载官方发布的 `ontop-cli`
+2. 运行时用自定义 `entrypoint.sh` 管理 seed / active 文件
+3. 通过环境变量约束文件路径与端口
+
+这和直接使用官方 `ontop/ontop` 镜像的差别主要在于：
+
+- 当前镜像保留了对 active 切换流程的完全控制
+- 当前镜像更容易与 backend 的“复制文件 + 远程重启”模式对接
+- 代价是 Dockerfile 和 entrypoint 需要自行维护
+
+## 7. 当前已知约束
+
+1. active 切换仍采用“复制文件 + 远程 restart”模式
+   这不是配置中心推送，也不是真正意义上的热更新。
+
+2. backend 仍然以文件作为 Ontop 运行时真源
+   Bootstrap 结果会落地为 `.ttl/.obda/.properties`，而不是只存在数据库里。
+
+3. `ontop-endpoint` 依赖 `--dev`
+   这是为了启用 `/ontop/restart`，便于工作台做运行时切换。
+
+4. 三套环境共享同一架构，不共享同一 active 目录
+   `retail`、`lvfa`、`mysql` 都有自己独立的数据目录和 endpoint active 目录。
+
+## 8. 推荐后续演进
+
+建议下一步继续做三件事：
+
+1. 把 `ontop-endpoint` 的版本与 `ontop-engine` 文档化绑定
+   明确 Ontop CLI 与 Ontop API 的版本矩阵，避免 builder / endpoint 漂移。
+
+2. 给三套 compose 补统一的资源限制
+   尤其是 `ontop-engine` 与 `ontop-endpoint` 的内存和 CPU 约束。
+
+3. 在 `k8s/` 目录补齐等价部署说明
+   当前镜像拆分已经稳定，适合映射成 Deployment + Service + PVC 结构。
+
+## 9. 常用命令
+
+构建默认环境：
 
 ```bash
-# 构建全部
-make build
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose build
+```
 
-# 启动 LVFA 环境
-make up-lvfa
+启动默认环境：
 
-# 查看服务状态
-docker compose -f docker-compose.lvfa.yml ps
+```bash
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose up -d
+```
 
-# 单独重建 engine
-docker build -t ontop-aether/engine ./ontop-engine
+启动 LVFA / Mondial 环境：
 
-# 单独重启 endpoint
-curl -X POST http://localhost:8001/api/v1/mappings/restart-endpoint \
-  -H 'Content-Type: application/json' -d '{}'
+```bash
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose -f docker-compose.lvfa.yml up -d --build
+```
 
-# 清理构建产物
-make clean
+启动 MySQL 环境：
+
+```bash
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose -f docker-compose.mysql.yml up -d --build
+```
+
+查看服务状态：
+
+```bash
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose ps
+```
+
+单独重建 builder 服务：
+
+```bash
+cd /Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether
+docker compose build ontop-engine
+docker compose up -d --force-recreate ontop-engine
+```
+
+单独重启 endpoint：
+
+```bash
+curl -X POST http://localhost:8000/api/v1/mappings/restart-endpoint \
+  -H 'Content-Type: application/json' \
+  -d '{}'
 ```
