@@ -305,8 +305,12 @@ export default function GlossaryPage() {
         <Card className="border-border/70 bg-card/80">
           <CardContent className="space-y-3 p-4">
             <div className="text-sm font-medium text-foreground">使用说明</div>
-            <p className="text-sm leading-6 text-muted-foreground">
-              点击「自动生成」从已审核的语义注释中推导业务词汇；也可手动添加。
+            <ol className="text-sm leading-6 text-muted-foreground list-decimal list-inside space-y-1">
+              <li>在「数据源管理」页面完成 <strong>Bootstrap</strong>，系统会在后台自动调用 LLM 生成语义注释（需等待后台任务完成）。</li>
+              <li>前往「语义标注」页面 <strong>审核</strong> LLM 生成的候选注释（全部接受或逐条审核）。</li>
+              <li>返回本页点击「自动生成」，从已审核的注释中推导业务词汇；也可手动添加。</li>
+            </ol>
+            <p className="text-xs text-muted-foreground mt-2">
               词汇会在 AI 查询时按用户问题关键词自动筛选注入，人工添加的词汇不会被自动生成覆盖。
             </p>
           </CardContent>

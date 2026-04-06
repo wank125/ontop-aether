@@ -89,7 +89,7 @@ services:
       ONTOP_ENGINE_URL: http://ontop-engine:8081
       FASTAPI_PORT: "8000"
       # LLM on host (LM Studio)
-      LLM_BASE_URL: http://host.docker.internal:1234/v1
+      LLM_BASE_URL: http://192.168.31.244:1234/v1
       LLM_MODEL: zai-org/glm-4.7-flash
     ports:
       - "8000:8000"

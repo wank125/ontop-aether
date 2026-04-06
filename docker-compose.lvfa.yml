@@ -88,7 +88,7 @@ services:
       ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
       ONTOP_ENGINE_URL: http://ontop-engine-lvfa:8081
       FASTAPI_PORT: "8000"
-      LLM_BASE_URL: http://host.docker.internal:1234/v1
+      LLM_BASE_URL: http://192.168.31.244:1234/v1
       LLM_MODEL: zai-org/glm-4.7-flash
     ports:
       - "8001:8000"
