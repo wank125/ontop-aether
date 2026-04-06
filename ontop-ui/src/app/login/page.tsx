@@ -97,34 +97,34 @@ export default function LoginPage() {
         </section>
 
         <section>
-          <Card className="border-white/10 bg-white/[0.94] shadow-2xl shadow-black/20 backdrop-blur-xl">
+          <Card className="border-white/10 bg-white/[0.96] text-slate-950 shadow-2xl shadow-black/20 backdrop-blur-xl">
             <CardContent className="p-8 sm:p-9">
               <div className="mb-8 space-y-3">
                 <div className="flex h-12 w-12 items-center justify-center rounded-2xl bg-gradient-to-br from-[oklch(0.70_0.15_280)] to-[oklch(0.65_0.18_200)] shadow-lg shadow-[oklch(0.65_0.18_200/.28)]">
                   <KeyRound className="h-5 w-5 text-white" />
                 </div>
-                <h2 className="text-2xl font-semibold text-foreground">欢迎回来</h2>
-                <p className="text-sm leading-6 text-muted-foreground">
+                <h2 className="text-2xl font-semibold text-slate-950">欢迎回来</h2>
+                <p className="text-sm leading-6 text-slate-600">
                   用你的平台账号登录。页面尽量克制，动作尽量直接。
                 </p>
               </div>
 
               <form className="space-y-6" onSubmit={handleLogin}>
                 <div className="space-y-2.5">
-                  <Label htmlFor="username">账号</Label>
+                  <Label htmlFor="username" className="text-sm font-medium text-slate-700">账号</Label>
                   <Input
                     id="username"
                     value={username}
                     onChange={(event) => setUsername(event.target.value)}
                     placeholder="admin"
-                    className="h-11 border-border/80 bg-background/80 shadow-sm"
+                    className="h-11 border-slate-300 bg-white text-slate-950 placeholder:text-slate-400 shadow-sm focus-visible:border-cyan-500 focus-visible:ring-cyan-500/30"
                   />
                 </div>
 
                 <div className="space-y-2.5">
                   <div className="flex items-center justify-between gap-3">
-                    <Label htmlFor="password">密码</Label>
-                    <button type="button" className="text-xs text-muted-foreground transition-colors hover:text-foreground">
+                    <Label htmlFor="password" className="text-sm font-medium text-slate-700">密码</Label>
+                    <button type="button" className="text-xs text-slate-500 transition-colors hover:text-slate-900">
                       忘记密码
                     </button>
                   </div>
@@ -134,32 +134,32 @@ export default function LoginPage() {
                     value={password}
                     onChange={(event) => setPassword(event.target.value)}
                     placeholder="请输入密码"
-                    className="h-11 border-border/80 bg-background/80 shadow-sm"
+                    className="h-11 border-slate-300 bg-white text-slate-950 placeholder:text-slate-400 shadow-sm focus-visible:border-cyan-500 focus-visible:ring-cyan-500/30"
                   />
                 </div>
 
-                <div className="flex items-center justify-between gap-3 rounded-xl border border-border/70 bg-muted/20 px-3 py-3.5">
-                  <label className="flex items-center gap-3 text-sm text-foreground">
+                <div className="flex items-center justify-between gap-3 rounded-xl border border-slate-200 bg-slate-50 px-3 py-3.5">
+                  <label className="flex items-center gap-3 text-sm text-slate-700">
                     <Checkbox
                       checked={remember}
                       onCheckedChange={(checked) => setRemember(checked === true)}
                     />
                     <span>记住这台设备</span>
                   </label>
-                  <Badge variant="secondary" className="bg-primary/10 text-primary">
+                  <Badge variant="secondary" className="border-cyan-200 bg-cyan-50 text-cyan-700">
                     本地演示
                   </Badge>
                 </div>
 
-                <Button type="submit" className="h-11 w-full" disabled={submitting}>
+                <Button type="submit" className="h-11 w-full bg-[linear-gradient(135deg,oklch(0.68_0.16_280),oklch(0.66_0.16_225))] text-white hover:opacity-95" disabled={submitting}>
                   {submitting ? '登录中...' : '进入工作台'}
                 </Button>
               </form>
 
-              <div className="mt-6 rounded-2xl border border-border/60 bg-muted/20 p-4 text-sm text-muted-foreground">
+              <div className="mt-6 rounded-2xl border border-slate-200 bg-slate-50 p-4 text-sm text-slate-600">
                 <div className="flex items-center justify-between gap-3">
-                  <p className="font-medium text-foreground">演示账号</p>
-                  <Badge variant="outline">免接入</Badge>
+                  <p className="font-medium text-slate-900">演示账号</p>
+                  <Badge variant="outline" className="border-slate-300 text-slate-700">免接入</Badge>
                 </div>
                 <p className="mt-2 leading-6">账号已预填，默认密码 admin123，登录后可修改。</p>
               </div>

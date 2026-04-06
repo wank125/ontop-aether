@@ -29,6 +29,7 @@ import {
 } from 'lucide-react';
 import {
   datasources,
+  endpointRegistry,
   suggestions as sugApi,
   type DataSource,
   type OntologySuggestion,
@@ -108,10 +109,19 @@ export default function OntologySuggestionsPage() {
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
   useEffect(() => {
-    datasources.list().then(l => {
-      setDsList(l);
-      if (l.length) setDsId(l[0].id);
-    }).catch(e => toast.error('获取数据源失败: ' + e.message));
+    Promise.all([datasources.list(), endpointRegistry.current()])
+      .then(([list, current]) => {
+        setDsList(list);
+
+        const currentDsId = 'ds_id' in current ? current.ds_id : '';
+        const initialDsId =
+          (currentDsId && list.some((item) => item.id === currentDsId) && currentDsId) ||
+          list[0]?.id ||
+          '';
+
+        setDsId(initialDsId);
+      })
+      .catch(e => toast.error('获取数据源失败: ' + e.message));
   }, []);
 
   const load = useCallback(async () => {
@@ -208,7 +218,7 @@ export default function OntologySuggestionsPage() {
 
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary">
-            当前数据源: {selectedDs?.name ?? '未选择'}
+            当前激活数据源: {selectedDs?.name ?? '未选择'}
           </Badge>
           <Badge variant="outline" className="border-border/70 bg-card/70">
             Host: {hostLabel}
@@ -222,7 +232,7 @@ export default function OntologySuggestionsPage() {
       </div>
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-5">
-        <StatCard title="当前数据源" value={selectedDs?.name ?? '未选择'} hint="当前精化分析上下文" icon={Database} />
+        <StatCard title="当前激活数据源" value={selectedDs?.name ?? '未选择'} hint="当前精化分析上下文" icon={Database} />
         <StatCard title="待处理" value={String(stats.pending)} hint="等待人工确认的建议" icon={Sparkles} />
         <StatCard title="已接受" value={String(stats.accepted)} hint="可进入应用阶段" icon={CheckCircle2} />
         <StatCard title="已拒绝" value={String(stats.rejected)} hint="不会参与后续应用" icon={XCircle} />
@@ -244,7 +254,7 @@ export default function OntologySuggestionsPage() {
           <CardContent className="space-y-3 p-4">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Database className="h-4 w-4 text-muted-foreground" />
-              分析上下文
+              分析数据源
             </div>
             <Select value={dsId} onValueChange={setDsId}>
               <SelectTrigger className="w-full bg-background border-[var(--border)]">

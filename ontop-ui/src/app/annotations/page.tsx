@@ -18,7 +18,13 @@ import {
   SelectValue,
 } from '@/components/ui/select';
 import { AnnotationReviewPanel } from '@/components/annotation-review-panel';
-import { annotations, datasources, type AnnotationStats, type DataSource } from '@/lib/api';
+import {
+  annotations,
+  datasources,
+  endpointRegistry,
+  type AnnotationStats,
+  type DataSource,
+} from '@/lib/api';
 
 function StatCard({
   title,
@@ -55,10 +61,17 @@ export default function AnnotationsPage() {
   const [statsLoading, setStatsLoading] = useState(false);
 
   useEffect(() => {
-    datasources.list()
-      .then(list => {
+    Promise.all([datasources.list(), endpointRegistry.current()])
+      .then(([list, current]) => {
         setDsList(list);
-        if (list.length > 0) setDsId(list[0].id);
+
+        const currentDsId = 'ds_id' in current ? current.ds_id : '';
+        const initialDsId =
+          (currentDsId && list.some((item) => item.id === currentDsId) && currentDsId) ||
+          list[0]?.id ||
+          '';
+
+        setDsId(initialDsId);
       })
       .catch(e => toast.error('获取数据源失败: ' + e.message))
       .finally(() => setLoading(false));
@@ -98,7 +111,7 @@ export default function AnnotationsPage() {
         </div>
         <div className="flex flex-wrap items-center gap-2">
           <Badge variant="outline" className="border-primary/30 bg-primary/5 text-primary">
-            当前数据源: {selectedDs?.name ?? '未选择'}
+            当前激活数据源: {selectedDs?.name ?? '未选择'}
           </Badge>
           <Badge variant="outline" className="border-border/70 bg-card/70">
             Host: {hostLabel}
@@ -113,9 +126,9 @@ export default function AnnotationsPage() {
 
       <div className="grid gap-4 md:grid-cols-2 xl:grid-cols-4">
         <StatCard
-          title="当前数据源"
+          title="当前激活数据源"
           value={selectedDs?.name ?? '未选择'}
-          hint={selectedDs ? '当前审核上下文' : '选择后加载待审核标注'}
+          hint={selectedDs ? '当前端点审核上下文' : '选择后加载待审核标注'}
           icon={Database}
         />
         <StatCard
@@ -133,7 +146,7 @@ export default function AnnotationsPage() {
         <StatCard
           title="合并候选"
           value={statsLoading ? '...' : String(stats.total)}
-          hint="当前数据源累计标注总数"
+          hint="当前审核数据源累计标注总数"
           icon={GitMerge}
         />
       </div>
@@ -152,7 +165,7 @@ export default function AnnotationsPage() {
           <CardContent className="space-y-3 p-4">
             <div className="flex items-center gap-2 text-sm font-medium text-foreground">
               <Database className="h-4 w-4 text-muted-foreground" />
-              审核上下文
+              审核数据源
             </div>
             <Select value={dsId} onValueChange={setDsId} disabled={loading}>
               <SelectTrigger className="w-full bg-background border-[var(--border)]">
