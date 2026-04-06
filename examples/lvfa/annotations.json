@@ -1,0 +1,1433 @@
+[
+    {
+        "entity_uri": ":account",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4e3b\u8d26\u6237",
+        "comment": "\u7528\u6237\u5728\u7cfb\u7edf\u4e2d\u6ce8\u518c\u5e76\u7528\u4e8e\u7ba1\u7406\u4e1a\u52a1\u7684\u4e3b\u8d26\u53f7\u3002",
+        "source": "human",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":account",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Account",
+        "comment": "",
+        "source": "human",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":bill",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u8d26\u5355",
+        "comment": "\u6839\u636e\u4e1a\u52a1\u5468\u671f\u751f\u6210\u7684\u8d39\u7528\u7ed3\u7b97\u5355\u636e\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":bill",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Bill",
+        "comment": "A fee settlement document generated based on a business cycle.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":business_class",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4e1a\u52a1\u7c7b\u578b",
+        "comment": "\u5b9a\u4e49\u4e1a\u52a1\u670d\u52a1\u6216\u4ea7\u54c1\u7684\u5206\u7c7b\u6807\u51c6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":business_class",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Business Class",
+        "comment": "The classification standard defining business services or products.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":contract",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u5408\u540c",
+        "comment": "\u5ba2\u6237\u4e0e\u516c\u53f8\u4e4b\u95f4\u7b7e\u8ba2\u7684\u5177\u6709\u6cd5\u5f8b\u6548\u529b\u7684\u534f\u8bae\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":contract",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Contract",
+        "comment": "A legally binding agreement between a customer and the company.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":cost_allocation",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u6210\u672c\u5206\u644a",
+        "comment": "\u5c06\u603b\u6210\u672c\u6309\u89c4\u5219\u5206\u914d\u5230\u5177\u4f53\u5bf9\u8c61\u7684\u8fc7\u7a0b\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":cost_allocation",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Cost Allocation",
+        "comment": "The process of distributing total costs to specific objects based on rules.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":customer",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u5ba2\u6237",
+        "comment": "\u4f7f\u7528\u516c\u53f8\u670d\u52a1\u7684\u6700\u7ec8\u7528\u6237\u6216\u7ec4\u7ec7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":customer",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Customer",
+        "comment": "The end user or organization using the company's services.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":hist_payment",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u5386\u53f2\u652f\u4ed8",
+        "comment": "\u8bb0\u5f55\u8fc7\u5f80\u53d1\u751f\u7684\u8d44\u91d1\u652f\u4ed8\u6d41\u6c34\u4fe1\u606f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":hist_payment",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Historical Payment",
+        "comment": "Records of past financial payment transactions.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":hist_work_order",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u5386\u53f2\u5de5\u5355",
+        "comment": "\u5df2\u7ed3\u675f\u6216\u5df2\u5f52\u6863\u7684\u5386\u53f2\u670d\u52a1\u5de5\u5355\u8bb0\u5f55\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":hist_work_order",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Historical Work Order",
+        "comment": "Records of historical service work orders that are closed or archived.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":meter",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u8ba1\u91cf\u8868",
+        "comment": "\u7528\u4e8e\u6d4b\u91cf\u8d44\u6e90\u6d88\u8017\u91cf\u7684\u7269\u7406\u8bbe\u5907\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":meter",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Meter",
+        "comment": "Physical equipment used to measure resource consumption.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":parking_space",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u505c\u8f66\u4f4d",
+        "comment": "\u7528\u4e8e\u505c\u653e\u8f66\u8f86\u7684\u56fa\u5b9a\u4f4d\u7f6e\u8d44\u6e90\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":parking_space",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Parking Space",
+        "comment": "A fixed resource location for parking vehicles.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":payment",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u652f\u4ed8",
+        "comment": "\u5f53\u524d\u6b63\u5728\u5904\u7406\u6216\u5df2\u5b8c\u6210\u7684\u8d44\u91d1\u652f\u4ed8\u884c\u4e3a\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":payment",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Payment",
+        "comment": "The current or completed financial payment action.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":person",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4eba\u5458",
+        "comment": "\u7cfb\u7edf\u4e2d\u7684\u81ea\u7136\u4eba\u7528\u6237\u6216\u5458\u5de5\u4fe1\u606f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":person",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Person",
+        "comment": "Information of natural persons or employees within the system.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":property_project",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u7269\u4e1a\u9879\u76ee",
+        "comment": "\u5305\u542b\u591a\u4e2a\u697c\u5b87\u6216\u533a\u57df\u7684\u5927\u578b\u7269\u4e1a\u96c6\u5408\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":property_project",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Property Project",
+        "comment": "A large-scale property complex containing multiple buildings or areas.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":space_unit",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u7a7a\u95f4\u5355\u5143",
+        "comment": "\u53ef\u79df\u8d41\u6216\u7ba1\u7406\u7684\u6700\u5c0f\u7a7a\u95f4\u8d44\u6e90\u5757\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":space_unit",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Space Unit",
+        "comment": "The smallest unit of space resource that can be leased or managed.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":subscription",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u8ba2\u9605",
+        "comment": "\u7528\u6237\u5bf9\u67d0\u9879\u670d\u52a1\u6216\u8d44\u6e90\u7684\u8ba2\u8d2d\u5173\u7cfb\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":subscription",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Subscription",
+        "comment": "The ordering relationship of a user for a specific service or resource.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_export",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4e34\u65f6\u5bfc\u51fa",
+        "comment": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u5bfc\u51fa\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_export",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Temporary Export",
+        "comment": "Records of temporary data export tasks initiated by users.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_import",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4e34\u65f6\u5bfc\u5165",
+        "comment": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u5bfc\u5165\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_import",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Temporary Import",
+        "comment": "Records of temporary data import tasks initiated by users.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_transform",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u4e34\u65f6\u8f6c\u6362",
+        "comment": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u683c\u5f0f\u8f6c\u6362\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":tmp_transform",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Temporary Transform",
+        "comment": "Records of temporary data format transformation tasks initiated by users.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":work_order",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u5de5\u5355",
+        "comment": "\u8bb0\u5f55\u670d\u52a1\u8bf7\u6c42\u3001\u7ef4\u4fee\u6216\u5904\u7406\u6d41\u7a0b\u7684\u5de5\u5355\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": ":work_order",
+        "entity_kind": "class",
+        "lang": "en",
+        "label": "Work Order",
+        "comment": "Work orders recording service requests, repairs, or processing workflows.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "account_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8d26\u6237ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u8d26\u6237\u7684\u6570\u5b57\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "account_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Account ID",
+        "comment": "The unique numeric identifier for an account.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "account_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8d26\u6237\u72b6\u6001",
+        "comment": "\u8d26\u6237\u5f53\u524d\u7684\u542f\u7528\u6216\u505c\u7528\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "account_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Account Status",
+        "comment": "The current active or inactive status of the account.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "accounting_mode",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba1\u8d39\u6a21\u5f0f",
+        "comment": "\u5b9a\u4e49\u8d39\u7528\u8ba1\u7b97\u548c\u8bb0\u5f55\u7684\u5177\u4f53\u89c4\u5219\u65b9\u5f0f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "accounting_mode",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Accounting Mode",
+        "comment": "Defines the specific rules for calculating and recording fees.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "alloc_amount",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5206\u644a\u91d1\u989d",
+        "comment": "\u6309\u6bd4\u4f8b\u5206\u644a\u5230\u5404\u5b9e\u4f53\u7684\u8d39\u7528\u91d1\u989d\u3002",
+        "source": "llm",
+        "status": "rejected"
+    },
+    {
+        "entity_uri": "alloc_amount",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Allocation Amount",
+        "comment": "The amount of fees allocated to each entity proportionally.",
+        "source": "llm",
+        "status": "rejected"
+    },
+    {
+        "entity_uri": "alloc_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5206\u644aID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u8d39\u7528\u5206\u644a\u8bb0\u5f55\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "alloc_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Allocation ID",
+        "comment": "Unique identifier for a fee allocation record.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "alloc_period",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5206\u644a\u5468\u671f",
+        "comment": "\u8d39\u7528\u5206\u644a\u6240\u8986\u76d6\u7684\u65f6\u95f4\u5468\u671f\u8303\u56f4\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "alloc_period",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Allocation Period",
+        "comment": "The time period covered by the fee allocation.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_balance",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u91d1\u989d\u4f59\u989d",
+        "comment": "\u8d26\u6237\u4e2d\u5177\u4f53\u7684\u8d27\u5e01\u91d1\u989d\u4f59\u989d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_balance",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Amount Balance",
+        "comment": "The specific monetary balance in the account.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_due",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5f85\u4ed8\u91d1\u989d",
+        "comment": "\u5f53\u524d\u9700\u8981\u652f\u4ed8\u7684\u603b\u91d1\u989d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_due",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Amount Due",
+        "comment": "The total amount currently required to be paid.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_paid",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5df2\u4ed8\u91d1\u989d",
+        "comment": "\u5df2\u7ecf\u6210\u529f\u652f\u4ed8\u7684\u91d1\u989d\u603b\u6570\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "amount_paid",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Amount Paid",
+        "comment": "The total amount of money successfully paid.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "balance",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u4f59\u989d",
+        "comment": "\u8d26\u6237\u5f53\u524d\u7684\u5269\u4f59\u53ef\u7528\u91d1\u989d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "balance",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Balance",
+        "comment": "The remaining available amount in the account.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bc_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "BC\u7f16\u53f7",
+        "comment": "\u4e1a\u52a1\u7ec4\u4ef6\u6216\u4e1a\u52a1\u4e2d\u5fc3\u7684\u552f\u4e00\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bc_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "BC ID",
+        "comment": "Unique identifier for a business component or center.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bill",
+        "entity_kind": "class",
+        "lang": "zh",
+        "label": "\u7269\u4e1a\u8d26\u5355",
+        "comment": "\u8bb0\u5f55\u79df\u6237\u6bcf\u6708\u7684\u7269\u4e1a\u8d39\u3001\u6c34\u7535\u8d39\u8d26\u5355\u6c47\u603b",
+        "source": "human",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bill_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8d26\u5355ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u8d26\u5355\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bill_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Bill ID",
+        "comment": "The unique number identifying the bill.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bill_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8d26\u5355\u72b6\u6001",
+        "comment": "\u8d26\u5355\u5f53\u524d\u7684\u751f\u6210\u6216\u7ed3\u7b97\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "bill_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Bill Status",
+        "comment": "The current generation or settlement status of the bill.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "billing_area",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba1\u8d39\u533a\u57df",
+        "comment": "\u7528\u4e8e\u8ba1\u8d39\u5212\u5206\u7684\u4e1a\u52a1\u533a\u57df\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "billing_area",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Billing Area",
+        "comment": "Business area used for billing purposes.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "billing_base_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba1\u8d39\u57fa\u6570\u7c7b\u578b",
+        "comment": "\u5b9a\u4e49\u8ba1\u8d39\u8ba1\u7b97\u6240\u4f9d\u636e\u7684\u57fa\u7840\u8d44\u6e90\u6216\u91cf\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "billing_base_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Billing Base Type",
+        "comment": "Defines the base resource or quantity for billing calculation.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "building_area",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5efa\u7b51\u533a\u57df",
+        "comment": "\u5efa\u7b51\u7269\u5185\u7684\u5177\u4f53\u533a\u57df\u5212\u5206\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "building_area",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Building Area",
+        "comment": "Specific area division within the building.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_end",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5408\u540c\u7ed3\u675f",
+        "comment": "\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u89c4\u5b9a\u7684\u7ec8\u6b62\u65e5\u671f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_end",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Contract End Date",
+        "comment": "The termination date specified in the business contract.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5408\u540cID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Contract ID",
+        "comment": "Unique identifier for a business contract or agreement.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_start",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5408\u540c\u5f00\u59cb",
+        "comment": "\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u89c4\u5b9a\u7684\u751f\u6548\u65e5\u671f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "contract_start",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Contract Start Date",
+        "comment": "The effective date specified in the business contract.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "cost_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u6210\u672c\u7c7b\u578b",
+        "comment": "\u533a\u5206\u6210\u672c\u6216\u8d39\u7528\u7684\u7c7b\u522b\u5c5e\u6027\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "cost_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Cost Type",
+        "comment": "The category attribute distinguishing costs or fees.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "customer_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5ba2\u6237\u72b6\u6001",
+        "comment": "\u63cf\u8ff0\u5ba2\u6237\u5f53\u524d\u7684\u4e1a\u52a1\u6216\u8d26\u6237\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "customer_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Customer Status",
+        "comment": "Describes the current business or account status of the customer.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "global_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5168\u5c40ID",
+        "comment": "\u8de8\u7cfb\u7edf\u6216\u8de8\u4e1a\u52a1\u57df\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "global_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Global ID",
+        "comment": "A unique identifier valid across systems or business domains.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "id_number",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8bc1\u4ef6\u53f7",
+        "comment": "\u5ba2\u6237\u6301\u6709\u7684\u6709\u6548\u8eab\u4efd\u8bc1\u660e\u53f7\u7801\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "id_number",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "ID Number",
+        "comment": "The valid identification number held by the customer.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "legal_name",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u6cd5\u4eba\u540d\u79f0",
+        "comment": "\u5ba2\u6237\u6216\u5b9e\u4f53\u7684\u6cd5\u5b9a\u6ce8\u518c\u540d\u79f0\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "legal_name",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Legal Name",
+        "comment": "The legal registered name of the customer or entity.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "match_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5339\u914d\u72b6\u6001",
+        "comment": "\u8868\u793a\u6570\u636e\u6216\u8bb0\u5f55\u5339\u914d\u6821\u9a8c\u7684\u7ed3\u679c\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "match_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Match Status",
+        "comment": "The result status of data or record matching validation.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "meter_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8868\u8ba1ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u8ba1\u91cf\u8bbe\u5907\u6216\u4eea\u8868\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "meter_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Meter ID",
+        "comment": "Unique identifier for the metering device or gauge.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "meter_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8868\u8ba1\u7c7b\u578b",
+        "comment": "\u8ba1\u91cf\u8bbe\u5907\u6216\u4eea\u8868\u7684\u6280\u672f\u89c4\u683c\u5206\u7c7b\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "meter_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Meter Type",
+        "comment": "The technical specification classification of the metering device.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "order_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u5355ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u4e1a\u52a1\u8ba2\u5355\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "order_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Order ID",
+        "comment": "Unique identifier for a business order.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "order_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u5355\u7c7b\u578b",
+        "comment": "\u533a\u5206\u8ba2\u5355\u4e1a\u52a1\u79cd\u7c7b\u7684\u5206\u7c7b\u5c5e\u6027\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "order_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Order Type",
+        "comment": "The category attribute distinguishing the type of order.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "parking_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8f66\u4f4dID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u505c\u8f66\u4f4d\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "parking_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Parking ID",
+        "comment": "Unique identifier for a parking space.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "parking_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8f66\u4f4d\u7c7b\u578b",
+        "comment": "\u8f66\u4f4d\u6240\u5c5e\u7684\u7c7b\u578b\u5206\u7c7b\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "parking_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Parking Type",
+        "comment": "Category classification of the parking space.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_amount",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u652f\u4ed8\u91d1\u989d",
+        "comment": "\u5b9e\u9645\u652f\u4ed8\u7ed9\u670d\u52a1\u63d0\u4f9b\u65b9\u7684\u8d44\u91d1\u6570\u989d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_amount",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Payment Amount",
+        "comment": "The actual amount of funds paid to the service provider.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_channel",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u652f\u4ed8\u6e20\u9053",
+        "comment": "\u7528\u6237\u8fdb\u884c\u8d44\u91d1\u652f\u4ed8\u7684\u5177\u4f53\u901a\u9053\u6216\u65b9\u5f0f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_channel",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Payment Channel",
+        "comment": "The specific channel or method used for fund payment.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u652f\u4ed8ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u4e00\u7b14\u652f\u4ed8\u4ea4\u6613\u6d41\u6c34\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Payment ID",
+        "comment": "Unique identifier for a payment transaction record.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_time",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u652f\u4ed8\u65f6\u95f4",
+        "comment": "\u8d44\u91d1\u5b9e\u9645\u5b8c\u6210\u652f\u4ed8\u64cd\u4f5c\u7684\u65f6\u95f4\u6233\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "pay_time",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Payment Time",
+        "comment": "The timestamp when the funds were actually paid.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "period",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5468\u671f",
+        "comment": "\u4e1a\u52a1\u53d1\u751f\u7684\u65f6\u95f4\u8303\u56f4\u6216\u7edf\u8ba1\u5468\u671f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "period",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Period",
+        "comment": "The time range or statistical cycle of business occurrence.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "person_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u4eba\u5458ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u4eba\u5458\u6216\u7528\u6237\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "person_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Person ID",
+        "comment": "Unique identifier for a person or user.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "person_name",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u4eba\u5458\u59d3\u540d",
+        "comment": "\u4eba\u5458\u6216\u7528\u6237\u7684\u771f\u5b9e\u59d3\u540d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "person_name",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Person Name",
+        "comment": "Real name of the person or user.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u9879\u76eeID",
+        "comment": "\u5173\u8054\u7684\u4e1a\u52a1\u9879\u76ee\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Project ID",
+        "comment": "The associated business project number.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_name",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u9879\u76ee\u540d\u79f0",
+        "comment": "\u6b63\u5728\u8fdb\u884c\u7684\u9879\u76ee\u540d\u79f0\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_name",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Project Name",
+        "comment": "Name of the ongoing project.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u9879\u76ee\u72b6\u6001",
+        "comment": "\u9879\u76ee\u5f53\u524d\u7684\u8fd0\u884c\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "project_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Project Status",
+        "comment": "Current operational status of the project.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-account_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u8d26\u6237\u5f15\u7528ID",
+        "comment": "\u5173\u8054\u7684\u8d26\u6237\u552f\u4e00\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-account_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Account Reference ID",
+        "comment": "Unique identifier of the associated account.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-bill_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u8d26\u5355\u5f15\u7528ID",
+        "comment": "\u5173\u8054\u7684\u8d26\u5355\u552f\u4e00\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-bill_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Bill Reference ID",
+        "comment": "Unique identifier of the associated bill.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-global_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u5168\u5c40\u5f15\u7528ID",
+        "comment": "\u8de8\u7cfb\u7edf\u7684\u5168\u5c40\u552f\u4e00\u5f15\u7528\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-global_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Global Reference ID",
+        "comment": "Global unique reference identifier across systems.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-project_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u9879\u76ee\u5f15\u7528ID",
+        "comment": "\u5173\u8054\u7684\u9879\u76ee\u552f\u4e00\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-project_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Project Reference ID",
+        "comment": "Unique identifier of the associated project.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-space_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u7a7a\u95f4\u5f15\u7528ID",
+        "comment": "\u5173\u8054\u7684\u7a7a\u95f4\u552f\u4e00\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-space_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Space Reference ID",
+        "comment": "Unique identifier of the associated space.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-subscr_id",
+        "entity_kind": "object_property",
+        "lang": "zh",
+        "label": "\u8ba2\u9605\u5f15\u7528ID",
+        "comment": "\u5173\u8054\u7684\u8ba2\u9605\u552f\u4e00\u6807\u8bc6\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "ref-subscr_id",
+        "entity_kind": "object_property",
+        "lang": "en",
+        "label": "Subscription Reference ID",
+        "comment": "Unique identifier of the associated subscription.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "region",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u533a\u57df",
+        "comment": "\u6240\u5c5e\u7684\u5730\u7406\u6216\u4e1a\u52a1\u533a\u57df\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "region",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Region",
+        "comment": "Geographical or business region of the entity.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "service_fee",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u670d\u52a1\u8d39",
+        "comment": "\u4e3a\u63d0\u4f9b\u7279\u5b9a\u670d\u52a1\u800c\u6536\u53d6\u7684\u8d39\u7528\u91d1\u989d\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "service_fee",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Service Fee",
+        "comment": "The fee amount charged for providing specific services.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "settlement_anchor",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u7ed3\u7b97\u951a\u70b9",
+        "comment": "\u7528\u4e8e\u7ed3\u7b97\u5bf9\u8d26\u7684\u57fa\u51c6\u65f6\u95f4\u6216\u5173\u952e\u8282\u70b9\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "settlement_anchor",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Settlement Anchor",
+        "comment": "The benchmark time or key node used for settlement reconciliation.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "settlement_frequency",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u7ed3\u7b97\u9891\u7387",
+        "comment": "\u89c4\u5b9a\u8d39\u7528\u7ed3\u7b97\u53d1\u751f\u7684\u5468\u671f\u6027\u95f4\u9694\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "settlement_frequency",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Settlement Frequency",
+        "comment": "Specifies the periodic interval for fee settlement.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "source_flag",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u6765\u6e90\u6807\u8bc6",
+        "comment": "\u6807\u8bc6\u6570\u636e\u6216\u4e1a\u52a1\u8bb0\u5f55\u7684\u6765\u6e90\u6e20\u9053\u6216\u7cfb\u7edf\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "source_flag",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Source Flag",
+        "comment": "Indicates the source channel or system of data or business records.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "space_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u7a7a\u95f4ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u7269\u7406\u7a7a\u95f4\u6216\u5730\u7406\u4f4d\u7f6e\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "space_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Space ID",
+        "comment": "Unique identifier for the physical space or geographic location.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_end",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u9605\u7ed3\u675f",
+        "comment": "\u8ba2\u9605\u670d\u52a1\u7684\u622a\u6b62\u65e5\u671f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_end",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Subscription End Date",
+        "comment": "The end date of the subscription service.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_id",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u9605ID",
+        "comment": "\u552f\u4e00\u6807\u8bc6\u7528\u6237\u8ba2\u9605\u670d\u52a1\u7684\u7f16\u53f7\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_id",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Subscription ID",
+        "comment": "Unique identifier for a user's subscription service.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_start",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u9605\u5f00\u59cb",
+        "comment": "\u8ba2\u9605\u670d\u52a1\u7684\u5f00\u59cb\u65e5\u671f\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_start",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Subscription Start Date",
+        "comment": "The start date of the subscription service.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_status",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u8ba2\u9605\u72b6\u6001",
+        "comment": "\u8ba2\u9605\u670d\u52a1\u7684\u5f53\u524d\u72b6\u6001\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "subscr_status",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Subscription Status",
+        "comment": "Current status of the subscription service.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "tax_rate",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u7a0e\u7387",
+        "comment": "\u8ba1\u7b97\u7a0e\u8d39\u65f6\u9002\u7528\u7684\u767e\u5206\u6bd4\u6bd4\u7387\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "tax_rate",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Tax Rate",
+        "comment": "The percentage rate applied for tax calculation.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "unit_price",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5355\u4ef7",
+        "comment": "\u5355\u4f4d\u6570\u91cf\u8d44\u6e90\u6216\u670d\u52a1\u7684\u8ba1\u8d39\u4ef7\u683c\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "unit_price",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Unit Price",
+        "comment": "The pricing per unit of resource or service.",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "work_type",
+        "entity_kind": "data_property",
+        "lang": "zh",
+        "label": "\u5de5\u4f5c\u7c7b\u578b",
+        "comment": "\u4eba\u5458\u4ece\u4e8b\u7684\u5de5\u4f5c\u7c7b\u522b\u3002",
+        "source": "llm",
+        "status": "accepted"
+    },
+    {
+        "entity_uri": "work_type",
+        "entity_kind": "data_property",
+        "lang": "en",
+        "label": "Work Type",
+        "comment": "Category of work performed by the person.",
+        "source": "llm",
+        "status": "accepted"
+    }
+]

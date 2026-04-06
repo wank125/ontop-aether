@@ -1,0 +1,951 @@
+@prefix : <http://example.com/mondial/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.com/mondial/> .
+
+<http://example.com/mondial/> rdf:type owl:Ontology .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.com/mondial/airport#city
+<http://example.com/mondial/airport#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#country
+<http://example.com/mondial/airport#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#elevation
+<http://example.com/mondial/airport#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#gmtoffset
+<http://example.com/mondial/airport#gmtoffset> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#iatacode
+<http://example.com/mondial/airport#iatacode> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#island
+<http://example.com/mondial/airport#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#latitude
+<http://example.com/mondial/airport#latitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#longitude
+<http://example.com/mondial/airport#longitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#name
+<http://example.com/mondial/airport#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#province
+<http://example.com/mondial/airport#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#country1
+<http://example.com/mondial/borders#country1> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#country2
+<http://example.com/mondial/borders#country2> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#length
+<http://example.com/mondial/borders#length> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#country
+<http://example.com/mondial/city#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#elevation
+<http://example.com/mondial/city#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#latitude
+<http://example.com/mondial/city#latitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#longitude
+<http://example.com/mondial/city#longitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#name
+<http://example.com/mondial/city#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#population
+<http://example.com/mondial/city#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#province
+<http://example.com/mondial/city#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#city
+<http://example.com/mondial/citylocalname#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#country
+<http://example.com/mondial/citylocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#localname
+<http://example.com/mondial/citylocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#province
+<http://example.com/mondial/citylocalname#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#city
+<http://example.com/mondial/cityothername#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#country
+<http://example.com/mondial/cityothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#othername
+<http://example.com/mondial/cityothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#province
+<http://example.com/mondial/cityothername#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#city
+<http://example.com/mondial/citypops#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#country
+<http://example.com/mondial/citypops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#population
+<http://example.com/mondial/citypops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#province
+<http://example.com/mondial/citypops#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#year
+<http://example.com/mondial/citypops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/continent#area
+<http://example.com/mondial/continent#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/continent#name
+<http://example.com/mondial/continent#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#area
+<http://example.com/mondial/country#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#capital
+<http://example.com/mondial/country#capital> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#code
+<http://example.com/mondial/country#code> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#name
+<http://example.com/mondial/country#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#population
+<http://example.com/mondial/country#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#province
+<http://example.com/mondial/country#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrylocalname#country
+<http://example.com/mondial/countrylocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrylocalname#localname
+<http://example.com/mondial/countrylocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countryothername#country
+<http://example.com/mondial/countryothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countryothername#othername
+<http://example.com/mondial/countryothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#country
+<http://example.com/mondial/countrypops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#population
+<http://example.com/mondial/countrypops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#year
+<http://example.com/mondial/countrypops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#area
+<http://example.com/mondial/desert#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#coordinates
+<http://example.com/mondial/desert#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#name
+<http://example.com/mondial/desert#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#agriculture
+<http://example.com/mondial/economy#agriculture> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#country
+<http://example.com/mondial/economy#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#gdp
+<http://example.com/mondial/economy#gdp> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#industry
+<http://example.com/mondial/economy#industry> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#inflation
+<http://example.com/mondial/economy#inflation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#service
+<http://example.com/mondial/economy#service> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#unemployment
+<http://example.com/mondial/economy#unemployment> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#continent
+<http://example.com/mondial/encompasses#continent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#country
+<http://example.com/mondial/encompasses#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#percentage
+<http://example.com/mondial/encompasses#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#country
+<http://example.com/mondial/ethnicgroup#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#name
+<http://example.com/mondial/ethnicgroup#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#percentage
+<http://example.com/mondial/ethnicgroup#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#country
+<http://example.com/mondial/geo_desert#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#desert
+<http://example.com/mondial/geo_desert#desert> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#province
+<http://example.com/mondial/geo_desert#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#country
+<http://example.com/mondial/geo_estuary#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#province
+<http://example.com/mondial/geo_estuary#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#river
+<http://example.com/mondial/geo_estuary#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#country
+<http://example.com/mondial/geo_island#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#island
+<http://example.com/mondial/geo_island#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#province
+<http://example.com/mondial/geo_island#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#country
+<http://example.com/mondial/geo_lake#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#lake
+<http://example.com/mondial/geo_lake#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#province
+<http://example.com/mondial/geo_lake#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#country
+<http://example.com/mondial/geo_mountain#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#mountain
+<http://example.com/mondial/geo_mountain#mountain> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#province
+<http://example.com/mondial/geo_mountain#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#country
+<http://example.com/mondial/geo_river#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#province
+<http://example.com/mondial/geo_river#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#river
+<http://example.com/mondial/geo_river#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#country
+<http://example.com/mondial/geo_sea#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#province
+<http://example.com/mondial/geo_sea#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#sea
+<http://example.com/mondial/geo_sea#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#country
+<http://example.com/mondial/geo_source#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#province
+<http://example.com/mondial/geo_source#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#river
+<http://example.com/mondial/geo_source#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#area
+<http://example.com/mondial/island#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#coordinates
+<http://example.com/mondial/island#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#elevation
+<http://example.com/mondial/island#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#islands
+<http://example.com/mondial/island#islands> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#name
+<http://example.com/mondial/island#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#type
+<http://example.com/mondial/island#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#island
+<http://example.com/mondial/islandin#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#lake
+<http://example.com/mondial/islandin#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#river
+<http://example.com/mondial/islandin#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#sea
+<http://example.com/mondial/islandin#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#country
+<http://example.com/mondial/ismember#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#organization
+<http://example.com/mondial/ismember#organization> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#type
+<http://example.com/mondial/ismember#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#area
+<http://example.com/mondial/lake#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#coordinates
+<http://example.com/mondial/lake#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#depth
+<http://example.com/mondial/lake#depth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#elevation
+<http://example.com/mondial/lake#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#height
+<http://example.com/mondial/lake#height> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#name
+<http://example.com/mondial/lake#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#river
+<http://example.com/mondial/lake#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#type
+<http://example.com/mondial/lake#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lakeonisland#island
+<http://example.com/mondial/lakeonisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lakeonisland#lake
+<http://example.com/mondial/lakeonisland#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/language#name
+<http://example.com/mondial/language#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/language#superlanguage
+<http://example.com/mondial/language#superlanguage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#city
+<http://example.com/mondial/located#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#country
+<http://example.com/mondial/located#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#lake
+<http://example.com/mondial/located#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#province
+<http://example.com/mondial/located#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#river
+<http://example.com/mondial/located#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#sea
+<http://example.com/mondial/located#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#city
+<http://example.com/mondial/locatedon#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#country
+<http://example.com/mondial/locatedon#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#island
+<http://example.com/mondial/locatedon#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#province
+<http://example.com/mondial/locatedon#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mergeswith#sea1
+<http://example.com/mondial/mergeswith#sea1> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mergeswith#sea2
+<http://example.com/mondial/mergeswith#sea2> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#coordinates
+<http://example.com/mondial/mountain#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#elevation
+<http://example.com/mondial/mountain#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#mountains
+<http://example.com/mondial/mountain#mountains> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#name
+<http://example.com/mondial/mountain#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#type
+<http://example.com/mondial/mountain#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountainonisland#island
+<http://example.com/mondial/mountainonisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountainonisland#mountain
+<http://example.com/mondial/mountainonisland#mountain> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#abbreviation
+<http://example.com/mondial/organization#abbreviation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#city
+<http://example.com/mondial/organization#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#country
+<http://example.com/mondial/organization#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#established
+<http://example.com/mondial/organization#established> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#name
+<http://example.com/mondial/organization#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#province
+<http://example.com/mondial/organization#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#country
+<http://example.com/mondial/politics#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#dependent
+<http://example.com/mondial/politics#dependent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#government
+<http://example.com/mondial/politics#government> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#independence
+<http://example.com/mondial/politics#independence> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#wasdependent
+<http://example.com/mondial/politics#wasdependent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#country
+<http://example.com/mondial/population#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#infant_mortality
+<http://example.com/mondial/population#infant_mortality> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#population_growth
+<http://example.com/mondial/population#population_growth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#area
+<http://example.com/mondial/province#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#capital
+<http://example.com/mondial/province#capital> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#capprov
+<http://example.com/mondial/province#capprov> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#country
+<http://example.com/mondial/province#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#name
+<http://example.com/mondial/province#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#population
+<http://example.com/mondial/province#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#country
+<http://example.com/mondial/provincelocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#localname
+<http://example.com/mondial/provincelocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#province
+<http://example.com/mondial/provincelocalname#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#country
+<http://example.com/mondial/provinceothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#othername
+<http://example.com/mondial/provinceothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#province
+<http://example.com/mondial/provinceothername#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#country
+<http://example.com/mondial/provpops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#population
+<http://example.com/mondial/provpops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#province
+<http://example.com/mondial/provpops#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#year
+<http://example.com/mondial/provpops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#country
+<http://example.com/mondial/religion#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#name
+<http://example.com/mondial/religion#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#percentage
+<http://example.com/mondial/religion#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#area
+<http://example.com/mondial/river#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#estuary
+<http://example.com/mondial/river#estuary> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#estuaryelevation
+<http://example.com/mondial/river#estuaryelevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#lake
+<http://example.com/mondial/river#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#length
+<http://example.com/mondial/river#length> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#mountains
+<http://example.com/mondial/river#mountains> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#name
+<http://example.com/mondial/river#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#river
+<http://example.com/mondial/river#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#sea
+<http://example.com/mondial/river#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#source
+<http://example.com/mondial/river#source> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#sourceelevation
+<http://example.com/mondial/river#sourceelevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riveronisland#island
+<http://example.com/mondial/riveronisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riveronisland#river
+<http://example.com/mondial/riveronisland#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riverthrough#lake
+<http://example.com/mondial/riverthrough#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riverthrough#river
+<http://example.com/mondial/riverthrough#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#area
+<http://example.com/mondial/sea#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#depth
+<http://example.com/mondial/sea#depth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#name
+<http://example.com/mondial/sea#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#country
+<http://example.com/mondial/spoken#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#language
+<http://example.com/mondial/spoken#language> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#percentage
+<http://example.com/mondial/spoken#percentage> rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.com/mondial/airport
+:airport rdf:type owl:Class .
+
+
+###  http://example.com/mondial/borders
+:borders rdf:type owl:Class .
+
+
+###  http://example.com/mondial/city
+:city rdf:type owl:Class .
+
+
+###  http://example.com/mondial/citylocalname
+:citylocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/cityothername
+:cityothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/citypops
+:citypops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/continent
+:continent rdf:type owl:Class .
+
+
+###  http://example.com/mondial/country
+:country rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countrylocalname
+:countrylocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countryothername
+:countryothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countrypops
+:countrypops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/desert
+:desert rdf:type owl:Class .
+
+
+###  http://example.com/mondial/economy
+:economy rdf:type owl:Class .
+
+
+###  http://example.com/mondial/encompasses
+:encompasses rdf:type owl:Class .
+
+
+###  http://example.com/mondial/ethnicgroup
+:ethnicgroup rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_desert
+:geo_desert rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_estuary
+:geo_estuary rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_island
+:geo_island rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_lake
+:geo_lake rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_mountain
+:geo_mountain rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_river
+:geo_river rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_sea
+:geo_sea rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_source
+:geo_source rdf:type owl:Class .
+
+
+###  http://example.com/mondial/island
+:island rdf:type owl:Class .
+
+
+###  http://example.com/mondial/islandin
+:islandin rdf:type owl:Class .
+
+
+###  http://example.com/mondial/ismember
+:ismember rdf:type owl:Class .
+
+
+###  http://example.com/mondial/lake
+:lake rdf:type owl:Class .
+
+
+###  http://example.com/mondial/lakeonisland
+:lakeonisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/language
+:language rdf:type owl:Class .
+
+
+###  http://example.com/mondial/located
+:located rdf:type owl:Class .
+
+
+###  http://example.com/mondial/locatedon
+:locatedon rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mergeswith
+:mergeswith rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mountain
+:mountain rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mountainonisland
+:mountainonisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/organization
+:organization rdf:type owl:Class .
+
+
+###  http://example.com/mondial/politics
+:politics rdf:type owl:Class .
+
+
+###  http://example.com/mondial/population
+:population rdf:type owl:Class .
+
+
+###  http://example.com/mondial/province
+:province rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provincelocalname
+:provincelocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provinceothername
+:provinceothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provpops
+:provpops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/religion
+:religion rdf:type owl:Class .
+
+
+###  http://example.com/mondial/river
+:river rdf:type owl:Class .
+
+
+###  http://example.com/mondial/riveronisland
+:riveronisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/riverthrough
+:riverthrough rdf:type owl:Class .
+
+
+###  http://example.com/mondial/sea
+:sea rdf:type owl:Class .
+
+
+###  http://example.com/mondial/spoken
+:spoken rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 5.5.1) https://github.com/owlcs/owlapi/

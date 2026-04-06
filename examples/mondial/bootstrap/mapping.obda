@@ -1,0 +1,197 @@
+[PrefixDeclaration]
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+owl:		http://www.w3.org/2002/07/owl#
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+
+[MappingDeclaration] @collection [[
+mappingId	MAPPING-ID1
+target		<http://example.com/mondial/country/code={code}> a <http://example.com/mondial/country> ; <http://example.com/mondial/country#name> {name}^^xsd:string ; <http://example.com/mondial/country#code> {code}^^xsd:string ; <http://example.com/mondial/country#capital> {capital}^^xsd:string ; <http://example.com/mondial/country#province> {province}^^xsd:string ; <http://example.com/mondial/country#area> {area}^^xsd:decimal ; <http://example.com/mondial/country#population> {population}^^xsd:decimal . 
+source		SELECT * FROM "country"
+
+mappingId	MAPPING-ID2
+target		<http://example.com/mondial/language/name={name}> a <http://example.com/mondial/language> ; <http://example.com/mondial/language#name> {name}^^xsd:string ; <http://example.com/mondial/language#superlanguage> {superlanguage}^^xsd:string . 
+source		SELECT * FROM "language"
+
+mappingId	MAPPING-ID3
+target		<http://example.com/mondial/provpops/country={country};province={province};year={year}> a <http://example.com/mondial/provpops> ; <http://example.com/mondial/provpops#province> {province}^^xsd:string ; <http://example.com/mondial/provpops#country> {country}^^xsd:string ; <http://example.com/mondial/provpops#year> {year}^^xsd:decimal ; <http://example.com/mondial/provpops#population> {population}^^xsd:decimal . 
+source		SELECT * FROM "provpops"
+
+mappingId	MAPPING-ID4
+target		<http://example.com/mondial/geo_estuary/province={province};country={country};river={river}> a <http://example.com/mondial/geo_estuary> ; <http://example.com/mondial/geo_estuary#river> {river}^^xsd:string ; <http://example.com/mondial/geo_estuary#country> {country}^^xsd:string ; <http://example.com/mondial/geo_estuary#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_estuary"
+
+mappingId	MAPPING-ID5
+target		<http://example.com/mondial/geo_island/province={province};country={country};island={island}> a <http://example.com/mondial/geo_island> ; <http://example.com/mondial/geo_island#island> {island}^^xsd:string ; <http://example.com/mondial/geo_island#country> {country}^^xsd:string ; <http://example.com/mondial/geo_island#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_island"
+
+mappingId	MAPPING-ID6
+target		<http://example.com/mondial/provincelocalname/country={country};province={province}> a <http://example.com/mondial/provincelocalname> ; <http://example.com/mondial/provincelocalname#province> {province}^^xsd:string ; <http://example.com/mondial/provincelocalname#country> {country}^^xsd:string ; <http://example.com/mondial/provincelocalname#localname> {localname}^^xsd:string . 
+source		SELECT * FROM "provincelocalname"
+
+mappingId	MAPPING-ID7
+target		<http://example.com/mondial/mountain/name={name}> a <http://example.com/mondial/mountain> ; <http://example.com/mondial/mountain#name> {name}^^xsd:string ; <http://example.com/mondial/mountain#mountains> {mountains}^^xsd:string ; <http://example.com/mondial/mountain#elevation> {elevation}^^xsd:decimal ; <http://example.com/mondial/mountain#type> {type}^^xsd:string ; <http://example.com/mondial/mountain#coordinates> {coordinates}^^xsd:string . 
+source		SELECT * FROM "mountain"
+
+mappingId	MAPPING-ID8
+target		<http://example.com/mondial/locatedon/city={city};province={province};country={country};island={island}> a <http://example.com/mondial/locatedon> ; <http://example.com/mondial/locatedon#city> {city}^^xsd:string ; <http://example.com/mondial/locatedon#province> {province}^^xsd:string ; <http://example.com/mondial/locatedon#country> {country}^^xsd:string ; <http://example.com/mondial/locatedon#island> {island}^^xsd:string . 
+source		SELECT * FROM "locatedon"
+
+mappingId	MAPPING-ID9
+target		<http://example.com/mondial/mergeswith/sea1={sea1};sea2={sea2}> a <http://example.com/mondial/mergeswith> ; <http://example.com/mondial/mergeswith#sea1> {sea1}^^xsd:string ; <http://example.com/mondial/mergeswith#sea2> {sea2}^^xsd:string . 
+source		SELECT * FROM "mergeswith"
+
+mappingId	MAPPING-ID10
+target		<http://example.com/mondial/province/name={name};country={country}> a <http://example.com/mondial/province> ; <http://example.com/mondial/province#name> {name}^^xsd:string ; <http://example.com/mondial/province#country> {country}^^xsd:string ; <http://example.com/mondial/province#population> {population}^^xsd:decimal ; <http://example.com/mondial/province#area> {area}^^xsd:decimal ; <http://example.com/mondial/province#capital> {capital}^^xsd:string ; <http://example.com/mondial/province#capprov> {capprov}^^xsd:string . 
+source		SELECT * FROM "province"
+
+mappingId	MAPPING-ID11
+target		<http://example.com/mondial/countryothername/country={country};othername={othername}> a <http://example.com/mondial/countryothername> ; <http://example.com/mondial/countryothername#country> {country}^^xsd:string ; <http://example.com/mondial/countryothername#othername> {othername}^^xsd:string . 
+source		SELECT * FROM "countryothername"
+
+mappingId	MAPPING-ID12
+target		<http://example.com/mondial/riveronisland/river={river};island={island}> a <http://example.com/mondial/riveronisland> ; <http://example.com/mondial/riveronisland#river> {river}^^xsd:string ; <http://example.com/mondial/riveronisland#island> {island}^^xsd:string . 
+source		SELECT * FROM "riveronisland"
+
+mappingId	MAPPING-ID13
+target		<http://example.com/mondial/mountainonisland/mountain={mountain};island={island}> a <http://example.com/mondial/mountainonisland> ; <http://example.com/mondial/mountainonisland#mountain> {mountain}^^xsd:string ; <http://example.com/mondial/mountainonisland#island> {island}^^xsd:string . 
+source		SELECT * FROM "mountainonisland"
+
+mappingId	MAPPING-ID14
+target		<http://example.com/mondial/encompasses/country={country};continent={continent}> a <http://example.com/mondial/encompasses> ; <http://example.com/mondial/encompasses#country> {country}^^xsd:string ; <http://example.com/mondial/encompasses#continent> {continent}^^xsd:string ; <http://example.com/mondial/encompasses#percentage> {percentage}^^xsd:decimal . 
+source		SELECT * FROM "encompasses"
+
+mappingId	MAPPING-ID15
+target		<http://example.com/mondial/geo_sea/province={province};country={country};sea={sea}> a <http://example.com/mondial/geo_sea> ; <http://example.com/mondial/geo_sea#sea> {sea}^^xsd:string ; <http://example.com/mondial/geo_sea#country> {country}^^xsd:string ; <http://example.com/mondial/geo_sea#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_sea"
+
+mappingId	MAPPING-ID16
+target		<http://example.com/mondial/island/name={name}> a <http://example.com/mondial/island> ; <http://example.com/mondial/island#name> {name}^^xsd:string ; <http://example.com/mondial/island#islands> {islands}^^xsd:string ; <http://example.com/mondial/island#area> {area}^^xsd:decimal ; <http://example.com/mondial/island#elevation> {elevation}^^xsd:decimal ; <http://example.com/mondial/island#type> {type}^^xsd:string ; <http://example.com/mondial/island#coordinates> {coordinates}^^xsd:string . 
+source		SELECT * FROM "island"
+
+mappingId	MAPPING-ID17
+target		<http://example.com/mondial/economy/country={country}> a <http://example.com/mondial/economy> ; <http://example.com/mondial/economy#country> {country}^^xsd:string ; <http://example.com/mondial/economy#gdp> {gdp}^^xsd:decimal ; <http://example.com/mondial/economy#agriculture> {agriculture}^^xsd:decimal ; <http://example.com/mondial/economy#service> {service}^^xsd:decimal ; <http://example.com/mondial/economy#industry> {industry}^^xsd:decimal ; <http://example.com/mondial/economy#inflation> {inflation}^^xsd:decimal ; <http://example.com/mondial/economy#unemployment> {unemployment}^^xsd:decimal . 
+source		SELECT * FROM "economy"
+
+mappingId	MAPPING-ID18
+target		<http://example.com/mondial/geo_mountain/province={province};country={country};mountain={mountain}> a <http://example.com/mondial/geo_mountain> ; <http://example.com/mondial/geo_mountain#mountain> {mountain}^^xsd:string ; <http://example.com/mondial/geo_mountain#country> {country}^^xsd:string ; <http://example.com/mondial/geo_mountain#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_mountain"
+
+mappingId	MAPPING-ID19
+target		<http://example.com/mondial/airport/iatacode={iatacode}> a <http://example.com/mondial/airport> ; <http://example.com/mondial/airport#iatacode> {iatacode}^^xsd:string ; <http://example.com/mondial/airport#name> {name}^^xsd:string ; <http://example.com/mondial/airport#country> {country}^^xsd:string ; <http://example.com/mondial/airport#city> {city}^^xsd:string ; <http://example.com/mondial/airport#province> {province}^^xsd:string ; <http://example.com/mondial/airport#island> {island}^^xsd:string ; <http://example.com/mondial/airport#latitude> {latitude}^^xsd:decimal ; <http://example.com/mondial/airport#longitude> {longitude}^^xsd:decimal ; <http://example.com/mondial/airport#elevation> {elevation}^^xsd:decimal ; <http://example.com/mondial/airport#gmtoffset> {gmtoffset}^^xsd:decimal . 
+source		SELECT * FROM "airport"
+
+mappingId	MAPPING-ID20
+target		<http://example.com/mondial/population/country={country}> a <http://example.com/mondial/population> ; <http://example.com/mondial/population#country> {country}^^xsd:string ; <http://example.com/mondial/population#population_growth> {population_growth}^^xsd:decimal ; <http://example.com/mondial/population#infant_mortality> {infant_mortality}^^xsd:decimal . 
+source		SELECT * FROM "population"
+
+mappingId	MAPPING-ID21
+target		<http://example.com/mondial/lake/name={name}> a <http://example.com/mondial/lake> ; <http://example.com/mondial/lake#name> {name}^^xsd:string ; <http://example.com/mondial/lake#river> {river}^^xsd:string ; <http://example.com/mondial/lake#area> {area}^^xsd:decimal ; <http://example.com/mondial/lake#elevation> {elevation}^^xsd:decimal ; <http://example.com/mondial/lake#depth> {depth}^^xsd:decimal ; <http://example.com/mondial/lake#height> {height}^^xsd:decimal ; <http://example.com/mondial/lake#type> {type}^^xsd:string ; <http://example.com/mondial/lake#coordinates> {coordinates}^^xsd:string . 
+source		SELECT * FROM "lake"
+
+mappingId	MAPPING-ID22
+target		<http://example.com/mondial/continent/name={name}> a <http://example.com/mondial/continent> ; <http://example.com/mondial/continent#name> {name}^^xsd:string ; <http://example.com/mondial/continent#area> {area}^^xsd:decimal . 
+source		SELECT * FROM "continent"
+
+mappingId	MAPPING-ID23
+target		<http://example.com/mondial/politics/country={country}> a <http://example.com/mondial/politics> ; <http://example.com/mondial/politics#country> {country}^^xsd:string ; <http://example.com/mondial/politics#independence> {independence}^^xsd:date ; <http://example.com/mondial/politics#wasdependent> {wasdependent}^^xsd:string ; <http://example.com/mondial/politics#dependent> {dependent}^^xsd:string ; <http://example.com/mondial/politics#government> {government}^^xsd:string . 
+source		SELECT * FROM "politics"
+
+mappingId	MAPPING-ID24
+target		<http://example.com/mondial/borders/country1={country1};country2={country2}> a <http://example.com/mondial/borders> ; <http://example.com/mondial/borders#country1> {country1}^^xsd:string ; <http://example.com/mondial/borders#country2> {country2}^^xsd:string ; <http://example.com/mondial/borders#length> {length}^^xsd:decimal . 
+source		SELECT * FROM "borders"
+
+mappingId	MAPPING-ID25
+target		<http://example.com/mondial/city/name={name};country={country};province={province}> a <http://example.com/mondial/city> ; <http://example.com/mondial/city#name> {name}^^xsd:string ; <http://example.com/mondial/city#country> {country}^^xsd:string ; <http://example.com/mondial/city#province> {province}^^xsd:string ; <http://example.com/mondial/city#population> {population}^^xsd:decimal ; <http://example.com/mondial/city#latitude> {latitude}^^xsd:decimal ; <http://example.com/mondial/city#longitude> {longitude}^^xsd:decimal ; <http://example.com/mondial/city#elevation> {elevation}^^xsd:decimal . 
+source		SELECT * FROM "city"
+
+mappingId	MAPPING-ID26
+target		<http://example.com/mondial/geo_desert/province={province};country={country};desert={desert}> a <http://example.com/mondial/geo_desert> ; <http://example.com/mondial/geo_desert#desert> {desert}^^xsd:string ; <http://example.com/mondial/geo_desert#country> {country}^^xsd:string ; <http://example.com/mondial/geo_desert#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_desert"
+
+mappingId	MAPPING-ID27
+target		<http://example.com/mondial/lakeonisland/lake={lake};island={island}> a <http://example.com/mondial/lakeonisland> ; <http://example.com/mondial/lakeonisland#lake> {lake}^^xsd:string ; <http://example.com/mondial/lakeonisland#island> {island}^^xsd:string . 
+source		SELECT * FROM "lakeonisland"
+
+mappingId	MAPPING-ID28
+target		<http://example.com/mondial/ismember/country={country};organization={organization}> a <http://example.com/mondial/ismember> ; <http://example.com/mondial/ismember#country> {country}^^xsd:string ; <http://example.com/mondial/ismember#organization> {organization}^^xsd:string ; <http://example.com/mondial/ismember#type> {type}^^xsd:string . 
+source		SELECT * FROM "ismember"
+
+mappingId	MAPPING-ID29
+target		<http://example.com/mondial/sea/name={name}> a <http://example.com/mondial/sea> ; <http://example.com/mondial/sea#name> {name}^^xsd:string ; <http://example.com/mondial/sea#area> {area}^^xsd:decimal ; <http://example.com/mondial/sea#depth> {depth}^^xsd:decimal . 
+source		SELECT * FROM "sea"
+
+mappingId	MAPPING-ID30
+target		<http://example.com/mondial/countrypops/country={country};year={year}> a <http://example.com/mondial/countrypops> ; <http://example.com/mondial/countrypops#country> {country}^^xsd:string ; <http://example.com/mondial/countrypops#year> {year}^^xsd:decimal ; <http://example.com/mondial/countrypops#population> {population}^^xsd:decimal . 
+source		SELECT * FROM "countrypops"
+
+mappingId	MAPPING-ID31
+target		<http://example.com/mondial/countrylocalname/country={country}> a <http://example.com/mondial/countrylocalname> ; <http://example.com/mondial/countrylocalname#country> {country}^^xsd:string ; <http://example.com/mondial/countrylocalname#localname> {localname}^^xsd:string . 
+source		SELECT * FROM "countrylocalname"
+
+mappingId	MAPPING-ID32
+target		<http://example.com/mondial/geo_river/province={province};country={country};river={river}> a <http://example.com/mondial/geo_river> ; <http://example.com/mondial/geo_river#river> {river}^^xsd:string ; <http://example.com/mondial/geo_river#country> {country}^^xsd:string ; <http://example.com/mondial/geo_river#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_river"
+
+mappingId	MAPPING-ID33
+target		<http://example.com/mondial/provinceothername/country={country};province={province};othername={othername}> a <http://example.com/mondial/provinceothername> ; <http://example.com/mondial/provinceothername#province> {province}^^xsd:string ; <http://example.com/mondial/provinceothername#country> {country}^^xsd:string ; <http://example.com/mondial/provinceothername#othername> {othername}^^xsd:string . 
+source		SELECT * FROM "provinceothername"
+
+mappingId	MAPPING-ID34
+target		<http://example.com/mondial/ethnicgroup/name={name};country={country}> a <http://example.com/mondial/ethnicgroup> ; <http://example.com/mondial/ethnicgroup#country> {country}^^xsd:string ; <http://example.com/mondial/ethnicgroup#name> {name}^^xsd:string ; <http://example.com/mondial/ethnicgroup#percentage> {percentage}^^xsd:decimal . 
+source		SELECT * FROM "ethnicgroup"
+
+mappingId	MAPPING-ID35
+target		<http://example.com/mondial/geo_source/province={province};country={country};river={river}> a <http://example.com/mondial/geo_source> ; <http://example.com/mondial/geo_source#river> {river}^^xsd:string ; <http://example.com/mondial/geo_source#country> {country}^^xsd:string ; <http://example.com/mondial/geo_source#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_source"
+
+mappingId	MAPPING-ID36
+target		_:ontop-bnode-1{island}/{sea}/{lake}/{river} a <http://example.com/mondial/islandin> ; <http://example.com/mondial/islandin#island> {island}^^xsd:string ; <http://example.com/mondial/islandin#sea> {sea}^^xsd:string ; <http://example.com/mondial/islandin#lake> {lake}^^xsd:string ; <http://example.com/mondial/islandin#river> {river}^^xsd:string . 
+source		SELECT * FROM "islandin"
+
+mappingId	MAPPING-ID37
+target		<http://example.com/mondial/religion/name={name};country={country}> a <http://example.com/mondial/religion> ; <http://example.com/mondial/religion#country> {country}^^xsd:string ; <http://example.com/mondial/religion#name> {name}^^xsd:string ; <http://example.com/mondial/religion#percentage> {percentage}^^xsd:decimal . 
+source		SELECT * FROM "religion"
+
+mappingId	MAPPING-ID38
+target		<http://example.com/mondial/organization/abbreviation={abbreviation}> a <http://example.com/mondial/organization> ; <http://example.com/mondial/organization#abbreviation> {abbreviation}^^xsd:string ; <http://example.com/mondial/organization#name> {name}^^xsd:string ; <http://example.com/mondial/organization#city> {city}^^xsd:string ; <http://example.com/mondial/organization#country> {country}^^xsd:string ; <http://example.com/mondial/organization#province> {province}^^xsd:string ; <http://example.com/mondial/organization#established> {established}^^xsd:date . 
+source		SELECT * FROM "organization"
+
+mappingId	MAPPING-ID39
+target		<http://example.com/mondial/riverthrough/river={river};lake={lake}> a <http://example.com/mondial/riverthrough> ; <http://example.com/mondial/riverthrough#river> {river}^^xsd:string ; <http://example.com/mondial/riverthrough#lake> {lake}^^xsd:string . 
+source		SELECT * FROM "riverthrough"
+
+mappingId	MAPPING-ID40
+target		<http://example.com/mondial/geo_lake/province={province};country={country};lake={lake}> a <http://example.com/mondial/geo_lake> ; <http://example.com/mondial/geo_lake#lake> {lake}^^xsd:string ; <http://example.com/mondial/geo_lake#country> {country}^^xsd:string ; <http://example.com/mondial/geo_lake#province> {province}^^xsd:string . 
+source		SELECT * FROM "geo_lake"
+
+mappingId	MAPPING-ID41
+target		_:ontop-bnode-2{city}/{province}/{country}/{river}/{lake}/{sea} a <http://example.com/mondial/located> ; <http://example.com/mondial/located#city> {city}^^xsd:string ; <http://example.com/mondial/located#province> {province}^^xsd:string ; <http://example.com/mondial/located#country> {country}^^xsd:string ; <http://example.com/mondial/located#river> {river}^^xsd:string ; <http://example.com/mondial/located#lake> {lake}^^xsd:string ; <http://example.com/mondial/located#sea> {sea}^^xsd:string . 
+source		SELECT * FROM "located"
+
+mappingId	MAPPING-ID42
+target		<http://example.com/mondial/spoken/country={country};language={language}> a <http://example.com/mondial/spoken> ; <http://example.com/mondial/spoken#country> {country}^^xsd:string ; <http://example.com/mondial/spoken#language> {language}^^xsd:string ; <http://example.com/mondial/spoken#percentage> {percentage}^^xsd:decimal . 
+source		SELECT * FROM "spoken"
+
+mappingId	MAPPING-ID43
+target		<http://example.com/mondial/river/name={name}> a <http://example.com/mondial/river> ; <http://example.com/mondial/river#name> {name}^^xsd:string ; <http://example.com/mondial/river#river> {river}^^xsd:string ; <http://example.com/mondial/river#lake> {lake}^^xsd:string ; <http://example.com/mondial/river#sea> {sea}^^xsd:string ; <http://example.com/mondial/river#length> {length}^^xsd:decimal ; <http://example.com/mondial/river#area> {area}^^xsd:decimal ; <http://example.com/mondial/river#source> {source}^^xsd:string ; <http://example.com/mondial/river#mountains> {mountains}^^xsd:string ; <http://example.com/mondial/river#sourceelevation> {sourceelevation}^^xsd:decimal ; <http://example.com/mondial/river#estuary> {estuary}^^xsd:string ; <http://example.com/mondial/river#estuaryelevation> {estuaryelevation}^^xsd:decimal . 
+source		SELECT * FROM "river"
+
+mappingId	MAPPING-ID44
+target		<http://example.com/mondial/desert/name={name}> a <http://example.com/mondial/desert> ; <http://example.com/mondial/desert#name> {name}^^xsd:string ; <http://example.com/mondial/desert#area> {area}^^xsd:decimal ; <http://example.com/mondial/desert#coordinates> {coordinates}^^xsd:string . 
+source		SELECT * FROM "desert"
+
+mappingId	MAPPING-ID45
+target		<http://example.com/mondial/citylocalname/country={country};province={province};city={city}> a <http://example.com/mondial/citylocalname> ; <http://example.com/mondial/citylocalname#city> {city}^^xsd:string ; <http://example.com/mondial/citylocalname#country> {country}^^xsd:string ; <http://example.com/mondial/citylocalname#province> {province}^^xsd:string ; <http://example.com/mondial/citylocalname#localname> {localname}^^xsd:string . 
+source		SELECT * FROM "citylocalname"
+
+mappingId	MAPPING-ID46
+target		<http://example.com/mondial/cityothername/country={country};province={province};city={city};othername={othername}> a <http://example.com/mondial/cityothername> ; <http://example.com/mondial/cityothername#city> {city}^^xsd:string ; <http://example.com/mondial/cityothername#country> {country}^^xsd:string ; <http://example.com/mondial/cityothername#province> {province}^^xsd:string ; <http://example.com/mondial/cityothername#othername> {othername}^^xsd:string . 
+source		SELECT * FROM "cityothername"
+
+mappingId	MAPPING-ID47
+target		<http://example.com/mondial/citypops/country={country};province={province};city={city};year={year}> a <http://example.com/mondial/citypops> ; <http://example.com/mondial/citypops#city> {city}^^xsd:string ; <http://example.com/mondial/citypops#country> {country}^^xsd:string ; <http://example.com/mondial/citypops#province> {province}^^xsd:string ; <http://example.com/mondial/citypops#year> {year}^^xsd:decimal ; <http://example.com/mondial/citypops#population> {population}^^xsd:decimal . 
+source		SELECT * FROM "citypops"
+]]
+

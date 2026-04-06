@@ -1,0 +1,1024 @@
+@prefix : <http://example.com/ontop/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.com/ontop/> .
+
+<http://example.com/ontop/> rdf:type owl:Ontology .
+
+#################################################################
+#    Object Properties
+#################################################################
+
+###  http://example.com/ontop/account#ref-global_id
+<http://example.com/ontop/account#ref-global_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/account#ref-project_id
+<http://example.com/ontop/account#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/bill#ref-subscr_id
+<http://example.com/ontop/bill#ref-subscr_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/contract#ref-project_id
+<http://example.com/ontop/contract#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/cost_allocation#ref-project_id
+<http://example.com/ontop/cost_allocation#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/meter#ref-space_id
+<http://example.com/ontop/meter#ref-space_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/parking_space#ref-project_id
+<http://example.com/ontop/parking_space#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/payment#ref-bill_id
+<http://example.com/ontop/payment#ref-bill_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/person#ref-project_id
+<http://example.com/ontop/person#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/space_unit#ref-project_id
+<http://example.com/ontop/space_unit#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/subscription#ref-account_id
+<http://example.com/ontop/subscription#ref-account_id> rdf:type owl:ObjectProperty .
+
+
+###  http://example.com/ontop/work_order#ref-project_id
+<http://example.com/ontop/work_order#ref-project_id> rdf:type owl:ObjectProperty .
+
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.com/ontop/account#account_id
+<http://example.com/ontop/account#account_id> rdf:type owl:DatatypeProperty .
+<http://example.com/ontop/account#account_id> rdfs:range xsd:integer .
+
+
+###  http://example.com/ontop/account#account_status
+<http://example.com/ontop/account#account_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/account#balance
+<http://example.com/ontop/account#balance> rdf:type owl:DatatypeProperty .
+<http://example.com/ontop/account#balance> rdfs:range xsd:decimal .
+<http://example.com/ontop/account#balance> rdfs:range xsd:decimal .
+
+
+###  http://example.com/ontop/account#global_id
+<http://example.com/ontop/account#global_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/account#project_id
+<http://example.com/ontop/account#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#amount_balance
+<http://example.com/ontop/bill#amount_balance> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#amount_due
+<http://example.com/ontop/bill#amount_due> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#amount_paid
+<http://example.com/ontop/bill#amount_paid> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#bill_id
+<http://example.com/ontop/bill#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#bill_status
+<http://example.com/ontop/bill#bill_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#period
+<http://example.com/ontop/bill#period> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#source_flag
+<http://example.com/ontop/bill#source_flag> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/bill#subscr_id
+<http://example.com/ontop/bill#subscr_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#accounting_mode
+<http://example.com/ontop/business_class#accounting_mode> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#bc_id
+<http://example.com/ontop/business_class#bc_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#billing_base_type
+<http://example.com/ontop/business_class#billing_base_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#settlement_anchor
+<http://example.com/ontop/business_class#settlement_anchor> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#settlement_frequency
+<http://example.com/ontop/business_class#settlement_frequency> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#tax_rate
+<http://example.com/ontop/business_class#tax_rate> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/business_class#unit_price
+<http://example.com/ontop/business_class#unit_price> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/contract#contract_end
+<http://example.com/ontop/contract#contract_end> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/contract#contract_id
+<http://example.com/ontop/contract#contract_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/contract#contract_start
+<http://example.com/ontop/contract#contract_start> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/contract#project_id
+<http://example.com/ontop/contract#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/cost_allocation#alloc_amount
+<http://example.com/ontop/cost_allocation#alloc_amount> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/cost_allocation#alloc_id
+<http://example.com/ontop/cost_allocation#alloc_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/cost_allocation#alloc_period
+<http://example.com/ontop/cost_allocation#alloc_period> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/cost_allocation#cost_type
+<http://example.com/ontop/cost_allocation#cost_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/cost_allocation#project_id
+<http://example.com/ontop/cost_allocation#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/customer#customer_status
+<http://example.com/ontop/customer#customer_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/customer#global_id
+<http://example.com/ontop/customer#global_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/customer#id_number
+<http://example.com/ontop/customer#id_number> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/customer#legal_name
+<http://example.com/ontop/customer#legal_name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#bill_id
+<http://example.com/ontop/hist_payment#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#match_status
+<http://example.com/ontop/hist_payment#match_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#pay_amount
+<http://example.com/ontop/hist_payment#pay_amount> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#pay_channel
+<http://example.com/ontop/hist_payment#pay_channel> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#pay_id
+<http://example.com/ontop/hist_payment#pay_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_payment#pay_time
+<http://example.com/ontop/hist_payment#pay_time> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_work_order#bill_id
+<http://example.com/ontop/hist_work_order#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_work_order#order_id
+<http://example.com/ontop/hist_work_order#order_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_work_order#order_type
+<http://example.com/ontop/hist_work_order#order_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_work_order#project_id
+<http://example.com/ontop/hist_work_order#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/hist_work_order#service_fee
+<http://example.com/ontop/hist_work_order#service_fee> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/meter#meter_id
+<http://example.com/ontop/meter#meter_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/meter#meter_type
+<http://example.com/ontop/meter#meter_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/meter#space_id
+<http://example.com/ontop/meter#space_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/parking_space#parking_id
+<http://example.com/ontop/parking_space#parking_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/parking_space#parking_type
+<http://example.com/ontop/parking_space#parking_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/parking_space#project_id
+<http://example.com/ontop/parking_space#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#bill_id
+<http://example.com/ontop/payment#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#match_status
+<http://example.com/ontop/payment#match_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#pay_amount
+<http://example.com/ontop/payment#pay_amount> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#pay_channel
+<http://example.com/ontop/payment#pay_channel> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#pay_id
+<http://example.com/ontop/payment#pay_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/payment#pay_time
+<http://example.com/ontop/payment#pay_time> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/person#person_id
+<http://example.com/ontop/person#person_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/person#person_name
+<http://example.com/ontop/person#person_name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/person#project_id
+<http://example.com/ontop/person#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/person#work_type
+<http://example.com/ontop/person#work_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/property_project#project_id
+<http://example.com/ontop/property_project#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/property_project#project_name
+<http://example.com/ontop/property_project#project_name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/property_project#project_status
+<http://example.com/ontop/property_project#project_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/property_project#region
+<http://example.com/ontop/property_project#region> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/space_unit#billing_area
+<http://example.com/ontop/space_unit#billing_area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/space_unit#building_area
+<http://example.com/ontop/space_unit#building_area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/space_unit#project_id
+<http://example.com/ontop/space_unit#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/space_unit#space_id
+<http://example.com/ontop/space_unit#space_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#account_id
+<http://example.com/ontop/subscription#account_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#bc_id
+<http://example.com/ontop/subscription#bc_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#contract_id
+<http://example.com/ontop/subscription#contract_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#parking_id
+<http://example.com/ontop/subscription#parking_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#space_id
+<http://example.com/ontop/subscription#space_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#subscr_end
+<http://example.com/ontop/subscription#subscr_end> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#subscr_id
+<http://example.com/ontop/subscription#subscr_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#subscr_start
+<http://example.com/ontop/subscription#subscr_start> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/subscription#subscr_status
+<http://example.com/ontop/subscription#subscr_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#amount_balance
+<http://example.com/ontop/tmp_export#amount_balance> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#amount_due
+<http://example.com/ontop/tmp_export#amount_due> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#amount_paid
+<http://example.com/ontop/tmp_export#amount_paid> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#bill_id
+<http://example.com/ontop/tmp_export#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#bill_status
+<http://example.com/ontop/tmp_export#bill_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#period
+<http://example.com/ontop/tmp_export#period> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#source_flag
+<http://example.com/ontop/tmp_export#source_flag> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_export#subscr_id
+<http://example.com/ontop/tmp_export#subscr_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_import#account_id
+<http://example.com/ontop/tmp_import#account_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_import#account_status
+<http://example.com/ontop/tmp_import#account_status> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_import#balance
+<http://example.com/ontop/tmp_import#balance> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_import#global_id
+<http://example.com/ontop/tmp_import#global_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_import#project_id
+<http://example.com/ontop/tmp_import#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_transform#bill_id
+<http://example.com/ontop/tmp_transform#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_transform#order_id
+<http://example.com/ontop/tmp_transform#order_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_transform#order_type
+<http://example.com/ontop/tmp_transform#order_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_transform#project_id
+<http://example.com/ontop/tmp_transform#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/tmp_transform#service_fee
+<http://example.com/ontop/tmp_transform#service_fee> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/work_order#bill_id
+<http://example.com/ontop/work_order#bill_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/work_order#order_id
+<http://example.com/ontop/work_order#order_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/work_order#order_type
+<http://example.com/ontop/work_order#order_type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/work_order#project_id
+<http://example.com/ontop/work_order#project_id> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/ontop/work_order#service_fee
+<http://example.com/ontop/work_order#service_fee> rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.com/ontop/account
+:account rdf:type owl:Class .
+
+
+###  http://example.com/ontop/bill
+:bill rdf:type owl:Class .
+
+
+###  http://example.com/ontop/business_class
+:business_class rdf:type owl:Class .
+
+
+###  http://example.com/ontop/contract
+:contract rdf:type owl:Class .
+
+
+###  http://example.com/ontop/cost_allocation
+:cost_allocation rdf:type owl:Class .
+
+
+###  http://example.com/ontop/customer
+:customer rdf:type owl:Class .
+
+
+###  http://example.com/ontop/hist_payment
+:hist_payment rdf:type owl:Class .
+
+
+###  http://example.com/ontop/hist_work_order
+:hist_work_order rdf:type owl:Class .
+
+
+###  http://example.com/ontop/meter
+:meter rdf:type owl:Class .
+
+
+###  http://example.com/ontop/parking_space
+:parking_space rdf:type owl:Class .
+
+
+###  http://example.com/ontop/payment
+:payment rdf:type owl:Class .
+
+
+###  http://example.com/ontop/person
+:person rdf:type owl:Class .
+
+
+###  http://example.com/ontop/property_project
+:property_project rdf:type owl:Class .
+
+
+###  http://example.com/ontop/space_unit
+:space_unit rdf:type owl:Class .
+
+
+###  http://example.com/ontop/subscription
+:subscription rdf:type owl:Class .
+
+
+###  http://example.com/ontop/tmp_export
+:tmp_export rdf:type owl:Class .
+
+
+###  http://example.com/ontop/tmp_import
+:tmp_import rdf:type owl:Class .
+
+
+###  http://example.com/ontop/tmp_transform
+:tmp_transform rdf:type owl:Class .
+
+
+###  http://example.com/ontop/work_order
+:work_order rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 5.5.1) https://github.com/owlcs/owlapi/
+
+# ── Semantic Annotation Layer (auto-merged, do not edit manually) ──
+
+
+:::account
+    rdfs:label "主账户"@zh ;
+    rdfs:comment "用户在系统中注册并用于管理业务的主账号。"@zh ;
+    rdfs:label "Account"@en .
+
+:::bill
+    rdfs:label "账单"@zh ;
+    rdfs:comment "根据业务周期生成的费用结算单据。"@zh ;
+    rdfs:label "Bill"@en ;
+    rdfs:comment "A fee settlement document generated based on a business cycle."@en .
+
+:::business_class
+    rdfs:label "业务类型"@zh ;
+    rdfs:comment "定义业务服务或产品的分类标准。"@zh ;
+    rdfs:label "Business Class"@en ;
+    rdfs:comment "The classification standard defining business services or products."@en .
+
+:::contract
+    rdfs:label "合同"@zh ;
+    rdfs:comment "客户与公司之间签订的具有法律效力的协议。"@zh ;
+    rdfs:label "Contract"@en ;
+    rdfs:comment "A legally binding agreement between a customer and the company."@en .
+
+:::cost_allocation
+    rdfs:label "成本分摊"@zh ;
+    rdfs:comment "将总成本按规则分配到具体对象的过程。"@zh ;
+    rdfs:label "Cost Allocation"@en ;
+    rdfs:comment "The process of distributing total costs to specific objects based on rules."@en .
+
+:::customer
+    rdfs:label "客户"@zh ;
+    rdfs:comment "使用公司服务的最终用户或组织。"@zh ;
+    rdfs:label "Customer"@en ;
+    rdfs:comment "The end user or organization using the company's services."@en .
+
+:::hist_payment
+    rdfs:label "历史支付"@zh ;
+    rdfs:comment "记录过往发生的资金支付流水信息。"@zh ;
+    rdfs:label "Historical Payment"@en ;
+    rdfs:comment "Records of past financial payment transactions."@en .
+
+:::hist_work_order
+    rdfs:label "历史工单"@zh ;
+    rdfs:comment "已结束或已归档的历史服务工单记录。"@zh ;
+    rdfs:label "Historical Work Order"@en ;
+    rdfs:comment "Records of historical service work orders that are closed or archived."@en .
+
+:::meter
+    rdfs:label "计量表"@zh ;
+    rdfs:comment "用于测量资源消耗量的物理设备。"@zh ;
+    rdfs:label "Meter"@en ;
+    rdfs:comment "Physical equipment used to measure resource consumption."@en .
+
+:::parking_space
+    rdfs:label "停车位"@zh ;
+    rdfs:comment "用于停放车辆的固定位置资源。"@zh ;
+    rdfs:label "Parking Space"@en ;
+    rdfs:comment "A fixed resource location for parking vehicles."@en .
+
+:::payment
+    rdfs:label "支付"@zh ;
+    rdfs:comment "当前正在处理或已完成的资金支付行为。"@zh ;
+    rdfs:label "Payment"@en ;
+    rdfs:comment "The current or completed financial payment action."@en .
+
+:::person
+    rdfs:label "人员"@zh ;
+    rdfs:comment "系统中的自然人用户或员工信息。"@zh ;
+    rdfs:label "Person"@en ;
+    rdfs:comment "Information of natural persons or employees within the system."@en .
+
+:::property_project
+    rdfs:label "物业项目"@zh ;
+    rdfs:comment "包含多个楼宇或区域的大型物业集合。"@zh ;
+    rdfs:label "Property Project"@en ;
+    rdfs:comment "A large-scale property complex containing multiple buildings or areas."@en .
+
+:::space_unit
+    rdfs:label "空间单元"@zh ;
+    rdfs:comment "可租赁或管理的最小空间资源块。"@zh ;
+    rdfs:label "Space Unit"@en ;
+    rdfs:comment "The smallest unit of space resource that can be leased or managed."@en .
+
+:::subscription
+    rdfs:label "订阅"@zh ;
+    rdfs:comment "用户对某项服务或资源的订购关系。"@zh ;
+    rdfs:label "Subscription"@en ;
+    rdfs:comment "The ordering relationship of a user for a specific service or resource."@en .
+
+:::tmp_export
+    rdfs:label "临时导出"@zh ;
+    rdfs:comment "用户发起的临时数据导出任务记录。"@zh ;
+    rdfs:label "Temporary Export"@en ;
+    rdfs:comment "Records of temporary data export tasks initiated by users."@en .
+
+:::tmp_import
+    rdfs:label "临时导入"@zh ;
+    rdfs:comment "用户发起的临时数据导入任务记录。"@zh ;
+    rdfs:label "Temporary Import"@en ;
+    rdfs:comment "Records of temporary data import tasks initiated by users."@en .
+
+:::tmp_transform
+    rdfs:label "临时转换"@zh ;
+    rdfs:comment "用户发起的临时数据格式转换任务记录。"@zh ;
+    rdfs:label "Temporary Transform"@en ;
+    rdfs:comment "Records of temporary data format transformation tasks initiated by users."@en .
+
+:::work_order
+    rdfs:label "工单"@zh ;
+    rdfs:comment "记录服务请求、维修或处理流程的工单。"@zh ;
+    rdfs:label "Work Order"@en ;
+    rdfs:comment "Work orders recording service requests, repairs, or processing workflows."@en .
+
+::account_id
+    rdfs:label "账户ID"@zh ;
+    rdfs:comment "唯一标识账户的数字编号。"@zh ;
+    rdfs:label "Account ID"@en ;
+    rdfs:comment "The unique numeric identifier for an account."@en .
+
+::account_status
+    rdfs:label "账户状态"@zh ;
+    rdfs:comment "账户当前的启用或停用状态。"@zh ;
+    rdfs:label "Account Status"@en ;
+    rdfs:comment "The current active or inactive status of the account."@en .
+
+::accounting_mode
+    rdfs:label "计费模式"@zh ;
+    rdfs:comment "定义费用计算和记录的具体规则方式。"@zh ;
+    rdfs:label "Accounting Mode"@en ;
+    rdfs:comment "Defines the specific rules for calculating and recording fees."@en .
+
+::alloc_id
+    rdfs:label "分摊ID"@zh ;
+    rdfs:comment "唯一标识费用分摊记录的编号。"@zh ;
+    rdfs:label "Allocation ID"@en ;
+    rdfs:comment "Unique identifier for a fee allocation record."@en .
+
+::alloc_period
+    rdfs:label "分摊周期"@zh ;
+    rdfs:comment "费用分摊所覆盖的时间周期范围。"@zh ;
+    rdfs:label "Allocation Period"@en ;
+    rdfs:comment "The time period covered by the fee allocation."@en .
+
+::amount_balance
+    rdfs:label "金额余额"@zh ;
+    rdfs:comment "账户中具体的货币金额余额。"@zh ;
+    rdfs:label "Amount Balance"@en ;
+    rdfs:comment "The specific monetary balance in the account."@en .
+
+::amount_due
+    rdfs:label "待付金额"@zh ;
+    rdfs:comment "当前需要支付的总金额。"@zh ;
+    rdfs:label "Amount Due"@en ;
+    rdfs:comment "The total amount currently required to be paid."@en .
+
+::amount_paid
+    rdfs:label "已付金额"@zh ;
+    rdfs:comment "已经成功支付的金额总数。"@zh ;
+    rdfs:label "Amount Paid"@en ;
+    rdfs:comment "The total amount of money successfully paid."@en .
+
+::balance
+    rdfs:label "余额"@zh ;
+    rdfs:comment "账户当前的剩余可用金额。"@zh ;
+    rdfs:label "Balance"@en ;
+    rdfs:comment "The remaining available amount in the account."@en .
+
+::bc_id
+    rdfs:label "BC编号"@zh ;
+    rdfs:comment "业务组件或业务中心的唯一编号。"@zh ;
+    rdfs:label "BC ID"@en ;
+    rdfs:comment "Unique identifier for a business component or center."@en .
+
+::bill
+    rdfs:label "物业账单"@zh ;
+    rdfs:comment "记录租户每月的物业费、水电费账单汇总"@zh .
+
+::bill_id
+    rdfs:label "账单ID"@zh ;
+    rdfs:comment "唯一标识账单的编号。"@zh ;
+    rdfs:label "Bill ID"@en ;
+    rdfs:comment "The unique number identifying the bill."@en .
+
+::bill_status
+    rdfs:label "账单状态"@zh ;
+    rdfs:comment "账单当前的生成或结算状态。"@zh ;
+    rdfs:label "Bill Status"@en ;
+    rdfs:comment "The current generation or settlement status of the bill."@en .
+
+::billing_area
+    rdfs:label "计费区域"@zh ;
+    rdfs:comment "用于计费划分的业务区域。"@zh ;
+    rdfs:label "Billing Area"@en ;
+    rdfs:comment "Business area used for billing purposes."@en .
+
+::billing_base_type
+    rdfs:label "计费基数类型"@zh ;
+    rdfs:comment "定义计费计算所依据的基础资源或量。"@zh ;
+    rdfs:label "Billing Base Type"@en ;
+    rdfs:comment "Defines the base resource or quantity for billing calculation."@en .
+
+::building_area
+    rdfs:label "建筑区域"@zh ;
+    rdfs:comment "建筑物内的具体区域划分。"@zh ;
+    rdfs:label "Building Area"@en ;
+    rdfs:comment "Specific area division within the building."@en .
+
+::contract_end
+    rdfs:label "合同结束"@zh ;
+    rdfs:comment "业务合同或协议规定的终止日期。"@zh ;
+    rdfs:label "Contract End Date"@en ;
+    rdfs:comment "The termination date specified in the business contract."@en .
+
+::contract_id
+    rdfs:label "合同ID"@zh ;
+    rdfs:comment "唯一标识业务合同或协议的编号。"@zh ;
+    rdfs:label "Contract ID"@en ;
+    rdfs:comment "Unique identifier for a business contract or agreement."@en .
+
+::contract_start
+    rdfs:label "合同开始"@zh ;
+    rdfs:comment "业务合同或协议规定的生效日期。"@zh ;
+    rdfs:label "Contract Start Date"@en ;
+    rdfs:comment "The effective date specified in the business contract."@en .
+
+::cost_type
+    rdfs:label "成本类型"@zh ;
+    rdfs:comment "区分成本或费用的类别属性。"@zh ;
+    rdfs:label "Cost Type"@en ;
+    rdfs:comment "The category attribute distinguishing costs or fees."@en .
+
+::customer_status
+    rdfs:label "客户状态"@zh ;
+    rdfs:comment "描述客户当前的业务或账户状态。"@zh ;
+    rdfs:label "Customer Status"@en ;
+    rdfs:comment "Describes the current business or account status of the customer."@en .
+
+::global_id
+    rdfs:label "全局ID"@zh ;
+    rdfs:comment "跨系统或跨业务域的唯一标识符。"@zh ;
+    rdfs:label "Global ID"@en ;
+    rdfs:comment "A unique identifier valid across systems or business domains."@en .
+
+::id_number
+    rdfs:label "证件号"@zh ;
+    rdfs:comment "客户持有的有效身份证明号码。"@zh ;
+    rdfs:label "ID Number"@en ;
+    rdfs:comment "The valid identification number held by the customer."@en .
+
+::legal_name
+    rdfs:label "法人名称"@zh ;
+    rdfs:comment "客户或实体的法定注册名称。"@zh ;
+    rdfs:label "Legal Name"@en ;
+    rdfs:comment "The legal registered name of the customer or entity."@en .
+
+::match_status
+    rdfs:label "匹配状态"@zh ;
+    rdfs:comment "表示数据或记录匹配校验的结果状态。"@zh ;
+    rdfs:label "Match Status"@en ;
+    rdfs:comment "The result status of data or record matching validation."@en .
+
+::meter_id
+    rdfs:label "表计ID"@zh ;
+    rdfs:comment "唯一标识计量设备或仪表的编号。"@zh ;
+    rdfs:label "Meter ID"@en ;
+    rdfs:comment "Unique identifier for the metering device or gauge."@en .
+
+::meter_type
+    rdfs:label "表计类型"@zh ;
+    rdfs:comment "计量设备或仪表的技术规格分类。"@zh ;
+    rdfs:label "Meter Type"@en ;
+    rdfs:comment "The technical specification classification of the metering device."@en .
+
+::order_id
+    rdfs:label "订单ID"@zh ;
+    rdfs:comment "唯一标识业务订单的编号。"@zh ;
+    rdfs:label "Order ID"@en ;
+    rdfs:comment "Unique identifier for a business order."@en .
+
+::order_type
+    rdfs:label "订单类型"@zh ;
+    rdfs:comment "区分订单业务种类的分类属性。"@zh ;
+    rdfs:label "Order Type"@en ;
+    rdfs:comment "The category attribute distinguishing the type of order."@en .
+
+::parking_id
+    rdfs:label "车位ID"@zh ;
+    rdfs:comment "唯一标识停车位的编号。"@zh ;
+    rdfs:label "Parking ID"@en ;
+    rdfs:comment "Unique identifier for a parking space."@en .
+
+::parking_type
+    rdfs:label "车位类型"@zh ;
+    rdfs:comment "车位所属的类型分类。"@zh ;
+    rdfs:label "Parking Type"@en ;
+    rdfs:comment "Category classification of the parking space."@en .
+
+::pay_amount
+    rdfs:label "支付金额"@zh ;
+    rdfs:comment "实际支付给服务提供方的资金数额。"@zh ;
+    rdfs:label "Payment Amount"@en ;
+    rdfs:comment "The actual amount of funds paid to the service provider."@en .
+
+::pay_channel
+    rdfs:label "支付渠道"@zh ;
+    rdfs:comment "用户进行资金支付的具体通道或方式。"@zh ;
+    rdfs:label "Payment Channel"@en ;
+    rdfs:comment "The specific channel or method used for fund payment."@en .
+
+::pay_id
+    rdfs:label "支付ID"@zh ;
+    rdfs:comment "唯一标识一笔支付交易流水编号。"@zh ;
+    rdfs:label "Payment ID"@en ;
+    rdfs:comment "Unique identifier for a payment transaction record."@en .
+
+::pay_time
+    rdfs:label "支付时间"@zh ;
+    rdfs:comment "资金实际完成支付操作的时间戳。"@zh ;
+    rdfs:label "Payment Time"@en ;
+    rdfs:comment "The timestamp when the funds were actually paid."@en .
+
+::period
+    rdfs:label "周期"@zh ;
+    rdfs:comment "业务发生的时间范围或统计周期。"@zh ;
+    rdfs:label "Period"@en ;
+    rdfs:comment "The time range or statistical cycle of business occurrence."@en .
+
+::person_id
+    rdfs:label "人员ID"@zh ;
+    rdfs:comment "唯一标识人员或用户的编号。"@zh ;
+    rdfs:label "Person ID"@en ;
+    rdfs:comment "Unique identifier for a person or user."@en .
+
+::person_name
+    rdfs:label "人员姓名"@zh ;
+    rdfs:comment "人员或用户的真实姓名。"@zh ;
+    rdfs:label "Person Name"@en ;
+    rdfs:comment "Real name of the person or user."@en .
+
+::project_id
+    rdfs:label "项目ID"@zh ;
+    rdfs:comment "关联的业务项目编号。"@zh ;
+    rdfs:label "Project ID"@en ;
+    rdfs:comment "The associated business project number."@en .
+
+::project_name
+    rdfs:label "项目名称"@zh ;
+    rdfs:comment "正在进行的项目名称。"@zh ;
+    rdfs:label "Project Name"@en ;
+    rdfs:comment "Name of the ongoing project."@en .
+
+::project_status
+    rdfs:label "项目状态"@zh ;
+    rdfs:comment "项目当前的运行状态。"@zh ;
+    rdfs:label "Project Status"@en ;
+    rdfs:comment "Current operational status of the project."@en .
+
+::ref-account_id
+    rdfs:label "账户引用ID"@zh ;
+    rdfs:comment "关联的账户唯一标识。"@zh ;
+    rdfs:label "Account Reference ID"@en ;
+    rdfs:comment "Unique identifier of the associated account."@en .
+
+::ref-bill_id
+    rdfs:label "账单引用ID"@zh ;
+    rdfs:comment "关联的账单唯一标识。"@zh ;
+    rdfs:label "Bill Reference ID"@en ;
+    rdfs:comment "Unique identifier of the associated bill."@en .
+
+::ref-global_id
+    rdfs:label "全局引用ID"@zh ;
+    rdfs:comment "跨系统的全局唯一引用标识。"@zh ;
+    rdfs:label "Global Reference ID"@en ;
+    rdfs:comment "Global unique reference identifier across systems."@en .
+
+::ref-project_id
+    rdfs:label "项目引用ID"@zh ;
+    rdfs:comment "关联的项目唯一标识。"@zh ;
+    rdfs:label "Project Reference ID"@en ;
+    rdfs:comment "Unique identifier of the associated project."@en .
+
+::ref-space_id
+    rdfs:label "空间引用ID"@zh ;
+    rdfs:comment "关联的空间唯一标识。"@zh ;
+    rdfs:label "Space Reference ID"@en ;
+    rdfs:comment "Unique identifier of the associated space."@en .
+
+::ref-subscr_id
+    rdfs:label "订阅引用ID"@zh ;
+    rdfs:comment "关联的订阅唯一标识。"@zh ;
+    rdfs:label "Subscription Reference ID"@en ;
+    rdfs:comment "Unique identifier of the associated subscription."@en .
+
+::region
+    rdfs:label "区域"@zh ;
+    rdfs:comment "所属的地理或业务区域。"@zh ;
+    rdfs:label "Region"@en ;
+    rdfs:comment "Geographical or business region of the entity."@en .
+
+::service_fee
+    rdfs:label "服务费"@zh ;
+    rdfs:comment "为提供特定服务而收取的费用金额。"@zh ;
+    rdfs:label "Service Fee"@en ;
+    rdfs:comment "The fee amount charged for providing specific services."@en .
+
+::settlement_anchor
+    rdfs:label "结算锚点"@zh ;
+    rdfs:comment "用于结算对账的基准时间或关键节点。"@zh ;
+    rdfs:label "Settlement Anchor"@en ;
+    rdfs:comment "The benchmark time or key node used for settlement reconciliation."@en .
+
+::settlement_frequency
+    rdfs:label "结算频率"@zh ;
+    rdfs:comment "规定费用结算发生的周期性间隔。"@zh ;
+    rdfs:label "Settlement Frequency"@en ;
+    rdfs:comment "Specifies the periodic interval for fee settlement."@en .
+
+::source_flag
+    rdfs:label "来源标识"@zh ;
+    rdfs:comment "标识数据或业务记录的来源渠道或系统。"@zh ;
+    rdfs:label "Source Flag"@en ;
+    rdfs:comment "Indicates the source channel or system of data or business records."@en .
+
+::space_id
+    rdfs:label "空间ID"@zh ;
+    rdfs:comment "唯一标识物理空间或地理位置的编号。"@zh ;
+    rdfs:label "Space ID"@en ;
+    rdfs:comment "Unique identifier for the physical space or geographic location."@en .
+
+::subscr_end
+    rdfs:label "订阅结束"@zh ;
+    rdfs:comment "订阅服务的截止日期。"@zh ;
+    rdfs:label "Subscription End Date"@en ;
+    rdfs:comment "The end date of the subscription service."@en .
+
+::subscr_id
+    rdfs:label "订阅ID"@zh ;
+    rdfs:comment "唯一标识用户订阅服务的编号。"@zh ;
+    rdfs:label "Subscription ID"@en ;
+    rdfs:comment "Unique identifier for a user's subscription service."@en .
+
+::subscr_start
+    rdfs:label "订阅开始"@zh ;
+    rdfs:comment "订阅服务的开始日期。"@zh ;
+    rdfs:label "Subscription Start Date"@en ;
+    rdfs:comment "The start date of the subscription service."@en .
+
+::subscr_status
+    rdfs:label "订阅状态"@zh ;
+    rdfs:comment "订阅服务的当前状态。"@zh ;
+    rdfs:label "Subscription Status"@en ;
+    rdfs:comment "Current status of the subscription service."@en .
+
+::tax_rate
+    rdfs:label "税率"@zh ;
+    rdfs:comment "计算税费时适用的百分比比率。"@zh ;
+    rdfs:label "Tax Rate"@en ;
+    rdfs:comment "The percentage rate applied for tax calculation."@en .
+
+::unit_price
+    rdfs:label "单价"@zh ;
+    rdfs:comment "单位数量资源或服务的计费价格。"@zh ;
+    rdfs:label "Unit Price"@en ;
+    rdfs:comment "The pricing per unit of resource or service."@en .
+
+::work_type
+    rdfs:label "工作类型"@zh ;
+    rdfs:comment "人员从事的工作类别。"@zh ;
+    rdfs:label "Work Type"@en ;
+    rdfs:comment "Category of work performed by the person."@en .

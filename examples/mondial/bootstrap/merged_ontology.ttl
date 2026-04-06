@@ -1,0 +1,1488 @@
+@prefix : <http://example.com/mondial/> .
+@prefix owl: <http://www.w3.org/2002/07/owl#> .
+@prefix rdf: <http://www.w3.org/1999/02/22-rdf-syntax-ns#> .
+@prefix xml: <http://www.w3.org/XML/1998/namespace> .
+@prefix xsd: <http://www.w3.org/2001/XMLSchema#> .
+@prefix rdfs: <http://www.w3.org/2000/01/rdf-schema#> .
+@base <http://example.com/mondial/> .
+
+<http://example.com/mondial/> rdf:type owl:Ontology .
+
+#################################################################
+#    Data properties
+#################################################################
+
+###  http://example.com/mondial/airport#city
+<http://example.com/mondial/airport#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#country
+<http://example.com/mondial/airport#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#elevation
+<http://example.com/mondial/airport#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#gmtoffset
+<http://example.com/mondial/airport#gmtoffset> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#iatacode
+<http://example.com/mondial/airport#iatacode> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#island
+<http://example.com/mondial/airport#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#latitude
+<http://example.com/mondial/airport#latitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#longitude
+<http://example.com/mondial/airport#longitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#name
+<http://example.com/mondial/airport#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/airport#province
+<http://example.com/mondial/airport#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#country1
+<http://example.com/mondial/borders#country1> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#country2
+<http://example.com/mondial/borders#country2> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/borders#length
+<http://example.com/mondial/borders#length> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#country
+<http://example.com/mondial/city#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#elevation
+<http://example.com/mondial/city#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#latitude
+<http://example.com/mondial/city#latitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#longitude
+<http://example.com/mondial/city#longitude> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#name
+<http://example.com/mondial/city#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#population
+<http://example.com/mondial/city#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/city#province
+<http://example.com/mondial/city#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#city
+<http://example.com/mondial/citylocalname#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#country
+<http://example.com/mondial/citylocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#localname
+<http://example.com/mondial/citylocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citylocalname#province
+<http://example.com/mondial/citylocalname#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#city
+<http://example.com/mondial/cityothername#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#country
+<http://example.com/mondial/cityothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#othername
+<http://example.com/mondial/cityothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/cityothername#province
+<http://example.com/mondial/cityothername#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#city
+<http://example.com/mondial/citypops#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#country
+<http://example.com/mondial/citypops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#population
+<http://example.com/mondial/citypops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#province
+<http://example.com/mondial/citypops#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/citypops#year
+<http://example.com/mondial/citypops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/continent#area
+<http://example.com/mondial/continent#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/continent#name
+<http://example.com/mondial/continent#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#area
+<http://example.com/mondial/country#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#capital
+<http://example.com/mondial/country#capital> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#code
+<http://example.com/mondial/country#code> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#name
+<http://example.com/mondial/country#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#population
+<http://example.com/mondial/country#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/country#province
+<http://example.com/mondial/country#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrylocalname#country
+<http://example.com/mondial/countrylocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrylocalname#localname
+<http://example.com/mondial/countrylocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countryothername#country
+<http://example.com/mondial/countryothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countryothername#othername
+<http://example.com/mondial/countryothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#country
+<http://example.com/mondial/countrypops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#population
+<http://example.com/mondial/countrypops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/countrypops#year
+<http://example.com/mondial/countrypops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#area
+<http://example.com/mondial/desert#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#coordinates
+<http://example.com/mondial/desert#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/desert#name
+<http://example.com/mondial/desert#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#agriculture
+<http://example.com/mondial/economy#agriculture> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#country
+<http://example.com/mondial/economy#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#gdp
+<http://example.com/mondial/economy#gdp> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#industry
+<http://example.com/mondial/economy#industry> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#inflation
+<http://example.com/mondial/economy#inflation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#service
+<http://example.com/mondial/economy#service> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/economy#unemployment
+<http://example.com/mondial/economy#unemployment> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#continent
+<http://example.com/mondial/encompasses#continent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#country
+<http://example.com/mondial/encompasses#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/encompasses#percentage
+<http://example.com/mondial/encompasses#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#country
+<http://example.com/mondial/ethnicgroup#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#name
+<http://example.com/mondial/ethnicgroup#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ethnicgroup#percentage
+<http://example.com/mondial/ethnicgroup#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#country
+<http://example.com/mondial/geo_desert#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#desert
+<http://example.com/mondial/geo_desert#desert> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_desert#province
+<http://example.com/mondial/geo_desert#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#country
+<http://example.com/mondial/geo_estuary#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#province
+<http://example.com/mondial/geo_estuary#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_estuary#river
+<http://example.com/mondial/geo_estuary#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#country
+<http://example.com/mondial/geo_island#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#island
+<http://example.com/mondial/geo_island#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_island#province
+<http://example.com/mondial/geo_island#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#country
+<http://example.com/mondial/geo_lake#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#lake
+<http://example.com/mondial/geo_lake#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_lake#province
+<http://example.com/mondial/geo_lake#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#country
+<http://example.com/mondial/geo_mountain#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#mountain
+<http://example.com/mondial/geo_mountain#mountain> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_mountain#province
+<http://example.com/mondial/geo_mountain#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#country
+<http://example.com/mondial/geo_river#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#province
+<http://example.com/mondial/geo_river#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_river#river
+<http://example.com/mondial/geo_river#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#country
+<http://example.com/mondial/geo_sea#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#province
+<http://example.com/mondial/geo_sea#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_sea#sea
+<http://example.com/mondial/geo_sea#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#country
+<http://example.com/mondial/geo_source#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#province
+<http://example.com/mondial/geo_source#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/geo_source#river
+<http://example.com/mondial/geo_source#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#area
+<http://example.com/mondial/island#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#coordinates
+<http://example.com/mondial/island#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#elevation
+<http://example.com/mondial/island#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#islands
+<http://example.com/mondial/island#islands> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#name
+<http://example.com/mondial/island#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/island#type
+<http://example.com/mondial/island#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#island
+<http://example.com/mondial/islandin#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#lake
+<http://example.com/mondial/islandin#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#river
+<http://example.com/mondial/islandin#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/islandin#sea
+<http://example.com/mondial/islandin#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#country
+<http://example.com/mondial/ismember#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#organization
+<http://example.com/mondial/ismember#organization> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/ismember#type
+<http://example.com/mondial/ismember#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#area
+<http://example.com/mondial/lake#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#coordinates
+<http://example.com/mondial/lake#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#depth
+<http://example.com/mondial/lake#depth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#elevation
+<http://example.com/mondial/lake#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#height
+<http://example.com/mondial/lake#height> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#name
+<http://example.com/mondial/lake#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#river
+<http://example.com/mondial/lake#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lake#type
+<http://example.com/mondial/lake#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lakeonisland#island
+<http://example.com/mondial/lakeonisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/lakeonisland#lake
+<http://example.com/mondial/lakeonisland#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/language#name
+<http://example.com/mondial/language#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/language#superlanguage
+<http://example.com/mondial/language#superlanguage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#city
+<http://example.com/mondial/located#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#country
+<http://example.com/mondial/located#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#lake
+<http://example.com/mondial/located#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#province
+<http://example.com/mondial/located#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#river
+<http://example.com/mondial/located#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/located#sea
+<http://example.com/mondial/located#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#city
+<http://example.com/mondial/locatedon#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#country
+<http://example.com/mondial/locatedon#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#island
+<http://example.com/mondial/locatedon#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/locatedon#province
+<http://example.com/mondial/locatedon#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mergeswith#sea1
+<http://example.com/mondial/mergeswith#sea1> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mergeswith#sea2
+<http://example.com/mondial/mergeswith#sea2> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#coordinates
+<http://example.com/mondial/mountain#coordinates> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#elevation
+<http://example.com/mondial/mountain#elevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#mountains
+<http://example.com/mondial/mountain#mountains> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#name
+<http://example.com/mondial/mountain#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountain#type
+<http://example.com/mondial/mountain#type> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountainonisland#island
+<http://example.com/mondial/mountainonisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/mountainonisland#mountain
+<http://example.com/mondial/mountainonisland#mountain> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#abbreviation
+<http://example.com/mondial/organization#abbreviation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#city
+<http://example.com/mondial/organization#city> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#country
+<http://example.com/mondial/organization#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#established
+<http://example.com/mondial/organization#established> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#name
+<http://example.com/mondial/organization#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/organization#province
+<http://example.com/mondial/organization#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#country
+<http://example.com/mondial/politics#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#dependent
+<http://example.com/mondial/politics#dependent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#government
+<http://example.com/mondial/politics#government> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#independence
+<http://example.com/mondial/politics#independence> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/politics#wasdependent
+<http://example.com/mondial/politics#wasdependent> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#country
+<http://example.com/mondial/population#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#infant_mortality
+<http://example.com/mondial/population#infant_mortality> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/population#population_growth
+<http://example.com/mondial/population#population_growth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#area
+<http://example.com/mondial/province#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#capital
+<http://example.com/mondial/province#capital> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#capprov
+<http://example.com/mondial/province#capprov> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#country
+<http://example.com/mondial/province#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#name
+<http://example.com/mondial/province#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/province#population
+<http://example.com/mondial/province#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#country
+<http://example.com/mondial/provincelocalname#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#localname
+<http://example.com/mondial/provincelocalname#localname> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provincelocalname#province
+<http://example.com/mondial/provincelocalname#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#country
+<http://example.com/mondial/provinceothername#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#othername
+<http://example.com/mondial/provinceothername#othername> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provinceothername#province
+<http://example.com/mondial/provinceothername#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#country
+<http://example.com/mondial/provpops#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#population
+<http://example.com/mondial/provpops#population> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#province
+<http://example.com/mondial/provpops#province> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/provpops#year
+<http://example.com/mondial/provpops#year> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#country
+<http://example.com/mondial/religion#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#name
+<http://example.com/mondial/religion#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/religion#percentage
+<http://example.com/mondial/religion#percentage> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#area
+<http://example.com/mondial/river#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#estuary
+<http://example.com/mondial/river#estuary> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#estuaryelevation
+<http://example.com/mondial/river#estuaryelevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#lake
+<http://example.com/mondial/river#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#length
+<http://example.com/mondial/river#length> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#mountains
+<http://example.com/mondial/river#mountains> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#name
+<http://example.com/mondial/river#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#river
+<http://example.com/mondial/river#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#sea
+<http://example.com/mondial/river#sea> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#source
+<http://example.com/mondial/river#source> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/river#sourceelevation
+<http://example.com/mondial/river#sourceelevation> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riveronisland#island
+<http://example.com/mondial/riveronisland#island> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riveronisland#river
+<http://example.com/mondial/riveronisland#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riverthrough#lake
+<http://example.com/mondial/riverthrough#lake> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/riverthrough#river
+<http://example.com/mondial/riverthrough#river> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#area
+<http://example.com/mondial/sea#area> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#depth
+<http://example.com/mondial/sea#depth> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/sea#name
+<http://example.com/mondial/sea#name> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#country
+<http://example.com/mondial/spoken#country> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#language
+<http://example.com/mondial/spoken#language> rdf:type owl:DatatypeProperty .
+
+
+###  http://example.com/mondial/spoken#percentage
+<http://example.com/mondial/spoken#percentage> rdf:type owl:DatatypeProperty .
+
+
+#################################################################
+#    Classes
+#################################################################
+
+###  http://example.com/mondial/airport
+:airport rdf:type owl:Class .
+
+
+###  http://example.com/mondial/borders
+:borders rdf:type owl:Class .
+
+
+###  http://example.com/mondial/city
+:city rdf:type owl:Class .
+
+
+###  http://example.com/mondial/citylocalname
+:citylocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/cityothername
+:cityothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/citypops
+:citypops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/continent
+:continent rdf:type owl:Class .
+
+
+###  http://example.com/mondial/country
+:country rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countrylocalname
+:countrylocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countryothername
+:countryothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/countrypops
+:countrypops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/desert
+:desert rdf:type owl:Class .
+
+
+###  http://example.com/mondial/economy
+:economy rdf:type owl:Class .
+
+
+###  http://example.com/mondial/encompasses
+:encompasses rdf:type owl:Class .
+
+
+###  http://example.com/mondial/ethnicgroup
+:ethnicgroup rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_desert
+:geo_desert rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_estuary
+:geo_estuary rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_island
+:geo_island rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_lake
+:geo_lake rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_mountain
+:geo_mountain rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_river
+:geo_river rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_sea
+:geo_sea rdf:type owl:Class .
+
+
+###  http://example.com/mondial/geo_source
+:geo_source rdf:type owl:Class .
+
+
+###  http://example.com/mondial/island
+:island rdf:type owl:Class .
+
+
+###  http://example.com/mondial/islandin
+:islandin rdf:type owl:Class .
+
+
+###  http://example.com/mondial/ismember
+:ismember rdf:type owl:Class .
+
+
+###  http://example.com/mondial/lake
+:lake rdf:type owl:Class .
+
+
+###  http://example.com/mondial/lakeonisland
+:lakeonisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/language
+:language rdf:type owl:Class .
+
+
+###  http://example.com/mondial/located
+:located rdf:type owl:Class .
+
+
+###  http://example.com/mondial/locatedon
+:locatedon rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mergeswith
+:mergeswith rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mountain
+:mountain rdf:type owl:Class .
+
+
+###  http://example.com/mondial/mountainonisland
+:mountainonisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/organization
+:organization rdf:type owl:Class .
+
+
+###  http://example.com/mondial/politics
+:politics rdf:type owl:Class .
+
+
+###  http://example.com/mondial/population
+:population rdf:type owl:Class .
+
+
+###  http://example.com/mondial/province
+:province rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provincelocalname
+:provincelocalname rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provinceothername
+:provinceothername rdf:type owl:Class .
+
+
+###  http://example.com/mondial/provpops
+:provpops rdf:type owl:Class .
+
+
+###  http://example.com/mondial/religion
+:religion rdf:type owl:Class .
+
+
+###  http://example.com/mondial/river
+:river rdf:type owl:Class .
+
+
+###  http://example.com/mondial/riveronisland
+:riveronisland rdf:type owl:Class .
+
+
+###  http://example.com/mondial/riverthrough
+:riverthrough rdf:type owl:Class .
+
+
+###  http://example.com/mondial/sea
+:sea rdf:type owl:Class .
+
+
+###  http://example.com/mondial/spoken
+:spoken rdf:type owl:Class .
+
+
+###  Generated by the OWL API (version 5.5.1) https://github.com/owlcs/owlapi/
+
+# ── Semantic Annotation Layer (auto-merged, do not edit manually) ──
+
+
+:::airport
+    rdfs:label "机场"@zh ;
+    rdfs:comment "用于飞机起降和旅客运输的航空交通设施。"@zh ;
+    rdfs:label "Airport"@en ;
+    rdfs:comment "A facility for aircraft takeoff and landing and passenger transport."@en .
+
+:::borders
+    rdfs:label "接壤"@zh ;
+    rdfs:comment "两个地理实体之间共享边界的关系。"@zh ;
+    rdfs:label "Borders"@en ;
+    rdfs:comment "The relationship between two geographical entities sharing a border."@en .
+
+:::city
+    rdfs:label "城市"@zh ;
+    rdfs:comment "人口密集、经济发达的行政区域或聚落。"@zh ;
+    rdfs:label "City"@en ;
+    rdfs:comment "An administrative area or settlement with a dense population and developed economy."@en .
+
+:::citylocalname
+    rdfs:label "城市本地名"@zh ;
+    rdfs:comment "城市在本地语言中的通用名称。"@zh ;
+    rdfs:label "City Local Name"@en ;
+    rdfs:comment "The common name of a city in its local language."@en .
+
+:::cityothername
+    rdfs:label "城市别名"@zh ;
+    rdfs:comment "城市历史上或非正式使用的其他名称。"@zh ;
+    rdfs:label "City Other Name"@en ;
+    rdfs:comment "Other historical or informal names used for a city."@en .
+
+:::citypops
+    rdfs:label "城市人口"@zh ;
+    rdfs:comment "城市行政区域内的常住人口数量。"@zh ;
+    rdfs:label "City Population"@en ;
+    rdfs:comment "The number of permanent residents within a city's administrative area."@en .
+
+:::continent
+    rdfs:label "大洲"@zh ;
+    rdfs:comment "地球上面积广阔、地理特征独特的陆地区域。"@zh ;
+    rdfs:label "Continent"@en ;
+    rdfs:comment "A large, distinct landmass on Earth with unique geographical features."@en .
+
+:::country
+    rdfs:label "国家"@zh ;
+    rdfs:comment "具有独立政府、主权和固定领土的政治实体。"@zh ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A sovereign political entity with an independent government and fixed territory."@en .
+
+:::countrylocalname
+    rdfs:label "国家本地名"@zh ;
+    rdfs:comment "国家在本地语言中的正式名称。"@zh ;
+    rdfs:label "Country Local Name"@en ;
+    rdfs:comment "The official name of a country in its local language."@en .
+
+:::countryothername
+    rdfs:label "国家别名"@zh ;
+    rdfs:comment "国家历史上或非正式使用的其他名称。"@zh ;
+    rdfs:label "Country Other Name"@en ;
+    rdfs:comment "Other historical or informal names used for a country."@en .
+
+:::countrypops
+    rdfs:label "国家人口"@zh ;
+    rdfs:comment "国家境内的常住人口总数。"@zh ;
+    rdfs:label "Country Population"@en ;
+    rdfs:comment "The total number of permanent residents within a country."@en .
+
+:::desert
+    rdfs:label "沙漠"@zh ;
+    rdfs:comment "降水稀少、植被稀疏的干旱地区。"@zh ;
+    rdfs:label "Desert"@en ;
+    rdfs:comment "A dry area with sparse vegetation and very little precipitation."@en .
+
+:::economy
+    rdfs:label "经济"@zh ;
+    rdfs:comment "涉及生产、分配和消费的资源配置系统。"@zh ;
+    rdfs:label "Economy"@en ;
+    rdfs:comment "The system of production, distribution, and consumption of resources."@en .
+
+:::encompasses
+    rdfs:label "包含"@zh ;
+    rdfs:comment "一个实体包含或覆盖另一个实体的空间关系。"@zh ;
+    rdfs:label "Encompasses"@en ;
+    rdfs:comment "A spatial relationship where one entity contains or covers another."@en .
+
+:::ethnicgroup
+    rdfs:label "族群"@zh ;
+    rdfs:comment "具有共同文化、语言或祖先的人群集合。"@zh ;
+    rdfs:label "Ethnic Group"@en ;
+    rdfs:comment "A group of people sharing a common culture, language, or ancestry."@en .
+
+:::geo_desert
+    rdfs:label "地理沙漠"@zh ;
+    rdfs:comment "描述地理特征的沙漠类型或属性。"@zh ;
+    rdfs:label "Geographic Desert"@en ;
+    rdfs:comment "Desert type or attribute describing geographical features."@en .
+
+:::geo_estuary
+    rdfs:label "地理河口"@zh ;
+    rdfs:comment "描述地理特征的河口类型或属性。"@zh ;
+    rdfs:label "Geographic Estuary"@en ;
+    rdfs:comment "Estuary type or attribute describing geographical features."@en .
+
+:::geo_island
+    rdfs:label "地理岛屿"@zh ;
+    rdfs:comment "描述地理特征的岛屿类型或属性。"@zh ;
+    rdfs:label "Geographic Island"@en ;
+    rdfs:comment "Island type or attribute describing geographical features."@en .
+
+:::geo_lake
+    rdfs:label "地理湖泊"@zh ;
+    rdfs:comment "描述地理特征的湖泊类型或属性。"@zh ;
+    rdfs:label "Geographic Lake"@en ;
+    rdfs:comment "Lake type or attribute describing geographical features."@en .
+
+:::geo_mountain
+    rdfs:label "地理山脉"@zh ;
+    rdfs:comment "描述地理特征的山脉类型或属性。"@zh ;
+    rdfs:label "Geographic Mountain"@en ;
+    rdfs:comment "Mountain type or attribute describing geographical features."@en .
+
+:::geo_river
+    rdfs:label "地理河流"@zh ;
+    rdfs:comment "描述地理特征的河流类型或属性。"@zh ;
+    rdfs:label "Geographic River"@en ;
+    rdfs:comment "River type or attribute describing geographical features."@en .
+
+:::geo_sea
+    rdfs:label "地理海域"@zh ;
+    rdfs:comment "描述地理特征的海域类型或属性。"@zh ;
+    rdfs:label "Geographic Sea"@en ;
+    rdfs:comment "Sea type or attribute describing geographical features."@en .
+
+:::geo_source
+    rdfs:label "地理源头"@zh ;
+    rdfs:comment "描述地理特征的源头类型或属性。"@zh ;
+    rdfs:label "Geographic Source"@en ;
+    rdfs:comment "Source type or attribute describing geographical features."@en .
+
+:::island
+    rdfs:label "岛屿"@zh ;
+    rdfs:comment "被水域包围的陆地区域。"@zh ;
+    rdfs:label "Island"@en ;
+    rdfs:comment "A land area surrounded by water."@en .
+
+:::islandin
+    rdfs:label "岛屿位于"@zh ;
+    rdfs:comment "岛屿被包含在另一个地理实体内部的关系。"@zh ;
+    rdfs:label "Island In"@en ;
+    rdfs:comment "The relationship where an island is contained within another geographical entity."@en .
+
+:::ismember
+    rdfs:label "是成员"@zh ;
+    rdfs:comment "表示实体属于某个集合或组织的属性。"@zh ;
+    rdfs:label "Is Member"@en ;
+    rdfs:comment "An attribute indicating an entity belongs to a specific set or organization."@en .
+
+:::lake
+    rdfs:label "湖泊"@zh ;
+    rdfs:comment "地表上被陆地包围的积水区域。"@zh ;
+    rdfs:label "Lake"@en ;
+    rdfs:comment "An area of standing water surrounded by land."@en .
+
+:::lakeonisland
+    rdfs:label "湖在岛上"@zh ;
+    rdfs:comment "湖泊位于岛屿之上的特殊地理关系。"@zh ;
+    rdfs:label "Lake On Island"@en ;
+    rdfs:comment "A special geographical relationship where a lake is located on an island."@en .
+
+:::language
+    rdfs:label "语言"@zh ;
+    rdfs:comment "用于交流的具有特定语法和词汇的系统。"@zh ;
+    rdfs:label "Language"@en ;
+    rdfs:comment "A system of communication used by a particular community."@en .
+
+:::located
+    rdfs:label "位于"@zh ;
+    rdfs:comment "表示实体在空间上处于特定位置的关系。"@zh ;
+    rdfs:label "Located"@en ;
+    rdfs:comment "A relationship indicating an entity is spatially located at a specific position."@en .
+
+:::locatedon
+    rdfs:label "位于"@zh ;
+    rdfs:comment "表示实体在地理空间上的位置关系。"@zh ;
+    rdfs:label "Located On"@en ;
+    rdfs:comment "Indicates the spatial location of an entity."@en .
+
+:::mergeswith
+    rdfs:label "合并于"@zh ;
+    rdfs:comment "表示两个实体合并为一个整体。"@zh ;
+    rdfs:label "Merges With"@en ;
+    rdfs:comment "Indicates that two entities merge into one."@en .
+
+:::mountain
+    rdfs:label "山脉"@zh ;
+    rdfs:comment "由一系列山峰组成的地理特征。"@zh ;
+    rdfs:label "Mountain Range"@en ;
+    rdfs:comment "A geographical feature consisting of a chain of peaks."@en .
+
+:::mountainonisland
+    rdfs:label "岛屿山脉"@zh ;
+    rdfs:comment "位于岛屿上的山脉。"@zh ;
+    rdfs:label "Island Mountain"@en ;
+    rdfs:comment "A mountain range located on an island."@en .
+
+:::organization
+    rdfs:label "组织"@zh ;
+    rdfs:comment "从事商业、政治或社会活动的团体。"@zh ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "A group of people organized for a particular purpose."@en .
+
+:::politics
+    rdfs:label "政治"@zh ;
+    rdfs:comment "涉及政府、权力和公共事务的领域。"@zh ;
+    rdfs:label "Politics"@en ;
+    rdfs:comment "The activities associated with the governance of a country."@en .
+
+:::population
+    rdfs:label "人口"@zh ;
+    rdfs:comment "特定区域内的居民数量。"@zh ;
+    rdfs:label "Population"@en ;
+    rdfs:comment "The total number of people inhabiting a specific area."@en .
+
+:::province
+    rdfs:label "省份"@zh ;
+    rdfs:comment "国家的一级行政区划单位。"@zh ;
+    rdfs:label "Province"@en ;
+    rdfs:comment "A primary administrative division of a country."@en .
+
+:::provincelocalname
+    rdfs:label "省本地名"@zh ;
+    rdfs:comment "该省份在当地的通用名称。"@zh ;
+    rdfs:label "Province Local Name"@en ;
+    rdfs:comment "The local common name for the province."@en .
+
+:::provinceothername
+    rdfs:label "省别名"@zh ;
+    rdfs:comment "该省份的其他历史或别称。"@zh ;
+    rdfs:label "Province Other Name"@en ;
+    rdfs:comment "Other historical or alternative names for the province."@en .
+
+:::provpops
+    rdfs:label "省人口"@zh ;
+    rdfs:comment "该省份的常住人口数量。"@zh ;
+    rdfs:label "Province Population"@en ;
+    rdfs:comment "The number of permanent residents in the province."@en .
+
+:::religion
+    rdfs:label "宗教"@zh ;
+    rdfs:comment "信仰体系、精神实践和道德准则。"@zh ;
+    rdfs:label "Religion"@en ;
+    rdfs:comment "A system of faith and worship."@en .
+
+:::river
+    rdfs:label "河流"@zh ;
+    rdfs:comment "地表流动的水体，通常流入海洋或湖泊。"@zh ;
+    rdfs:label "River"@en ;
+    rdfs:comment "A large natural stream of water flowing in a channel."@en .
+
+:::riveronisland
+    rdfs:label "岛内河流"@zh ;
+    rdfs:comment "位于岛屿内部的河流。"@zh ;
+    rdfs:label "River On Island"@en ;
+    rdfs:comment "A river located within an island."@en .
+
+:::riverthrough
+    rdfs:label "流经"@zh ;
+    rdfs:comment "表示河流流经某个区域。"@zh ;
+    rdfs:label "River Through"@en ;
+    rdfs:comment "Indicates that a river flows through a specific area."@en .
+
+:::sea
+    rdfs:label "海域"@zh ;
+    rdfs:comment "海洋的一部分，通常被陆地包围。"@zh ;
+    rdfs:label "Sea"@en ;
+    rdfs:comment "A part of an ocean partly enclosed by land."@en .
+
+:::spoken
+    rdfs:label "语言"@zh ;
+    rdfs:comment "该区域或群体使用的语言。"@zh ;
+    rdfs:label "Spoken Language"@en ;
+    rdfs:comment "The language spoken in a specific region or group."@en .
+
+::agriculture
+    rdfs:label "农业"@zh ;
+    rdfs:comment "关于农业生产、作物种植及农业产值的描述。"@zh ;
+    rdfs:label "Agriculture"@en ;
+    rdfs:comment "Description regarding agricultural production, crop cultivation, and output."@en .
+
+::area
+    rdfs:label "面积"@zh ;
+    rdfs:comment "指特定地理区域的总占地面积。"@zh ;
+    rdfs:label "Area"@en ;
+    rdfs:comment "The total land area covered by a specific geographic region."@en .
+
+::capital
+    rdfs:label "首都"@zh ;
+    rdfs:comment "国家的政治中心或主要行政城市。"@zh ;
+    rdfs:label "Capital"@en ;
+    rdfs:comment "The political center or primary administrative city of a country."@en .
+
+::city
+    rdfs:label "城市"@zh ;
+    rdfs:comment "人口密集、工商业发达的居民点。"@zh ;
+    rdfs:label "City"@en ;
+    rdfs:comment "A large and important town."@en .
+
+::code
+    rdfs:label "代码"@zh ;
+    rdfs:comment "用于标识该实体或数据的唯一编码。"@zh ;
+    rdfs:label "Code"@en ;
+    rdfs:comment "A unique code used to identify the entity or data."@en .
+
+::continent
+    rdfs:label "大洲"@zh ;
+    rdfs:comment "地球上最大的陆地板块或地理区域。"@zh ;
+    rdfs:label "Continent"@en ;
+    rdfs:comment "The largest landmass or geographic region on Earth."@en .
+
+::coordinates
+    rdfs:label "坐标"@zh ;
+    rdfs:comment "表示地理位置的经纬度数值。"@zh ;
+    rdfs:label "Coordinates"@en ;
+    rdfs:comment "Numerical values representing geographical location in latitude and longitude."@en .
+
+::country
+    rdfs:label "国家"@zh ;
+    rdfs:comment "拥有独立政府、主权的政治实体。"@zh ;
+    rdfs:label "Country"@en ;
+    rdfs:comment "A sovereign state or nation."@en .
+
+::country1
+    rdfs:label "国家1"@zh ;
+    rdfs:comment "关系中的第一个国家实体。"@zh ;
+    rdfs:label "Country 1"@en ;
+    rdfs:comment "The first country entity in a relationship."@en .
+
+::country2
+    rdfs:label "国家2"@zh ;
+    rdfs:comment "关系中的第二个国家实体。"@zh ;
+    rdfs:label "Country 2"@en ;
+    rdfs:comment "The second country entity in a relationship."@en .
+
+::depth
+    rdfs:label "深度"@zh ;
+    rdfs:comment "指从表面到底部的垂直距离或深度值。"@zh ;
+    rdfs:label "Depth"@en ;
+    rdfs:comment "The vertical distance from the surface to the bottom."@en .
+
+::desert
+    rdfs:label "沙漠"@zh ;
+    rdfs:comment "指降水稀少、植被稀疏的干旱地区。"@zh ;
+    rdfs:label "Desert"@en ;
+    rdfs:comment "A dry region characterized by sparse vegetation and low precipitation."@en .
+
+::elevation
+    rdfs:label "海拔"@zh ;
+    rdfs:comment "相对于海平面的高度。"@zh ;
+    rdfs:label "Elevation"@en ;
+    rdfs:comment "Height above sea level."@en .
+
+::gdp
+    rdfs:label "国内生产总值"@zh ;
+    rdfs:comment "衡量国家或地区经济规模的核心指标。"@zh ;
+    rdfs:label "GDP"@en ;
+    rdfs:comment "A core indicator measuring the economic scale of a country or region."@en .
+
+::gmtoffset
+    rdfs:label "时区偏移"@zh ;
+    rdfs:comment "相对于格林威治标准时间的时差。"@zh ;
+    rdfs:label "GMT Offset"@en ;
+    rdfs:comment "Time difference from Greenwich Mean Time."@en .
+
+::height
+    rdfs:label "高度"@zh ;
+    rdfs:comment "指从基准面（如海平面）到顶部的垂直距离。"@zh ;
+    rdfs:label "Height"@en ;
+    rdfs:comment "The vertical distance from a baseline (e.g., sea level) to the top."@en .
+
+::iatacode
+    rdfs:label "机场代码"@zh ;
+    rdfs:comment "国际航空运输协会分配的机场代码。"@zh ;
+    rdfs:label "IATA Code"@en ;
+    rdfs:comment "The three-letter code assigned by IATA to an airport."@en .
+
+::industry
+    rdfs:label "工业"@zh ;
+    rdfs:comment "关于工业生产、制造业及工业产值的描述。"@zh ;
+    rdfs:label "Industry"@en ;
+    rdfs:comment "Description regarding industrial production, manufacturing, and output."@en .
+
+::inflation
+    rdfs:label "通货膨胀率"@zh ;
+    rdfs:comment "反映物价水平持续上涨的经济指标。"@zh ;
+    rdfs:label "Inflation Rate"@en ;
+    rdfs:comment "An economic indicator reflecting the sustained rise in price levels."@en .
+
+::island
+    rdfs:label "岛屿"@zh ;
+    rdfs:comment "被水包围的陆地区域。"@zh ;
+    rdfs:label "Island"@en ;
+    rdfs:comment "A piece of land surrounded by water."@en .
+
+::islands
+    rdfs:label "岛屿"@zh ;
+    rdfs:comment "被水包围的陆地区域或群岛。"@zh ;
+    rdfs:label "Islands"@en ;
+    rdfs:comment "Land areas surrounded by water or an archipelago."@en .
+
+::lake
+    rdfs:label "湖泊"@zh ;
+    rdfs:comment "陆地表面相对封闭的天然水域。"@zh ;
+    rdfs:label "Lake"@en ;
+    rdfs:comment "A natural body of water surrounded by land."@en .
+
+::latitude
+    rdfs:label "纬度"@zh ;
+    rdfs:comment "地球表面某点与赤道平面的夹角。"@zh ;
+    rdfs:label "Latitude"@en ;
+    rdfs:comment "The angular distance of a place north or south of the earth's equator."@en .
+
+::length
+    rdfs:label "长度"@zh ;
+    rdfs:comment "河流或道路等线性实体的长度。"@zh ;
+    rdfs:label "Length"@en ;
+    rdfs:comment "The measurement of the extent of something from end to end."@en .
+
+::localname
+    rdfs:label "本地名称"@zh ;
+    rdfs:comment "该地区或实体的官方本地语言名称。"@zh ;
+    rdfs:label "Local Name"@en ;
+    rdfs:comment "The official name in the local language of the region or entity."@en .
+
+::longitude
+    rdfs:label "经度"@zh ;
+    rdfs:comment "地球表面某点与本初子午线的夹角。"@zh ;
+    rdfs:label "Longitude"@en ;
+    rdfs:comment "The angular distance of a place east or west of the prime meridian."@en .
+
+::mountain
+    rdfs:label "山脉"@zh ;
+    rdfs:comment "指一系列相连的山峰或隆起地形。"@zh ;
+    rdfs:label "Mountain Range"@en ;
+    rdfs:comment "A series of connected peaks or elevated landforms."@en .
+
+::mountains
+    rdfs:label "山脉群"@zh ;
+    rdfs:comment "指该地区内存在的山脉集合或地理特征。"@zh ;
+    rdfs:label "Mountain Ranges"@en ;
+    rdfs:comment "The collection of mountain ranges or geographical features present in the area."@en .
+
+::name
+    rdfs:label "名称"@zh ;
+    rdfs:comment "实体的标识符或称呼。"@zh ;
+    rdfs:label "Name"@en ;
+    rdfs:comment "The identifier or title of an entity."@en .
+
+::organization
+    rdfs:label "组织"@zh ;
+    rdfs:comment "指具有共同目标、结构化的团体或机构。"@zh ;
+    rdfs:label "Organization"@en ;
+    rdfs:comment "A group of people with a common purpose and structure."@en .
+
+::othername
+    rdfs:label "别名"@zh ;
+    rdfs:comment "该地区或实体的非官方或历史名称。"@zh ;
+    rdfs:label "Other Name"@en ;
+    rdfs:comment "The unofficial or historical names of the region or entity."@en .
+
+::percentage
+    rdfs:label "百分比"@zh ;
+    rdfs:comment "表示数量占总量或总数的比率。"@zh ;
+    rdfs:label "Percentage"@en ;
+    rdfs:comment "The ratio of a quantity to a total expressed as a percentage."@en .
+
+::population
+    rdfs:label "人口"@zh ;
+    rdfs:comment "指特定区域内的常住居民总数。"@zh ;
+    rdfs:label "Population"@en ;
+    rdfs:comment "The total number of permanent residents in a specific area."@en .
+
+::river
+    rdfs:label "河流"@zh ;
+    rdfs:comment "地表流动的天然水道或水体。"@zh ;
+    rdfs:label "River"@en ;
+    rdfs:comment "A natural watercourse or body of water flowing on the surface."@en .
+
+::sea
+    rdfs:label "海域"@zh ;
+    rdfs:comment "大洋边缘的附属水域或特定海域。"@zh ;
+    rdfs:label "Sea"@en ;
+    rdfs:comment "A marginal sea or specific body of water adjacent to an ocean."@en .
+
+::sea1
+    rdfs:label "海域1"@zh ;
+    rdfs:comment "关联的特定海域或水体名称。"@zh ;
+    rdfs:label "Sea 1"@en ;
+    rdfs:comment "The name of a related specific sea or water body."@en .
+
+::sea2
+    rdfs:label "海域2"@zh ;
+    rdfs:comment "关联的另一个特定海域或水体名称。"@zh ;
+    rdfs:label "Sea 2"@en ;
+    rdfs:comment "The name of another related specific sea or water body."@en .
+
+::service
+    rdfs:label "服务业"@zh ;
+    rdfs:comment "关于第三产业、商业及服务业产值的描述。"@zh ;
+    rdfs:label "Service Industry"@en ;
+    rdfs:comment "Description regarding the tertiary industry, commerce, and service output."@en .
+
+::superlanguage
+    rdfs:label "超级语言"@zh ;
+    rdfs:comment "指一种广泛使用或具有主导地位的语言。"@zh ;
+    rdfs:label "Super Language"@en ;
+    rdfs:comment "A language that is widely used or dominant in a specific context."@en .
+
+::type
+    rdfs:label "类型"@zh ;
+    rdfs:comment "用于区分实体类别或性质的分类标签。"@zh ;
+    rdfs:label "Type"@en ;
+    rdfs:comment "A classification label used to distinguish entity categories or properties."@en .
+
+::unemployment
+    rdfs:label "失业率"@zh ;
+    rdfs:comment "衡量劳动力市场中失业人口比例的指标。"@zh ;
+    rdfs:label "Unemployment Rate"@en ;
+    rdfs:comment "An indicator measuring the proportion of unemployed people in the labor market."@en .
+
+::year
+    rdfs:label "年份"@zh ;
+    rdfs:comment "数据统计或事件发生的具体年份。"@zh ;
+    rdfs:label "Year"@en ;
+    rdfs:comment "The specific year in which data was collected or an event occurred."@en .

@@ -1,0 +1,133 @@
+[PrefixDeclaration]
+rdf:		http://www.w3.org/1999/02/22-rdf-syntax-ns#
+rdfs:		http://www.w3.org/2000/01/rdf-schema#
+owl:		http://www.w3.org/2002/07/owl#
+xsd:		http://www.w3.org/2001/XMLSchema#
+obda:		https://w3id.org/obda/vocabulary#
+
+[MappingDeclaration] @collection [[
+mappingId	MAPPING-ID1
+target		<http://example.com/ontop/space_unit/space_id={space_id}> a <http://example.com/ontop/space_unit> ; <http://example.com/ontop/space_unit#space_id> {space_id}^^xsd:string ; <http://example.com/ontop/space_unit#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/space_unit#billing_area> {billing_area}^^xsd:decimal ; <http://example.com/ontop/space_unit#building_area> {building_area}^^xsd:decimal . 
+source		SELECT * FROM "space_unit"
+
+mappingId	MAPPING-ID2
+target		<http://example.com/ontop/space_unit/space_id={space_unit_space_id}> <http://example.com/ontop/space_unit#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "space_unit"."space_id" AS "space_unit_space_id", "property_project"."project_id" AS "property_project_project_id" FROM "space_unit", "property_project" WHERE "space_unit"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID3
+target		<http://example.com/ontop/subscription/subscr_id={subscr_id}> a <http://example.com/ontop/subscription> ; <http://example.com/ontop/subscription#subscr_id> {subscr_id}^^xsd:string ; <http://example.com/ontop/subscription#account_id> {account_id}^^xsd:string ; <http://example.com/ontop/subscription#space_id> {space_id}^^xsd:string ; <http://example.com/ontop/subscription#parking_id> {parking_id}^^xsd:string ; <http://example.com/ontop/subscription#bc_id> {bc_id}^^xsd:string ; <http://example.com/ontop/subscription#contract_id> {contract_id}^^xsd:string ; <http://example.com/ontop/subscription#subscr_start> {subscr_start}^^xsd:date ; <http://example.com/ontop/subscription#subscr_end> {subscr_end}^^xsd:date ; <http://example.com/ontop/subscription#subscr_status> {subscr_status}^^xsd:string . 
+source		SELECT * FROM "subscription"
+
+mappingId	MAPPING-ID4
+target		<http://example.com/ontop/subscription/subscr_id={subscription_subscr_id}> <http://example.com/ontop/subscription#ref-account_id> <http://example.com/ontop/account/account_id={account_account_id}> . 
+source		SELECT "subscription"."subscr_id" AS "subscription_subscr_id", "account"."account_id" AS "account_account_id" FROM "subscription", "account" WHERE "subscription"."account_id" = "account"."account_id"
+
+mappingId	MAPPING-ID5
+target		<http://example.com/ontop/tmp_transform/order_id={order_id}> a <http://example.com/ontop/tmp_transform> ; <http://example.com/ontop/tmp_transform#order_id> {order_id}^^xsd:string ; <http://example.com/ontop/tmp_transform#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/tmp_transform#order_type> {order_type}^^xsd:string ; <http://example.com/ontop/tmp_transform#service_fee> {service_fee}^^xsd:decimal ; <http://example.com/ontop/tmp_transform#bill_id> {bill_id}^^xsd:string . 
+source		SELECT * FROM "staging"."tmp_transform"
+
+mappingId	MAPPING-ID6
+target		<http://example.com/ontop/hist_payment/pay_id={pay_id}> a <http://example.com/ontop/hist_payment> ; <http://example.com/ontop/hist_payment#pay_id> {pay_id}^^xsd:string ; <http://example.com/ontop/hist_payment#bill_id> {bill_id}^^xsd:string ; <http://example.com/ontop/hist_payment#pay_channel> {pay_channel}^^xsd:string ; <http://example.com/ontop/hist_payment#pay_amount> {pay_amount}^^xsd:decimal ; <http://example.com/ontop/hist_payment#pay_time> {pay_time}^^xsd:dateTime ; <http://example.com/ontop/hist_payment#match_status> {match_status}^^xsd:string . 
+source		SELECT * FROM "archive"."hist_payment"
+
+mappingId	MAPPING-ID7
+target		<http://example.com/ontop/hist_work_order/order_id={order_id}> a <http://example.com/ontop/hist_work_order> ; <http://example.com/ontop/hist_work_order#order_id> {order_id}^^xsd:string ; <http://example.com/ontop/hist_work_order#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/hist_work_order#order_type> {order_type}^^xsd:string ; <http://example.com/ontop/hist_work_order#service_fee> {service_fee}^^xsd:decimal ; <http://example.com/ontop/hist_work_order#bill_id> {bill_id}^^xsd:string . 
+source		SELECT * FROM "archive"."hist_work_order"
+
+mappingId	MAPPING-ID8
+target		<http://example.com/ontop/cost_allocation/alloc_id={alloc_id}> a <http://example.com/ontop/cost_allocation> ; <http://example.com/ontop/cost_allocation#alloc_id> {alloc_id}^^xsd:string ; <http://example.com/ontop/cost_allocation#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/cost_allocation#cost_type> {cost_type}^^xsd:string ; <http://example.com/ontop/cost_allocation#alloc_amount> {alloc_amount}^^xsd:decimal ; <http://example.com/ontop/cost_allocation#alloc_period> {alloc_period}^^xsd:string . 
+source		SELECT * FROM "cost_allocation"
+
+mappingId	MAPPING-ID9
+target		<http://example.com/ontop/cost_allocation/alloc_id={cost_allocation_alloc_id}> <http://example.com/ontop/cost_allocation#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "cost_allocation"."alloc_id" AS "cost_allocation_alloc_id", "property_project"."project_id" AS "property_project_project_id" FROM "cost_allocation", "property_project" WHERE "cost_allocation"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID10
+target		<http://example.com/ontop/payment/pay_id={pay_id}> a <http://example.com/ontop/payment> ; <http://example.com/ontop/payment#pay_id> {pay_id}^^xsd:string ; <http://example.com/ontop/payment#bill_id> {bill_id}^^xsd:string ; <http://example.com/ontop/payment#pay_channel> {pay_channel}^^xsd:string ; <http://example.com/ontop/payment#pay_amount> {pay_amount}^^xsd:decimal ; <http://example.com/ontop/payment#pay_time> {pay_time}^^xsd:dateTime ; <http://example.com/ontop/payment#match_status> {match_status}^^xsd:string . 
+source		SELECT * FROM "payment"
+
+mappingId	MAPPING-ID11
+target		<http://example.com/ontop/payment/pay_id={payment_pay_id}> <http://example.com/ontop/payment#ref-bill_id> <http://example.com/ontop/bill/bill_id={bill_bill_id}> . 
+source		SELECT "payment"."pay_id" AS "payment_pay_id", "bill"."bill_id" AS "bill_bill_id" FROM "payment", "bill" WHERE "payment"."bill_id" = "bill"."bill_id"
+
+mappingId	MAPPING-ID12
+target		<http://example.com/ontop/tmp_export/bill_id={bill_id}> a <http://example.com/ontop/tmp_export> ; <http://example.com/ontop/tmp_export#bill_id> {bill_id}^^xsd:string ; <http://example.com/ontop/tmp_export#subscr_id> {subscr_id}^^xsd:string ; <http://example.com/ontop/tmp_export#period> {period}^^xsd:string ; <http://example.com/ontop/tmp_export#amount_due> {amount_due}^^xsd:decimal ; <http://example.com/ontop/tmp_export#amount_paid> {amount_paid}^^xsd:decimal ; <http://example.com/ontop/tmp_export#amount_balance> {amount_balance}^^xsd:decimal ; <http://example.com/ontop/tmp_export#bill_status> {bill_status}^^xsd:string ; <http://example.com/ontop/tmp_export#source_flag> {source_flag}^^xsd:string . 
+source		SELECT * FROM "staging"."tmp_export"
+
+mappingId	MAPPING-ID13
+target		<http://example.com/ontop/property_project/project_id={project_id}> a <http://example.com/ontop/property_project> ; <http://example.com/ontop/property_project#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/property_project#project_name> {project_name}^^xsd:string ; <http://example.com/ontop/property_project#project_status> {project_status}^^xsd:string ; <http://example.com/ontop/property_project#region> {region}^^xsd:string . 
+source		SELECT * FROM "property_project"
+
+mappingId	MAPPING-ID14
+target		<http://example.com/ontop/work_order/order_id={order_id}> a <http://example.com/ontop/work_order> ; <http://example.com/ontop/work_order#order_id> {order_id}^^xsd:string ; <http://example.com/ontop/work_order#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/work_order#order_type> {order_type}^^xsd:string ; <http://example.com/ontop/work_order#service_fee> {service_fee}^^xsd:decimal ; <http://example.com/ontop/work_order#bill_id> {bill_id}^^xsd:string . 
+source		SELECT * FROM "work_order"
+
+mappingId	MAPPING-ID15
+target		<http://example.com/ontop/work_order/order_id={work_order_order_id}> <http://example.com/ontop/work_order#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "work_order"."order_id" AS "work_order_order_id", "property_project"."project_id" AS "property_project_project_id" FROM "work_order", "property_project" WHERE "work_order"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID16
+target		<http://example.com/ontop/meter/meter_id={meter_id}> a <http://example.com/ontop/meter> ; <http://example.com/ontop/meter#meter_id> {meter_id}^^xsd:string ; <http://example.com/ontop/meter#space_id> {space_id}^^xsd:string ; <http://example.com/ontop/meter#meter_type> {meter_type}^^xsd:string . 
+source		SELECT * FROM "meter"
+
+mappingId	MAPPING-ID17
+target		<http://example.com/ontop/meter/meter_id={meter_meter_id}> <http://example.com/ontop/meter#ref-space_id> <http://example.com/ontop/space_unit/space_id={space_unit_space_id}> . 
+source		SELECT "meter"."meter_id" AS "meter_meter_id", "space_unit"."space_id" AS "space_unit_space_id" FROM "meter", "space_unit" WHERE "meter"."space_id" = "space_unit"."space_id"
+
+mappingId	MAPPING-ID18
+target		<http://example.com/ontop/contract/contract_id={contract_id}> a <http://example.com/ontop/contract> ; <http://example.com/ontop/contract#contract_id> {contract_id}^^xsd:string ; <http://example.com/ontop/contract#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/contract#contract_start> {contract_start}^^xsd:date ; <http://example.com/ontop/contract#contract_end> {contract_end}^^xsd:date . 
+source		SELECT * FROM "contract"
+
+mappingId	MAPPING-ID19
+target		<http://example.com/ontop/contract/contract_id={contract_contract_id}> <http://example.com/ontop/contract#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "contract"."contract_id" AS "contract_contract_id", "property_project"."project_id" AS "property_project_project_id" FROM "contract", "property_project" WHERE "contract"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID20
+target		<http://example.com/ontop/bill/bill_id={bill_id}> a <http://example.com/ontop/bill> ; <http://example.com/ontop/bill#bill_id> {bill_id}^^xsd:string ; <http://example.com/ontop/bill#subscr_id> {subscr_id}^^xsd:string ; <http://example.com/ontop/bill#period> {period}^^xsd:string ; <http://example.com/ontop/bill#amount_due> {amount_due}^^xsd:decimal ; <http://example.com/ontop/bill#amount_paid> {amount_paid}^^xsd:decimal ; <http://example.com/ontop/bill#amount_balance> {amount_balance}^^xsd:decimal ; <http://example.com/ontop/bill#bill_status> {bill_status}^^xsd:string ; <http://example.com/ontop/bill#source_flag> {source_flag}^^xsd:string . 
+source		SELECT * FROM "bill"
+
+mappingId	MAPPING-ID21
+target		<http://example.com/ontop/bill/bill_id={bill_bill_id}> <http://example.com/ontop/bill#ref-subscr_id> <http://example.com/ontop/subscription/subscr_id={subscription_subscr_id}> . 
+source		SELECT "bill"."bill_id" AS "bill_bill_id", "subscription"."subscr_id" AS "subscription_subscr_id" FROM "bill", "subscription" WHERE "bill"."subscr_id" = "subscription"."subscr_id"
+
+mappingId	MAPPING-ID22
+target		<http://example.com/ontop/tmp_import/account_id={account_id}> a <http://example.com/ontop/tmp_import> ; <http://example.com/ontop/tmp_import#account_id> {account_id}^^xsd:string ; <http://example.com/ontop/tmp_import#global_id> {global_id}^^xsd:string ; <http://example.com/ontop/tmp_import#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/tmp_import#balance> {balance}^^xsd:decimal ; <http://example.com/ontop/tmp_import#account_status> {account_status}^^xsd:string . 
+source		SELECT * FROM "staging"."tmp_import"
+
+mappingId	MAPPING-ID23
+target		<http://example.com/ontop/person/person_id={person_id}> a <http://example.com/ontop/person> ; <http://example.com/ontop/person#person_id> {person_id}^^xsd:string ; <http://example.com/ontop/person#person_name> {person_name}^^xsd:string ; <http://example.com/ontop/person#work_type> {work_type}^^xsd:string ; <http://example.com/ontop/person#project_id> {project_id}^^xsd:string . 
+source		SELECT * FROM "person"
+
+mappingId	MAPPING-ID24
+target		<http://example.com/ontop/person/person_id={person_person_id}> <http://example.com/ontop/person#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "person"."person_id" AS "person_person_id", "property_project"."project_id" AS "property_project_project_id" FROM "person", "property_project" WHERE "person"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID25
+target		<http://example.com/ontop/parking_space/parking_id={parking_id}> a <http://example.com/ontop/parking_space> ; <http://example.com/ontop/parking_space#parking_id> {parking_id}^^xsd:string ; <http://example.com/ontop/parking_space#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/parking_space#parking_type> {parking_type}^^xsd:string . 
+source		SELECT * FROM "parking_space"
+
+mappingId	MAPPING-ID26
+target		<http://example.com/ontop/parking_space/parking_id={parking_space_parking_id}> <http://example.com/ontop/parking_space#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "parking_space"."parking_id" AS "parking_space_parking_id", "property_project"."project_id" AS "property_project_project_id" FROM "parking_space", "property_project" WHERE "parking_space"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID27
+target		<http://example.com/ontop/account/account_id={account_id}> a <http://example.com/ontop/account> ; <http://example.com/ontop/account#account_id> {account_id}^^xsd:string ; <http://example.com/ontop/account#global_id> {global_id}^^xsd:string ; <http://example.com/ontop/account#project_id> {project_id}^^xsd:string ; <http://example.com/ontop/account#balance> {balance}^^xsd:decimal ; <http://example.com/ontop/account#account_status> {account_status}^^xsd:string . 
+source		SELECT * FROM "account"
+
+mappingId	MAPPING-ID28
+target		<http://example.com/ontop/account/account_id={account_account_id}> <http://example.com/ontop/account#ref-global_id> <http://example.com/ontop/customer/global_id={customer_global_id}> . 
+source		SELECT "account"."account_id" AS "account_account_id", "customer"."global_id" AS "customer_global_id" FROM "account", "customer" WHERE "account"."global_id" = "customer"."global_id"
+
+mappingId	MAPPING-ID29
+target		<http://example.com/ontop/account/account_id={account_account_id}> <http://example.com/ontop/account#ref-project_id> <http://example.com/ontop/property_project/project_id={property_project_project_id}> . 
+source		SELECT "account"."account_id" AS "account_account_id", "property_project"."project_id" AS "property_project_project_id" FROM "account", "property_project" WHERE "account"."project_id" = "property_project"."project_id"
+
+mappingId	MAPPING-ID30
+target		<http://example.com/ontop/business_class/bc_id={bc_id}> a <http://example.com/ontop/business_class> ; <http://example.com/ontop/business_class#bc_id> {bc_id}^^xsd:string ; <http://example.com/ontop/business_class#billing_base_type> {billing_base_type}^^xsd:string ; <http://example.com/ontop/business_class#unit_price> {unit_price}^^xsd:decimal ; <http://example.com/ontop/business_class#tax_rate> {tax_rate}^^xsd:decimal ; <http://example.com/ontop/business_class#settlement_frequency> {settlement_frequency}^^xsd:string ; <http://example.com/ontop/business_class#settlement_anchor> {settlement_anchor}^^xsd:string ; <http://example.com/ontop/business_class#accounting_mode> {accounting_mode}^^xsd:string . 
+source		SELECT * FROM "business_class"
+
+mappingId	MAPPING-ID31
+target		<http://example.com/ontop/customer/global_id={global_id}> a <http://example.com/ontop/customer> ; <http://example.com/ontop/customer#global_id> {global_id}^^xsd:string ; <http://example.com/ontop/customer#legal_name> {legal_name}^^xsd:string ; <http://example.com/ontop/customer#id_number> {id_number}^^xsd:string ; <http://example.com/ontop/customer#customer_status> {customer_status}^^xsd:string . 
+source		SELECT * FROM "customer"
+]]
+

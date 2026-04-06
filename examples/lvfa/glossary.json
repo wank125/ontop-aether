@@ -1,0 +1,1323 @@
+[
+    {
+        "term": "\u4e3b\u8d26\u6237",
+        "aliases": [
+            "\u6211\u7684\u8d26\u6237",
+            "\u8d26\u53f7",
+            "\u6237\u53f7",
+            "\u8d26\u6237\u4fe1\u606f"
+        ],
+        "entity_uri": ":account",
+        "entity_kind": "class",
+        "description": "\u7528\u6237\u5728\u7cfb\u7edf\u4e2d\u6ce8\u518c\u5e76\u7528\u4e8e\u7ba1\u7406\u4e1a\u52a1\u7684\u4e3b\u8d26\u53f7\u3002",
+        "example_questions": [
+            "\u6211\u7684\u4e3b\u8d26\u6237\u662f\u591a\u5c11\uff1f",
+            "\u600e\u4e48\u4fee\u6539\u4e3b\u8d26\u6237\u4fe1\u606f\uff1f",
+            "\u67e5\u8be2\u4e3b\u8d26\u6237\u4f59\u989d"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u5355",
+        "aliases": [
+            "\u8d26\u5355\u660e\u7ec6",
+            "\u7f34\u8d39\u5355",
+            "\u8d39\u7528\u5355",
+            "\u5bf9\u8d26\u5355"
+        ],
+        "entity_uri": ":bill",
+        "entity_kind": "class",
+        "description": "\u6839\u636e\u4e1a\u52a1\u5468\u671f\u751f\u6210\u7684\u8d39\u7528\u7ed3\u7b97\u5355\u636e\u3002",
+        "example_questions": [
+            "\u6211\u4e0a\u4e2a\u6708\u7684\u8d26\u5355\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u770b\u8d26\u5355\u8be6\u60c5",
+            "\u8d26\u5355\u4ec0\u4e48\u65f6\u5019\u51fa"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u4e1a\u52a1\u7c7b\u578b",
+        "aliases": [
+            "\u670d\u52a1\u7c7b\u578b",
+            "\u4ea7\u54c1\u5206\u7c7b",
+            "\u4e1a\u52a1\u79cd\u7c7b",
+            "\u670d\u52a1\u7c7b\u522b"
+        ],
+        "entity_uri": ":business_class",
+        "entity_kind": "class",
+        "description": "\u5b9a\u4e49\u4e1a\u52a1\u670d\u52a1\u6216\u4ea7\u54c1\u7684\u5206\u7c7b\u6807\u51c6\u3002",
+        "example_questions": [
+            "\u6709\u54ea\u4e9b\u4e1a\u52a1\u7c7b\u578b\uff1f",
+            "\u67e5\u8be2\u670d\u52a1\u7c7b\u578b",
+            "\u4e1a\u52a1\u7c7b\u578b\u600e\u4e48\u5206\u7c7b"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5408\u540c",
+        "aliases": [
+            "\u534f\u8bae",
+            "\u79df\u8d41\u5408\u540c",
+            "\u670d\u52a1\u534f\u8bae",
+            "\u5408\u540c\u4e66"
+        ],
+        "entity_uri": ":contract",
+        "entity_kind": "class",
+        "description": "\u5ba2\u6237\u4e0e\u516c\u53f8\u4e4b\u95f4\u7b7e\u8ba2\u7684\u5177\u6709\u6cd5\u5f8b\u6548\u529b\u7684\u534f\u8bae\u3002",
+        "example_questions": [
+            "\u67e5\u770b\u6211\u7684\u5408\u540c",
+            "\u5408\u540c\u5230\u671f\u65f6\u95f4",
+            "\u5408\u540c\u8be6\u60c5"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u6210\u672c\u5206\u644a",
+        "aliases": [
+            "\u8d39\u7528\u5206\u644a",
+            "\u5206\u644a\u89c4\u5219",
+            "\u6210\u672c\u5206\u6d3e",
+            "\u8d39\u7528\u5206\u644a"
+        ],
+        "entity_uri": ":cost_allocation",
+        "entity_kind": "class",
+        "description": "\u5c06\u603b\u6210\u672c\u6309\u89c4\u5219\u5206\u914d\u5230\u5177\u4f53\u5bf9\u8c61\u7684\u8fc7\u7a0b\u3002",
+        "example_questions": [
+            "\u6210\u672c\u600e\u4e48\u5206\u644a\u7684\uff1f",
+            "\u67e5\u770b\u5206\u644a\u660e\u7ec6",
+            "\u8d39\u7528\u5206\u644a\u89c4\u5219"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5ba2\u6237",
+        "aliases": [
+            "\u4e1a\u4e3b",
+            "\u79df\u6237",
+            "\u7528\u6237",
+            "\u5ba2\u6237\u4fe1\u606f"
+        ],
+        "entity_uri": ":customer",
+        "entity_kind": "class",
+        "description": "\u4f7f\u7528\u516c\u53f8\u670d\u52a1\u7684\u6700\u7ec8\u7528\u6237\u6216\u7ec4\u7ec7\u3002",
+        "example_questions": [
+            "\u8c01\u662f\u5ba2\u6237\uff1f",
+            "\u67e5\u8be2\u5ba2\u6237\u4fe1\u606f",
+            "\u65b0\u589e\u5ba2\u6237"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5386\u53f2\u652f\u4ed8",
+        "aliases": [
+            "\u5386\u53f2\u6d41\u6c34",
+            "\u8fc7\u5f80\u652f\u4ed8",
+            "\u7f34\u8d39\u8bb0\u5f55",
+            "\u652f\u4ed8\u5386\u53f2"
+        ],
+        "entity_uri": ":hist_payment",
+        "entity_kind": "class",
+        "description": "\u8bb0\u5f55\u8fc7\u5f80\u53d1\u751f\u7684\u8d44\u91d1\u652f\u4ed8\u6d41\u6c34\u4fe1\u606f\u3002",
+        "example_questions": [
+            "\u67e5\u770b\u5386\u53f2\u652f\u4ed8\u8bb0\u5f55",
+            "\u4e0a\u6b21\u7684\u652f\u4ed8\u8bb0\u5f55",
+            "\u5386\u53f2\u6d41\u6c34\u67e5\u8be2"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5386\u53f2\u5de5\u5355",
+        "aliases": [
+            "\u5de5\u5355\u8bb0\u5f55",
+            "\u670d\u52a1\u8bb0\u5f55",
+            "\u5df2\u5b8c\u7ed3\u5de5\u5355",
+            "\u5386\u53f2\u670d\u52a1"
+        ],
+        "entity_uri": ":hist_work_order",
+        "entity_kind": "class",
+        "description": "\u5df2\u7ed3\u675f\u6216\u5df2\u5f52\u6863\u7684\u5386\u53f2\u670d\u52a1\u5de5\u5355\u8bb0\u5f55\u3002",
+        "example_questions": [
+            "\u67e5\u8be2\u5386\u53f2\u5de5\u5355",
+            "\u5df2\u5b8c\u7ed3\u7684\u5de5\u5355",
+            "\u5de5\u5355\u8bb0\u5f55"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba1\u91cf\u8868",
+        "aliases": [
+            "\u6c34\u8868",
+            "\u7535\u8868",
+            "\u8bfb\u6570",
+            "\u4eea\u8868"
+        ],
+        "entity_uri": ":meter",
+        "entity_kind": "class",
+        "description": "\u7528\u4e8e\u6d4b\u91cf\u8d44\u6e90\u6d88\u8017\u91cf\u7684\u7269\u7406\u8bbe\u5907\u3002",
+        "example_questions": [
+            "\u6c34\u8868\u8bfb\u6570\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u7535\u8868",
+            "\u8ba1\u91cf\u8868\u5728\u54ea\u91cc"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u505c\u8f66\u4f4d",
+        "aliases": [
+            "\u8f66\u4f4d",
+            "\u8f66\u6863",
+            "\u505c\u8f66\u4f4d\u7f6e",
+            "\u8f66\u4f4d\u53f7"
+        ],
+        "entity_uri": ":parking_space",
+        "entity_kind": "class",
+        "description": "\u7528\u4e8e\u505c\u653e\u8f66\u8f86\u7684\u56fa\u5b9a\u4f4d\u7f6e\u8d44\u6e90\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8f66\u4f4d\u5728\u54ea\u91cc\uff1f",
+            "\u8f66\u4f4d\u51fa\u79df\u5417\uff1f",
+            "\u67e5\u8be2\u8f66\u4f4d\u4fe1\u606f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u652f\u4ed8",
+        "aliases": [
+            "\u652f\u4ed8\u8bb0\u5f55",
+            "\u4ed8\u6b3e",
+            "\u7f34\u8d39",
+            "\u652f\u4ed8\u6d41\u6c34"
+        ],
+        "entity_uri": ":payment",
+        "entity_kind": "class",
+        "description": "\u5f53\u524d\u6b63\u5728\u5904\u7406\u6216\u5df2\u5b8c\u6210\u7684\u8d44\u91d1\u652f\u4ed8\u884c\u4e3a\u3002",
+        "example_questions": [
+            "\u652f\u4ed8\u6210\u529f\u4e86\u5417\uff1f",
+            "\u600e\u4e48\u652f\u4ed8\uff1f",
+            "\u652f\u4ed8\u8bb0\u5f55"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u4eba\u5458",
+        "aliases": [
+            "\u4eba\u5458\u4fe1\u606f",
+            "\u5458\u5de5",
+            "\u4eba\u5458\u6863\u6848",
+            "\u4eba\u5458\u5217\u8868"
+        ],
+        "entity_uri": ":person",
+        "entity_kind": "class",
+        "description": "\u7cfb\u7edf\u4e2d\u7684\u81ea\u7136\u4eba\u7528\u6237\u6216\u5458\u5de5\u4fe1\u606f\u3002",
+        "example_questions": [
+            "\u67e5\u8be2\u4eba\u5458\u4fe1\u606f",
+            "\u65b0\u589e\u4eba\u5458",
+            "\u4eba\u5458\u5217\u8868"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7269\u4e1a\u9879\u76ee",
+        "aliases": [
+            "\u5c0f\u533a",
+            "\u697c\u76d8",
+            "\u7269\u4e1a",
+            "\u9879\u76ee"
+        ],
+        "entity_uri": ":property_project",
+        "entity_kind": "class",
+        "description": "\u5305\u542b\u591a\u4e2a\u697c\u5b87\u6216\u533a\u57df\u7684\u5927\u578b\u7269\u4e1a\u96c6\u5408\u3002",
+        "example_questions": [
+            "\u6211\u7684\u5c0f\u533a\u662f\u54ea\u4e2a\uff1f",
+            "\u7269\u4e1a\u9879\u76ee\u5217\u8868",
+            "\u5c0f\u533a\u540d\u79f0"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7a7a\u95f4\u5355\u5143",
+        "aliases": [
+            "\u5355\u5143",
+            "\u623f\u95f4",
+            "\u623f\u5c4b",
+            "\u7a7a\u95f4"
+        ],
+        "entity_uri": ":space_unit",
+        "entity_kind": "class",
+        "description": "\u53ef\u79df\u8d41\u6216\u7ba1\u7406\u7684\u6700\u5c0f\u7a7a\u95f4\u8d44\u6e90\u5757\u3002",
+        "example_questions": [
+            "\u6211\u7684\u5355\u5143\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u623f\u95f4\u4fe1\u606f",
+            "\u7a7a\u95f4\u5355\u5143"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u9605",
+        "aliases": [
+            "\u8ba2\u8d2d",
+            "\u670d\u52a1\u8ba2\u9605",
+            "\u5305\u5e74",
+            "\u8ba2\u9605\u5173\u7cfb"
+        ],
+        "entity_uri": ":subscription",
+        "entity_kind": "class",
+        "description": "\u7528\u6237\u5bf9\u67d0\u9879\u670d\u52a1\u6216\u8d44\u6e90\u7684\u8ba2\u8d2d\u5173\u7cfb\u3002",
+        "example_questions": [
+            "\u67e5\u770b\u8ba2\u9605\u670d\u52a1",
+            "\u8ba2\u9605\u5230\u671f\u65f6\u95f4",
+            "\u600e\u4e48\u8ba2\u9605"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5bfc\u51fa",
+        "aliases": [
+            "\u6570\u636e\u5bfc\u51fa",
+            "\u5bfc\u51fa\u4efb\u52a1",
+            "\u5bfc\u51fa\u8bb0\u5f55"
+        ],
+        "entity_uri": ":tmp_export",
+        "entity_kind": "class",
+        "description": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u5bfc\u51fa\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "example_questions": [
+            "\u5e2e\u6211\u5bfc\u51fa\u4e00\u4e0b\u6570\u636e\u3002",
+            "\u521a\u624d\u5bfc\u51fa\u7684\u6587\u4ef6\u5728\u54ea\u91cc\uff1f",
+            "\u5bfc\u51fa\u4efb\u52a1\u5b8c\u6210\u4e86\u5417\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5bfc\u5165",
+        "aliases": [
+            "\u6570\u636e\u5bfc\u5165",
+            "\u5bfc\u5165\u4efb\u52a1",
+            "\u5bfc\u5165\u8bb0\u5f55"
+        ],
+        "entity_uri": ":tmp_import",
+        "entity_kind": "class",
+        "description": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u5bfc\u5165\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "example_questions": [
+            "\u6211\u8981\u5bfc\u5165\u6570\u636e\u3002",
+            "\u5bfc\u5165\u8fdb\u5ea6\u600e\u4e48\u6837\u4e86\uff1f",
+            "\u5bfc\u5165\u5931\u8d25\u4e86\u600e\u4e48\u529e\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8f6c\u6362",
+        "aliases": [
+            "\u683c\u5f0f\u8f6c\u6362",
+            "\u6570\u636e\u8f6c\u6362",
+            "\u8f6c\u6362\u4efb\u52a1"
+        ],
+        "entity_uri": ":tmp_transform",
+        "entity_kind": "class",
+        "description": "\u7528\u6237\u53d1\u8d77\u7684\u4e34\u65f6\u6570\u636e\u683c\u5f0f\u8f6c\u6362\u4efb\u52a1\u8bb0\u5f55\u3002",
+        "example_questions": [
+            "\u5e2e\u6211\u8f6c\u6362\u4e00\u4e0b\u683c\u5f0f\u3002",
+            "\u8f6c\u6362\u4efb\u52a1\u4ec0\u4e48\u65f6\u5019\u597d\uff1f",
+            "\u8f6c\u6362\u540e\u7684\u6587\u4ef6\u5728\u54ea\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5de5\u5355",
+        "aliases": [
+            "\u670d\u52a1\u5355",
+            "\u62a5\u4fee\u5355",
+            "\u5904\u7406\u5355"
+        ],
+        "entity_uri": ":work_order",
+        "entity_kind": "class",
+        "description": "\u8bb0\u5f55\u670d\u52a1\u8bf7\u6c42\u3001\u7ef4\u4fee\u6216\u5904\u7406\u6d41\u7a0b\u7684\u5de5\u5355\u3002",
+        "example_questions": [
+            "\u6211\u7684\u5de5\u5355\u5904\u7406\u4e86\u5417\uff1f",
+            "\u600e\u4e48\u521b\u5efa\u4e00\u4e2a\u5de5\u5355\uff1f",
+            "\u5de5\u5355\u72b6\u6001\u66f4\u65b0\u4e86\u5417\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u53f7",
+        "aliases": [
+            "\u8d26\u6237ID",
+            "\u8d26\u53f7\u7f16\u53f7",
+            "\u7528\u6237ID"
+        ],
+        "entity_uri": "account_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u8d26\u6237\u7684\u6570\u5b57\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u4f60\u7684\u8d26\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u8fd9\u4e2a\u8d26\u53f7\u600e\u4e48\u67e5\uff1f",
+            "\u8d26\u53f7\u767b\u5f55\u4e0d\u4e86\u3002"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u6237\u72b6\u6001",
+        "aliases": [
+            "\u8d26\u53f7\u72b6\u6001",
+            "\u6237\u72b6\u6001",
+            "\u542f\u7528\u72b6\u6001"
+        ],
+        "entity_uri": "account_status",
+        "entity_kind": "data_property",
+        "description": "\u8d26\u6237\u5f53\u524d\u7684\u542f\u7528\u6216\u505c\u7528\u72b6\u6001\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8d26\u6237\u88ab\u51bb\u7ed3\u4e86\u5417\uff1f",
+            "\u8d26\u6237\u72b6\u6001\u6b63\u5e38\u5417\uff1f",
+            "\u600e\u4e48\u628a\u8d26\u6237\u505c\u7528\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba1\u8d39\u65b9\u5f0f",
+        "aliases": [
+            "\u8ba1\u8d39\u6a21\u5f0f",
+            "\u6536\u8d39\u65b9\u5f0f",
+            "\u8ba1\u8d39\u89c4\u5219"
+        ],
+        "entity_uri": "accounting_mode",
+        "entity_kind": "data_property",
+        "description": "\u5b9a\u4e49\u8d39\u7528\u8ba1\u7b97\u548c\u8bb0\u5f55\u7684\u5177\u4f53\u89c4\u5219\u65b9\u5f0f\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u600e\u4e48\u8ba1\u8d39\uff1f",
+            "\u8ba1\u8d39\u65b9\u5f0f\u9009\u9519\u4e86\u3002",
+            "\u8ba1\u8d39\u6a21\u5f0f\u652f\u6301\u54ea\u4e9b\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5206\u644a\u5355\u53f7",
+        "aliases": [
+            "\u5206\u644aID",
+            "\u5206\u644a\u7f16\u53f7",
+            "\u5206\u644a\u8bb0\u5f55"
+        ],
+        "entity_uri": "alloc_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u8d39\u7528\u5206\u644a\u8bb0\u5f55\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u5206\u644a\u5355\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u5206\u644a\u3002",
+            "\u5206\u644a\u8bb0\u5f55\u5728\u54ea\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5206\u644a\u5468\u671f",
+        "aliases": [
+            "\u5206\u644a\u65f6\u95f4",
+            "\u5206\u644a\u6708\u4efd",
+            "\u5468\u671f"
+        ],
+        "entity_uri": "alloc_period",
+        "entity_kind": "data_property",
+        "description": "\u8d39\u7528\u5206\u644a\u6240\u8986\u76d6\u7684\u65f6\u95f4\u5468\u671f\u8303\u56f4\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u5206\u644a\u5230\u4ec0\u4e48\u65f6\u5019\uff1f",
+            "\u5206\u644a\u5468\u671f\u600e\u4e48\u8bbe\u7f6e\uff1f",
+            "\u6309\u6708\u5206\u644a\u8fd8\u662f\u6309\u5e74\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u6237\u4f59\u989d",
+        "aliases": [
+            "\u4f59\u989d",
+            "\u8d26\u6237\u91d1\u989d",
+            "\u53ef\u7528\u4f59\u989d"
+        ],
+        "entity_uri": "amount_balance",
+        "entity_kind": "data_property",
+        "description": "\u8d26\u6237\u4e2d\u5177\u4f53\u7684\u8d27\u5e01\u91d1\u989d\u4f59\u989d\u3002",
+        "example_questions": [
+            "\u8d26\u6237\u91cc\u8fd8\u6709\u591a\u5c11\u94b1\uff1f",
+            "\u4f59\u989d\u4e0d\u8db3\u600e\u4e48\u529e\uff1f",
+            "\u67e5\u770b\u8d26\u6237\u4f59\u989d\u3002"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5f85\u4ed8\u91d1\u989d",
+        "aliases": [
+            "\u6b20\u6b3e",
+            "\u5e94\u4ed8\u91d1\u989d",
+            "\u5f85\u7f34\u91d1\u989d"
+        ],
+        "entity_uri": "amount_due",
+        "entity_kind": "data_property",
+        "description": "\u5f53\u524d\u9700\u8981\u652f\u4ed8\u7684\u603b\u91d1\u989d\u3002",
+        "example_questions": [
+            "\u6211\u6b20\u591a\u5c11\u94b1\uff1f",
+            "\u5f85\u4ed8\u91d1\u989d\u662f\u591a\u5c11\uff1f",
+            "\u4ec0\u4e48\u65f6\u5019\u4ea4\u94b1\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5df2\u4ed8\u91d1\u989d",
+        "aliases": [
+            "\u5df2\u7f34\u91d1\u989d",
+            "\u5b9e\u4ed8\u91d1\u989d",
+            "\u652f\u4ed8\u91d1\u989d"
+        ],
+        "entity_uri": "amount_paid",
+        "entity_kind": "data_property",
+        "description": "\u5df2\u7ecf\u6210\u529f\u652f\u4ed8\u7684\u91d1\u989d\u603b\u6570\u3002",
+        "example_questions": [
+            "\u5df2\u7ecf\u4ed8\u4e86\u591a\u5c11\uff1f",
+            "\u5df2\u4ed8\u91d1\u989d\u600e\u4e48\u67e5\uff1f",
+            "\u652f\u4ed8\u8bb0\u5f55\u5728\u54ea\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u4f59\u989d",
+        "aliases": [
+            "\u5269\u4f59\u91d1\u989d",
+            "\u53ef\u7528\u4f59\u989d",
+            "\u7ed3\u4f59"
+        ],
+        "entity_uri": "balance",
+        "entity_kind": "data_property",
+        "description": "\u8d26\u6237\u5f53\u524d\u7684\u5269\u4f59\u53ef\u7528\u91d1\u989d\u3002",
+        "example_questions": [
+            "\u4f59\u989d\u8fd8\u6709\u591a\u5c11\uff1f",
+            "\u4f59\u989d\u53d8\u52a8\u4e86\u5417\uff1f",
+            "\u4f59\u989d\u4e0d\u8db3\u3002"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u4e1a\u52a1\u7f16\u53f7",
+        "aliases": [
+            "BC\u7f16\u53f7",
+            "\u4e1a\u52a1ID",
+            "\u4e1a\u52a1\u4e2d\u5fc3\u53f7"
+        ],
+        "entity_uri": "bc_id",
+        "entity_kind": "data_property",
+        "description": "\u4e1a\u52a1\u7ec4\u4ef6\u6216\u4e1a\u52a1\u4e2d\u5fc3\u7684\u552f\u4e00\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u4e1a\u52a1\u7f16\u53f7\u662f\u591a\u5c11\uff1f",
+            "BC\u7f16\u53f7\u600e\u4e48\u586b\uff1f",
+            "\u67e5\u8be2\u4e1a\u52a1\u7f16\u53f7\u3002"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u5355\u53f7",
+        "aliases": [
+            "\u5355\u53f7",
+            "\u8d26\u5355\u7f16\u53f7",
+            "\u6d41\u6c34\u53f7"
+        ],
+        "entity_uri": "bill_id",
+        "entity_kind": "data_property",
+        "description": "\u7528\u6765\u552f\u4e00\u8bc6\u522b\u4e00\u7b14\u8d26\u5355\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8d26\u5355\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u8d26\u5355\u53f7123456\u7684\u8be6\u60c5",
+            "\u8fd9\u5355\u7684\u6d41\u6c34\u53f7\u662f\u591a\u5c11\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u5355\u72b6\u6001",
+        "aliases": [
+            "\u72b6\u6001",
+            "\u5355\u636e\u72b6\u6001",
+            "\u7ed3\u7b97\u72b6\u6001"
+        ],
+        "entity_uri": "bill_status",
+        "entity_kind": "data_property",
+        "description": "\u8868\u793a\u8d26\u5355\u5f53\u524d\u662f\u5df2\u751f\u6210\u3001\u5df2\u652f\u4ed8\u8fd8\u662f\u672a\u652f\u4ed8\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8d26\u5355\u72b6\u6001\u6b63\u5e38\u5417\uff1f",
+            "\u8fd9\u4e2a\u8d26\u5355\u4ec0\u4e48\u65f6\u5019\u80fd\u7ed3\u6e05\uff1f",
+            "\u67e5\u8be2\u5df2\u751f\u6210\u7684\u8d26\u5355\u72b6\u6001"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba1\u8d39\u533a",
+        "aliases": [
+            "\u6536\u8d39\u533a",
+            "\u533a\u57df",
+            "\u7247\u533a"
+        ],
+        "entity_uri": "billing_area",
+        "entity_kind": "data_property",
+        "description": "\u7528\u4e8e\u5212\u5206\u8ba1\u8d39\u8303\u56f4\u7684\u5177\u4f53\u4e1a\u52a1\u533a\u57df\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u533a\u57df\u600e\u4e48\u6536\u8d39\uff1f",
+            "\u6211\u7684\u8ba1\u8d39\u533a\u662f\u54ea\u91cc\uff1f",
+            "\u67e5\u8be2A\u7247\u533a\u7684\u8d26\u5355"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba1\u8d39\u57fa\u6570",
+        "aliases": [
+            "\u8ba1\u8d39\u4f9d\u636e",
+            "\u8ba1\u8d39\u9879",
+            "\u8ba1\u8d39\u6807\u51c6"
+        ],
+        "entity_uri": "billing_base_type",
+        "entity_kind": "data_property",
+        "description": "\u8ba1\u7b97\u8d39\u7528\u6240\u4f9d\u636e\u7684\u57fa\u7840\u8d44\u6e90\u6216\u8ba1\u91cf\u5355\u4f4d\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8d39\u7528\u7684\u8ba1\u8d39\u57fa\u6570\u662f\u4ec0\u4e48\uff1f",
+            "\u6309\u4ec0\u4e48\u6807\u51c6\u8ba1\u8d39\uff1f",
+            "\u7535\u8d39\u8ba1\u8d39\u57fa\u6570\u662f\u591a\u5c11\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5efa\u7b51\u533a",
+        "aliases": [
+            "\u697c\u5b87\u533a",
+            "\u533a\u57df\u8303\u56f4",
+            "\u5efa\u7b51\u8303\u56f4"
+        ],
+        "entity_uri": "building_area",
+        "entity_kind": "data_property",
+        "description": "\u5efa\u7b51\u7269\u5185\u90e8\u7528\u4e8e\u7ba1\u7406\u6216\u8ba1\u8d39\u7684\u5177\u4f53\u533a\u57df\u5212\u5206\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u533a\u57df\u5c5e\u4e8e\u54ea\u4e2a\u5efa\u7b51\uff1f",
+            "\u5efa\u7b51\u533a\u5212\u5206\u662f\u600e\u6837\u7684\uff1f",
+            "\u67e5\u8be2\u8be5\u697c\u5b87\u7684\u533a\u57df\u4fe1\u606f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5408\u540c\u5230\u671f",
+        "aliases": [
+            "\u622a\u6b62\u65e5\u671f",
+            "\u7ed3\u675f\u65f6\u95f4",
+            "\u7ec8\u6b62\u65e5\u671f"
+        ],
+        "entity_uri": "contract_end",
+        "entity_kind": "data_property",
+        "description": "\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u89c4\u5b9a\u7684\u6709\u6548\u671f\u622a\u6b62\u65f6\u95f4\u3002",
+        "example_questions": [
+            "\u6211\u7684\u5408\u540c\u4ec0\u4e48\u65f6\u5019\u5230\u671f\uff1f",
+            "\u5408\u540c\u622a\u6b62\u65e5\u671f\u662f\u54ea\u5929\uff1f",
+            "\u7eed\u7ea6\u622a\u6b62\u65f6\u95f4"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5408\u540c\u53f7",
+        "aliases": [
+            "\u5408\u540c\u7f16\u53f7",
+            "\u534f\u8bae\u53f7",
+            "\u5408\u540cID"
+        ],
+        "entity_uri": "contract_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u4e00\u4efd\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u6211\u7684\u5408\u540c\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u5408\u540c\u53f7888\u7684\u8be6\u60c5",
+            "\u5408\u540c\u7f16\u53f7\u600e\u4e48\u67e5\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5408\u540c\u5f00\u59cb",
+        "aliases": [
+            "\u751f\u6548\u65e5\u671f",
+            "\u5f00\u59cb\u65f6\u95f4",
+            "\u8d77\u59cb\u65e5\u671f"
+        ],
+        "entity_uri": "contract_start",
+        "entity_kind": "data_property",
+        "description": "\u4e1a\u52a1\u5408\u540c\u6216\u534f\u8bae\u89c4\u5b9a\u7684\u751f\u6548\u8d77\u59cb\u65f6\u95f4\u3002",
+        "example_questions": [
+            "\u5408\u540c\u4ec0\u4e48\u65f6\u5019\u5f00\u59cb\u751f\u6548\uff1f",
+            "\u5408\u540c\u8d77\u59cb\u65e5\u671f",
+            "\u4ec0\u4e48\u65f6\u5019\u5f00\u59cb\u7b97\u5408\u540c\u671f\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d39\u7528\u7c7b\u578b",
+        "aliases": [
+            "\u8d39\u7528\u7c7b\u522b",
+            "\u6536\u8d39\u9879\u76ee",
+            "\u8d39\u7528\u9879"
+        ],
+        "entity_uri": "cost_type",
+        "entity_kind": "data_property",
+        "description": "\u533a\u5206\u6210\u672c\u6216\u8d39\u7528\u7684\u5177\u4f53\u7c7b\u522b\u5c5e\u6027\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8d39\u7528\u5c5e\u4e8e\u4ec0\u4e48\u7c7b\u578b\uff1f",
+            "\u6709\u54ea\u4e9b\u8d39\u7528\u7c7b\u522b\uff1f",
+            "\u67e5\u8be2\u6c34\u8d39\u7c7b\u578b\u7684\u8d26\u5355"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5ba2\u6237\u72b6\u6001",
+        "aliases": [
+            "\u6237\u72b6\u6001",
+            "\u8d26\u6237\u72b6\u6001",
+            "\u5ba2\u6237\u72b6\u6001\u7801"
+        ],
+        "entity_uri": "customer_status",
+        "entity_kind": "data_property",
+        "description": "\u63cf\u8ff0\u5ba2\u6237\u5f53\u524d\u5728\u4e1a\u52a1\u7cfb\u7edf\u4e2d\u7684\u72b6\u6001\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8d26\u6237\u72b6\u6001\u6b63\u5e38\u5417\uff1f",
+            "\u5ba2\u6237\u72b6\u6001\u662f\u4ec0\u4e48\u610f\u601d\uff1f",
+            "\u67e5\u8be2\u5ba2\u6237\u72b6\u6001\u5f02\u5e38\u7684\u540d\u5355"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5168\u5c40ID",
+        "aliases": [
+            "\u5168\u5c40\u7f16\u53f7",
+            "\u7edf\u4e00ID",
+            "\u552f\u4e00\u6807\u8bc6"
+        ],
+        "entity_uri": "global_id",
+        "entity_kind": "data_property",
+        "description": "\u8de8\u7cfb\u7edf\u6216\u8de8\u4e1a\u52a1\u57df\u901a\u7528\u7684\u552f\u4e00\u8bc6\u522b\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u5168\u5c40ID\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u5168\u5c40ID\u4e3a123\u7684\u8bb0\u5f55",
+            "\u7cfb\u7edf\u91cc\u7684\u552f\u4e00\u6807\u8bc6"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8bc1\u4ef6\u53f7",
+        "aliases": [
+            "\u8eab\u4efd\u8bc1\u53f7",
+            "\u8bc1\u4ef6\u53f7\u7801",
+            "\u8bc1\u4ef6\u7f16\u53f7"
+        ],
+        "entity_uri": "id_number",
+        "entity_kind": "data_property",
+        "description": "\u5ba2\u6237\u6301\u6709\u7684\u6709\u6548\u8eab\u4efd\u8bc1\u660e\u53f7\u7801\u3002",
+        "example_questions": [
+            "\u8bf7\u8f93\u5165\u60a8\u7684\u8bc1\u4ef6\u53f7",
+            "\u8bc1\u4ef6\u53f7\u683c\u5f0f\u6b63\u786e\u5417\uff1f",
+            "\u67e5\u8be2\u8bc1\u4ef6\u53f7\u4e3axxx\u7684\u5ba2\u6237"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u6cd5\u4eba\u540d",
+        "aliases": [
+            "\u516c\u53f8\u540d\u79f0",
+            "\u5355\u4f4d\u540d\u79f0",
+            "\u6cd5\u5b9a\u540d\u79f0"
+        ],
+        "entity_uri": "legal_name",
+        "entity_kind": "data_property",
+        "description": "\u5ba2\u6237\u6216\u5b9e\u4f53\u7684\u6cd5\u5b9a\u6ce8\u518c\u5168\u79f0\u3002",
+        "example_questions": [
+            "\u6cd5\u4eba\u540d\u79f0\u600e\u4e48\u586b\uff1f",
+            "\u67e5\u8be2\u6cd5\u4eba\u540d\u4e3axxx\u7684\u4f01\u4e1a",
+            "\u516c\u53f8\u7684\u6cd5\u5b9a\u540d\u79f0"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5339\u914d\u72b6\u6001",
+        "aliases": [
+            "\u5339\u914d\u7ed3\u679c",
+            "\u6821\u9a8c\u72b6\u6001",
+            "\u5339\u914d\u60c5\u51b5"
+        ],
+        "entity_uri": "match_status",
+        "entity_kind": "data_property",
+        "description": "\u8868\u793a\u6570\u636e\u6216\u8bb0\u5f55\u5339\u914d\u6821\u9a8c\u540e\u7684\u7ed3\u679c\u72b6\u6001\u3002",
+        "example_questions": [
+            "\u5339\u914d\u72b6\u6001\u662f\u4ec0\u4e48\uff1f",
+            "\u6570\u636e\u5339\u914d\u6210\u529f\u4e86\u5417\uff1f",
+            "\u67e5\u8be2\u5339\u914d\u5931\u8d25\u7684\u8bb0\u5f55"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8868\u8ba1\u53f7",
+        "aliases": [
+            "\u8868\u53f7",
+            "\u4eea\u8868\u7f16\u53f7",
+            "\u8bfb\u6570\u8868"
+        ],
+        "entity_uri": "meter_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u8ba1\u91cf\u8bbe\u5907\u6216\u4eea\u8868\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8868\u8ba1\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u8868\u8ba1\u53f7999\u7684\u8bfb\u6570",
+            "\u8868\u53f7\u5728\u54ea\u91cc\u770b\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8868\u8ba1\u7c7b\u578b",
+        "aliases": [
+            "\u7535\u8868\u7c7b\u578b",
+            "\u4eea\u8868\u89c4\u683c",
+            "\u8ba1\u91cf\u8bbe\u5907\u578b\u53f7",
+            "\u8868\u5177\u7c7b\u578b"
+        ],
+        "entity_uri": "meter_type",
+        "entity_kind": "data_property",
+        "description": "\u533a\u5206\u8ba1\u91cf\u8bbe\u5907\u6280\u672f\u89c4\u683c\u7684\u5206\u7c7b\uff0c\u5982\u7535\u8868\u3001\u6c34\u8868\u7b49\u3002",
+        "example_questions": [
+            "\u6211\u5bb6\u662f\u54ea\u79cd\u7535\u8868\uff1f",
+            "\u8bf7\u95ee\u8fd9\u4e2a\u8868\u8ba1\u662f\u4ec0\u4e48\u7c7b\u578b\u7684\uff1f",
+            "\u7535\u8868\u89c4\u683c\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u5355\u53f7",
+        "aliases": [
+            "\u5355\u53f7",
+            "\u6d41\u6c34\u53f7",
+            "\u4e1a\u52a1\u5355\u53f7",
+            "\u8ba2\u5355\u7f16\u53f7"
+        ],
+        "entity_uri": "order_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u4e00\u7b14\u4e1a\u52a1\u8ba2\u5355\u7684\u7f16\u53f7\uff0c\u7528\u4e8e\u67e5\u8be2\u4ea4\u6613\u8be6\u60c5\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8ba2\u5355\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u5355\u53f7",
+            "\u8ba2\u5355\u7f16\u53f7\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u5355\u7c7b\u578b",
+        "aliases": [
+            "\u5355\u636e\u7c7b\u578b",
+            "\u4e1a\u52a1\u79cd\u7c7b",
+            "\u8ba2\u5355\u7c7b\u522b",
+            "\u4e1a\u52a1\u7c7b\u578b"
+        ],
+        "entity_uri": "order_type",
+        "entity_kind": "data_property",
+        "description": "\u533a\u5206\u8ba2\u5355\u4e1a\u52a1\u79cd\u7c7b\u7684\u5206\u7c7b\u5c5e\u6027\uff0c\u5982\u7f34\u8d39\u3001\u5145\u503c\u7b49\u3002",
+        "example_questions": [
+            "\u8fd9\u662f\u4ec0\u4e48\u7c7b\u578b\u7684\u8ba2\u5355\uff1f",
+            "\u8ba2\u5355\u5c5e\u4e8e\u54ea\u4e00\u7c7b\uff1f",
+            "\u67e5\u4e00\u4e0b\u7f34\u8d39\u5355"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8f66\u4f4d\u53f7",
+        "aliases": [
+            "\u8f66\u4f4d\u7f16\u53f7",
+            "\u6cca\u4f4d\u53f7",
+            "\u8f66\u4f4dID",
+            "\u4f4d\u7f6e\u7f16\u53f7"
+        ],
+        "entity_uri": "parking_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u505c\u8f66\u573a\u5185\u5177\u4f53\u505c\u8f66\u4f4d\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8f66\u4f4d\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u8f66\u4f4d\u7f16\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u8f66\u4f4d"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8f66\u4f4d\u7c7b\u578b",
+        "aliases": [
+            "\u8f66\u4f4d\u7c7b\u522b",
+            "\u6cca\u4f4d\u7c7b\u578b",
+            "\u8f66\u4f4d\u6027\u8d28",
+            "\u8f66\u4f4d\u89c4\u683c"
+        ],
+        "entity_uri": "parking_type",
+        "entity_kind": "data_property",
+        "description": "\u8f66\u4f4d\u6240\u5c5e\u7684\u7c7b\u578b\u5206\u7c7b\uff0c\u5982\u5ba4\u5185\u3001\u5ba4\u5916\u3001\u56fa\u5b9a\u7b49\u3002",
+        "example_questions": [
+            "\u8f66\u4f4d\u662f\u4ec0\u4e48\u7c7b\u578b\u7684\uff1f",
+            "\u8fd9\u662f\u5ba4\u5185\u8f66\u4f4d\u5417\uff1f",
+            "\u8f66\u4f4d\u7c7b\u522b\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u652f\u4ed8\u91d1\u989d",
+        "aliases": [
+            "\u5b9e\u4ed8\u91d1\u989d",
+            "\u4ed8\u6b3e\u91d1\u989d",
+            "\u6d88\u8d39\u91d1\u989d",
+            "\u652f\u4ed8\u6570\u989d"
+        ],
+        "entity_uri": "pay_amount",
+        "entity_kind": "data_property",
+        "description": "\u7528\u6237\u5b9e\u9645\u652f\u4ed8\u7ed9\u670d\u52a1\u63d0\u4f9b\u65b9\u7684\u8d44\u91d1\u6570\u989d\u3002",
+        "example_questions": [
+            "\u4e00\u5171\u4ed8\u4e86\u591a\u5c11\u94b1\uff1f",
+            "\u652f\u4ed8\u91d1\u989d\u662f\u591a\u5c11\uff1f",
+            "\u5b9e\u4ed8\u591a\u5c11\u94b1\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u652f\u4ed8\u65b9\u5f0f",
+        "aliases": [
+            "\u652f\u4ed8\u6e20\u9053",
+            "\u4ed8\u6b3e\u65b9\u5f0f",
+            "\u652f\u4ed8\u901a\u9053",
+            "\u652f\u4ed8\u9014\u5f84"
+        ],
+        "entity_uri": "pay_channel",
+        "entity_kind": "data_property",
+        "description": "\u7528\u6237\u8fdb\u884c\u8d44\u91d1\u652f\u4ed8\u7684\u5177\u4f53\u901a\u9053\u6216\u65b9\u5f0f\uff0c\u5982\u5fae\u4fe1\u3001\u652f\u4ed8\u5b9d\u3002",
+        "example_questions": [
+            "\u662f\u7528\u4ec0\u4e48\u65b9\u5f0f\u652f\u4ed8\u7684\uff1f",
+            "\u652f\u4ed8\u6e20\u9053\u662f\u54ea\u4e2a\uff1f",
+            "\u4ed8\u6b3e\u65b9\u5f0f\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u652f\u4ed8\u6d41\u6c34\u53f7",
+        "aliases": [
+            "\u6d41\u6c34\u53f7",
+            "\u652f\u4ed8\u5355\u53f7",
+            "\u4ea4\u6613\u53f7",
+            "\u652f\u4ed8\u7f16\u53f7"
+        ],
+        "entity_uri": "pay_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u4e00\u7b14\u652f\u4ed8\u4ea4\u6613\u6d41\u6c34\u7f16\u53f7\uff0c\u7528\u4e8e\u5bf9\u8d26\u3002",
+        "example_questions": [
+            "\u652f\u4ed8\u6d41\u6c34\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u652f\u4ed8\u6d41\u6c34",
+            "\u4ea4\u6613\u5355\u53f7\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u652f\u4ed8\u65f6\u95f4",
+        "aliases": [
+            "\u4ed8\u6b3e\u65f6\u95f4",
+            "\u4ea4\u6613\u65f6\u95f4",
+            "\u652f\u4ed8\u65f6\u523b",
+            "\u4e0b\u5355\u65f6\u95f4"
+        ],
+        "entity_uri": "pay_time",
+        "entity_kind": "data_property",
+        "description": "\u8d44\u91d1\u5b9e\u9645\u5b8c\u6210\u652f\u4ed8\u64cd\u4f5c\u7684\u65f6\u95f4\u6233\u3002",
+        "example_questions": [
+            "\u4ec0\u4e48\u65f6\u5019\u4ed8\u7684\u94b1\uff1f",
+            "\u652f\u4ed8\u65f6\u95f4\u662f\u51e0\u70b9\uff1f",
+            "\u4ea4\u6613\u65f6\u95f4\u662f\u4ec0\u4e48\u65f6\u5019\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7edf\u8ba1\u5468\u671f",
+        "aliases": [
+            "\u8ba1\u8d39\u5468\u671f",
+            "\u65f6\u95f4\u8303\u56f4",
+            "\u8d26\u671f",
+            "\u7edf\u8ba1\u65f6\u6bb5"
+        ],
+        "entity_uri": "period",
+        "entity_kind": "data_property",
+        "description": "\u4e1a\u52a1\u53d1\u751f\u7684\u65f6\u95f4\u8303\u56f4\u6216\u7edf\u8ba1\u5468\u671f\uff0c\u5982\u6708\u5ea6\u3001\u5b63\u5ea6\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u5468\u671f\u662f\u591a\u4e45\uff1f",
+            "\u8ba1\u8d39\u5468\u671f\u662f\u4ec0\u4e48\u65f6\u5019\uff1f",
+            "\u8d26\u671f\u662f\u591a\u4e45\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7528\u6237ID",
+        "aliases": [
+            "\u4eba\u5458\u7f16\u53f7",
+            "\u5ba2\u6237ID",
+            "\u8d26\u53f7ID",
+            "\u7528\u6237\u7f16\u53f7"
+        ],
+        "entity_uri": "person_id",
+        "entity_kind": "data_property",
+        "description": "\u552f\u4e00\u6807\u8bc6\u4eba\u5458\u6216\u7528\u6237\u7684\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u7528\u6237ID\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u4eba\u7684ID",
+            "\u4eba\u5458\u7f16\u53f7\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u59d3\u540d",
+        "aliases": [
+            "\u6237\u4e3b\u59d3\u540d",
+            "\u8054\u7cfb\u4eba",
+            "\u4e1a\u4e3b\u59d3\u540d",
+            "\u7528\u6237\u540d"
+        ],
+        "entity_uri": "person_name",
+        "entity_kind": "data_property",
+        "description": "\u4eba\u5458\u6216\u7528\u6237\u7684\u771f\u5b9e\u59d3\u540d\u3002",
+        "example_questions": [
+            "\u4e1a\u4e3b\u53eb\u4ec0\u4e48\u540d\u5b57\uff1f",
+            "\u59d3\u540d\u662f\u4ec0\u4e48\uff1f",
+            "\u8054\u7cfb\u4eba\u662f\u8c01\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u9879\u76ee\u7f16\u53f7",
+        "aliases": [
+            "\u5de5\u7a0b\u7f16\u53f7",
+            "\u9879\u76eeID",
+            "\u5de5\u7a0bID",
+            "\u9879\u76ee\u5355\u53f7"
+        ],
+        "entity_uri": "project_id",
+        "entity_kind": "data_property",
+        "description": "\u5173\u8054\u7684\u4e1a\u52a1\u9879\u76ee\u7f16\u53f7\u3002",
+        "example_questions": [
+            "\u9879\u76ee\u7f16\u53f7\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u9879\u76ee",
+            "\u5de5\u7a0b\u7f16\u53f7\u662f\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u9879\u76ee\u540d\u79f0",
+        "aliases": [
+            "\u5de5\u7a0b\u540d\u79f0",
+            "\u9879\u76ee\u540d\u79f0",
+            "\u5de5\u7a0b\u540d",
+            "\u9879\u76ee"
+        ],
+        "entity_uri": "project_name",
+        "entity_kind": "data_property",
+        "description": "\u6b63\u5728\u8fdb\u884c\u7684\u9879\u76ee\u540d\u79f0\u3002",
+        "example_questions": [
+            "\u9879\u76ee\u53eb\u4ec0\u4e48\u540d\u5b57\uff1f",
+            "\u5de5\u7a0b\u540d\u79f0\u662f\u4ec0\u4e48\uff1f",
+            "\u9879\u76ee\u53eb\u4ec0\u4e48\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u9879\u76ee\u72b6\u6001",
+        "aliases": [
+            "\u5de5\u7a0b\u72b6\u6001",
+            "\u9879\u76ee\u8fdb\u5ea6",
+            "\u8fd0\u884c\u72b6\u6001",
+            "\u9879\u76ee\u60c5\u51b5"
+        ],
+        "entity_uri": "project_status",
+        "entity_kind": "data_property",
+        "description": "\u9879\u76ee\u5f53\u524d\u7684\u8fd0\u884c\u72b6\u6001\uff0c\u5982\u8fdb\u884c\u4e2d\u3001\u5df2\u5b8c\u5de5\u3002",
+        "example_questions": [
+            "\u9879\u76ee\u73b0\u5728\u4ec0\u4e48\u72b6\u6001\uff1f",
+            "\u5de5\u7a0b\u8fdb\u5ea6\u600e\u4e48\u6837\uff1f",
+            "\u9879\u76ee\u662f\u8fdb\u884c\u4e2d\u5417\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u6237ID",
+        "aliases": [
+            "\u8d26\u6237\u5f15\u7528",
+            "\u5173\u8054\u8d26\u6237",
+            "\u8d26\u53f7ID",
+            "\u8d26\u6237\u7f16\u53f7"
+        ],
+        "entity_uri": "ref-account_id",
+        "entity_kind": "object_property",
+        "description": "\u7528\u4e8e\u5173\u8054\u7279\u5b9a\u8d26\u6237\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8ba2\u5355\u5173\u8054\u7684\u662f\u54ea\u4e2a\u8d26\u6237\uff1f",
+            "\u67e5\u8be2\u8d26\u6237ID\u4e3a123\u7684\u8ba2\u5355",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u8d26\u6237\u7684\u5f15\u7528"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8d26\u5355ID",
+        "aliases": [
+            "\u8d26\u5355\u5f15\u7528",
+            "\u5173\u8054\u8d26\u5355",
+            "\u8d26\u5355\u7f16\u53f7",
+            "\u8d26\u5355\u53f7"
+        ],
+        "entity_uri": "ref-bill_id",
+        "entity_kind": "object_property",
+        "description": "\u7528\u4e8e\u5173\u8054\u7279\u5b9a\u8d26\u5355\u7684\u552f\u4e00\u6807\u8bc6\u7b26\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u670d\u52a1\u5bf9\u5e94\u7684\u8d26\u5355ID\u662f\u591a\u5c11\uff1f",
+            "\u67e5\u8be2\u8d26\u5355ID\u4e3a888\u7684\u8be6\u60c5",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u8d26\u5355\u7684\u5f15\u7528"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u9879\u76eeID",
+        "aliases": [
+            "\u9879\u76ee\u5f15\u7528",
+            "\u5173\u8054\u9879\u76ee",
+            "\u9879\u76ee\u7f16\u53f7",
+            "\u9879\u76ee\u53f7"
+        ],
+        "entity_uri": "ref-project_id",
+        "entity_kind": "object_property",
+        "description": "\u7528\u4e8e\u5173\u8054\u7279\u5b9a\u9879\u76ee\u6216\u5de5\u7a0b\u552f\u4e00\u6807\u8bc6\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u4efb\u52a1\u5c5e\u4e8e\u54ea\u4e2a\u9879\u76ee\uff1f",
+            "\u67e5\u8be2\u9879\u76eeID\u4e3aA001\u7684\u4efb\u52a1",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u9879\u76ee\u7684\u5f15\u7528"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7a7a\u95f4ID",
+        "aliases": [
+            "\u7a7a\u95f4\u5f15\u7528",
+            "\u5173\u8054\u7a7a\u95f4",
+            "\u7a7a\u95f4\u7f16\u53f7",
+            "\u4f4d\u7f6eID"
+        ],
+        "entity_uri": "ref-space_id",
+        "entity_kind": "object_property",
+        "description": "\u7528\u4e8e\u5173\u8054\u7279\u5b9a\u7269\u7406\u7a7a\u95f4\u6216\u5730\u7406\u4f4d\u7f6e\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8bbe\u5907\u5b89\u88c5\u5728\u54ea\u4e2a\u7a7a\u95f4\uff1f",
+            "\u67e5\u8be2\u7a7a\u95f4ID\u4e3aB002\u7684\u8bbe\u5907",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u7a7a\u95f4\u7684\u5f15\u7528"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u9605ID",
+        "aliases": [
+            "\u8ba2\u9605\u5f15\u7528",
+            "\u5173\u8054\u8ba2\u9605",
+            "\u8ba2\u9605\u7f16\u53f7",
+            "\u8ba2\u9605\u53f7"
+        ],
+        "entity_uri": "ref-subscr_id",
+        "entity_kind": "object_property",
+        "description": "\u7528\u4e8e\u5173\u8054\u7279\u5b9a\u8ba2\u9605\u670d\u52a1\u7684\u552f\u4e00\u6807\u8bc6\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u670d\u52a1\u5c5e\u4e8e\u54ea\u4e2a\u8ba2\u9605\uff1f",
+            "\u67e5\u8be2\u8ba2\u9605ID\u4e3aC001\u7684\u670d\u52a1",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u8ba2\u9605\u7684\u5f15\u7528"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u533a\u57df",
+        "aliases": [
+            "\u6240\u5c5e\u533a\u57df",
+            "\u5730\u57df",
+            "\u5730\u533a",
+            "\u533a\u57df\u5212\u5206"
+        ],
+        "entity_uri": "region",
+        "entity_kind": "data_property",
+        "description": "\u6807\u8bc6\u6570\u636e\u6240\u5c5e\u7684\u5730\u7406\u6216\u4e1a\u52a1\u7ba1\u8f96\u533a\u57df\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8ba2\u5355\u5c5e\u4e8e\u54ea\u4e2a\u533a\u57df\uff1f",
+            "\u67e5\u8be2\u534e\u4e1c\u533a\u57df\u7684\u8ba2\u5355",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8fd9\u4e2a\u5730\u533a\u7684\u6570\u636e"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u670d\u52a1\u8d39",
+        "aliases": [
+            "\u670d\u52a1\u8d39\u7528",
+            "\u670d\u52a1\u91d1\u989d",
+            "\u670d\u52a1\u5355\u4ef7",
+            "\u670d\u52a1\u6210\u672c"
+        ],
+        "entity_uri": "service_fee",
+        "entity_kind": "data_property",
+        "description": "\u4e3a\u63d0\u4f9b\u7279\u5b9a\u670d\u52a1\u800c\u6536\u53d6\u7684\u8d39\u7528\u91d1\u989d\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u670d\u52a1\u7684\u8d39\u7528\u662f\u591a\u5c11\uff1f",
+            "\u5e2e\u6211\u7b97\u4e00\u4e0b\u670d\u52a1\u8d39",
+            "\u67e5\u8be2\u670d\u52a1\u8d39\u660e\u7ec6"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7ed3\u7b97\u951a\u70b9",
+        "aliases": [
+            "\u7ed3\u7b97\u57fa\u51c6",
+            "\u5bf9\u8d26\u8282\u70b9",
+            "\u7ed3\u7b97\u65f6\u95f4\u70b9",
+            "\u7ed3\u7b97\u5173\u952e\u70b9"
+        ],
+        "entity_uri": "settlement_anchor",
+        "entity_kind": "data_property",
+        "description": "\u7528\u4e8e\u7ed3\u7b97\u5bf9\u8d26\u7684\u57fa\u51c6\u65f6\u95f4\u6216\u5173\u952e\u8282\u70b9\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u6708\u7684\u7ed3\u7b97\u951a\u70b9\u662f\u54ea\u5929\uff1f",
+            "\u6309\u7ed3\u7b97\u951a\u70b9\u67e5\u8be2\u5bf9\u8d26\u6570\u636e",
+            "\u5e2e\u6211\u786e\u8ba4\u4e00\u4e0b\u7ed3\u7b97\u57fa\u51c6\u65f6\u95f4"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7ed3\u7b97\u9891\u7387",
+        "aliases": [
+            "\u7ed3\u7b97\u5468\u671f",
+            "\u7ed3\u7b97\u95f4\u9694",
+            "\u7ed3\u7b97\u5468\u671f\u6570",
+            "\u591a\u4e45\u7ed3\u7b97\u4e00\u6b21"
+        ],
+        "entity_uri": "settlement_frequency",
+        "entity_kind": "data_property",
+        "description": "\u89c4\u5b9a\u8d39\u7528\u7ed3\u7b97\u53d1\u751f\u7684\u5468\u671f\u6027\u95f4\u9694\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u670d\u52a1\u7684\u7ed3\u7b97\u9891\u7387\u662f\u591a\u5c11\uff1f",
+            "\u6309\u6708\u7ed3\u7b97\u8fd8\u662f\u6309\u5b63\u5ea6\u7ed3\u7b97\uff1f",
+            "\u67e5\u8be2\u7ed3\u7b97\u5468\u671f\u8bbe\u7f6e"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u6765\u6e90\u6807\u8bc6",
+        "aliases": [
+            "\u6570\u636e\u6765\u6e90",
+            "\u6765\u6e90\u6e20\u9053",
+            "\u6765\u6e90\u7cfb\u7edf",
+            "\u6765\u6e90\u65b9"
+        ],
+        "entity_uri": "source_flag",
+        "entity_kind": "data_property",
+        "description": "\u6807\u8bc6\u6570\u636e\u6216\u4e1a\u52a1\u8bb0\u5f55\u7684\u6765\u6e90\u6e20\u9053\u6216\u7cfb\u7edf\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u6570\u636e\u662f\u4ece\u54ea\u4e2a\u7cfb\u7edf\u6765\u7684\uff1f",
+            "\u67e5\u8be2\u6765\u6e90\u6807\u8bc6\u4e3aA\u7684\u6570\u636e",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u6570\u636e\u6765\u6e90"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u9605\u7ed3\u675f",
+        "aliases": [
+            "\u5230\u671f\u65f6\u95f4",
+            "\u7ed3\u675f\u65e5\u671f",
+            "\u8ba2\u9605\u622a\u6b62",
+            "\u5230\u671f\u65e5"
+        ],
+        "entity_uri": "subscr_end",
+        "entity_kind": "data_property",
+        "description": "\u8ba2\u9605\u670d\u52a1\u7684\u622a\u6b62\u65e5\u671f\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8ba2\u9605\u4ec0\u4e48\u65f6\u5019\u5230\u671f\uff1f",
+            "\u67e5\u8be2\u5373\u5c06\u5230\u671f\u7684\u8ba2\u9605",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8ba2\u9605\u7ed3\u675f\u65f6\u95f4"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u9605\u5f00\u59cb",
+        "aliases": [
+            "\u5f00\u59cb\u65e5\u671f",
+            "\u751f\u6548\u65f6\u95f4",
+            "\u8ba2\u9605\u8d77\u59cb",
+            "\u5f00\u901a\u65f6\u95f4"
+        ],
+        "entity_uri": "subscr_start",
+        "entity_kind": "data_property",
+        "description": "\u8ba2\u9605\u670d\u52a1\u7684\u5f00\u59cb\u65e5\u671f\u3002",
+        "example_questions": [
+            "\u8fd9\u4e2a\u8ba2\u9605\u4ec0\u4e48\u65f6\u5019\u5f00\u59cb\uff1f",
+            "\u67e5\u8be2\u8ba2\u9605\u5f00\u59cb\u65f6\u95f4",
+            "\u5e2e\u6211\u67e5\u4e00\u4e0b\u8ba2\u9605\u751f\u6548\u65e5\u671f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u8ba2\u9605\u72b6\u6001",
+        "aliases": [
+            "\u5f00\u901a\u72b6\u6001",
+            "\u670d\u52a1\u72b6\u6001",
+            "\u662f\u5426\u5f00\u901a",
+            "\u5f53\u524d\u72b6\u6001"
+        ],
+        "entity_uri": "subscr_status",
+        "entity_kind": "data_property",
+        "description": "\u6307\u8ba2\u9605\u670d\u52a1\u7684\u5f53\u524d\u8fd0\u884c\u6216\u6682\u505c\u60c5\u51b5\u3002",
+        "example_questions": [
+            "\u6211\u7684\u8ba2\u9605\u5f00\u901a\u4e86\u5417\uff1f",
+            "\u670d\u52a1\u72b6\u6001\u663e\u793a\u4ec0\u4e48\uff1f",
+            "\u8ba2\u9605\u5904\u4e8e\u4ec0\u4e48\u72b6\u6001\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u7a0e\u7387",
+        "aliases": [
+            "\u8d39\u7387",
+            "\u7a0e\u7387\u591a\u5c11",
+            "\u8ba1\u8d39\u6bd4\u4f8b",
+            "\u8d39\u7387\u6807\u51c6"
+        ],
+        "entity_uri": "tax_rate",
+        "entity_kind": "data_property",
+        "description": "\u8ba1\u7b97\u7a0e\u8d39\u65f6\u9002\u7528\u7684\u767e\u5206\u6bd4\u6bd4\u7387\u3002",
+        "example_questions": [
+            "\u73b0\u5728\u7684\u7a0e\u7387\u662f\u591a\u5c11\uff1f",
+            "\u8d39\u7387\u662f\u591a\u5c11\uff1f",
+            "\u600e\u4e48\u7b97\u7a0e\u8d39\u7684\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5355\u4ef7",
+        "aliases": [
+            "\u6bcf\u4efd\u4ef7\u683c",
+            "\u5355\u4ef7\u591a\u5c11",
+            "\u4ef7\u683c",
+            "\u8ba1\u8d39\u5355\u4ef7"
+        ],
+        "entity_uri": "unit_price",
+        "entity_kind": "data_property",
+        "description": "\u5355\u4f4d\u6570\u91cf\u8d44\u6e90\u6216\u670d\u52a1\u7684\u8ba1\u8d39\u4ef7\u683c\u3002",
+        "example_questions": [
+            "\u5355\u4ef7\u662f\u591a\u5c11\uff1f",
+            "\u6bcf\u4efd\u591a\u5c11\u94b1\uff1f",
+            "\u4ef7\u683c\u600e\u4e48\u7b97\u7684\uff1f"
+        ],
+        "source": "llm"
+    },
+    {
+        "term": "\u5de5\u4f5c\u7c7b\u578b",
+        "aliases": [
+            "\u5de5\u79cd",
+            "\u804c\u4f4d\u7c7b\u578b",
+            "\u5de5\u4f5c\u7c7b\u522b",
+            "\u5c97\u4f4d\u6027\u8d28"
+        ],
+        "entity_uri": "work_type",
+        "entity_kind": "data_property",
+        "description": "\u4eba\u5458\u4ece\u4e8b\u7684\u5de5\u4f5c\u7c7b\u522b\u3002",
+        "example_questions": [
+            "\u8fd9\u662f\u4ec0\u4e48\u5de5\u79cd\uff1f",
+            "\u5de5\u4f5c\u7c7b\u578b\u662f\u4ec0\u4e48\uff1f",
+            "\u5c5e\u4e8e\u4ec0\u4e48\u5c97\u4f4d\uff1f"
+        ],
+        "source": "llm"
+    }
+]
