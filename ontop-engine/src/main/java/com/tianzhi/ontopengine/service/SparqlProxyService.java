@@ -161,6 +161,7 @@ public class SparqlProxyService {
                 result.put("mapping_path", current.getMappingPath() != null ? current.getMappingPath() : "");
                 result.put("properties_path", current.getPropertiesPath() != null ? current.getPropertiesPath() : "");
                 result.put("ds_name", current.getDsName() != null ? current.getDsName() : "");
+                result.put("ds_id", current.getDsId() != null ? current.getDsId() : "");
             }
         } catch (Exception ignored) {
         }

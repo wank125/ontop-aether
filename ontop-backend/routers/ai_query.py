@@ -431,10 +431,13 @@ async def update_system_prompt(data: SystemPromptUpdate):
 
 
 @router.get("/quick-questions")
-async def get_quick_questions():
-    """Get quick questions list."""
+async def get_quick_questions(ds_id: str | None = None):
+    """Get quick questions list, optionally filtered by datasource."""
     config = _load_ai_config()
-    qs = config.get("quick_questions", DEFAULT_QUICK_QUESTIONS)
+    key = f"quick_questions_{ds_id}" if ds_id else "quick_questions"
+    qs = config.get(key)
+    if qs is None:
+        qs = config.get("quick_questions", DEFAULT_QUICK_QUESTIONS)
     if isinstance(qs, str):
         import json
         qs = json.loads(qs)
@@ -442,10 +445,11 @@ async def get_quick_questions():
 
 
 @router.put("/quick-questions")
-async def update_quick_questions(data: QuickQuestionsUpdate):
-    """Update quick questions list."""
+async def update_quick_questions(data: QuickQuestionsUpdate, ds_id: str | None = None):
+    """Update quick questions list for a specific datasource."""
     config = _load_ai_config()
-    config["quick_questions"] = data.questions
+    key = f"quick_questions_{ds_id}" if ds_id else "quick_questions"
+    config[key] = data.questions
     _save_ai_config(config)
     return {"success": True, "message": "Quick questions updated"}
 

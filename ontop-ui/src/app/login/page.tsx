@@ -54,18 +54,28 @@ export default function LoginPage() {
 
       <div className="relative mx-auto grid min-h-screen w-full max-w-7xl items-center gap-16 px-6 py-12 lg:grid-cols-[1.08fr_420px] lg:px-12">
         <section className="space-y-12 text-white">
-          <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 backdrop-blur">
-            <Zap className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
-            <span className="text-sm font-medium">天织语义平台</span>
+          <div className="space-y-5">
+            <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 backdrop-blur">
+              <Zap className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
+              <span className="text-sm font-medium">平台入口</span>
+            </div>
+            <div className="space-y-2">
+              <p className="text-xs font-medium uppercase tracking-[0.32em] text-cyan-200/70">
+                Ontop Aether
+              </p>
+              <h1 className="text-5xl font-semibold leading-none tracking-[-0.05em] text-white sm:text-6xl lg:text-7xl">
+                天织语义平台
+              </h1>
+            </div>
           </div>
 
           <div className="max-w-3xl space-y-6">
             <Badge variant="outline" className="border-white/16 bg-white/6 text-white">
               简洁，但不单调
             </Badge>
-            <h1 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl">
+            <h2 className="max-w-3xl text-4xl font-semibold leading-[1.05] tracking-tight sm:text-5xl">
               登录后，进入你的本体工作台
-            </h1>
+            </h2>
             <p className="max-w-xl text-sm leading-7 text-white/70 sm:text-base">
               把数据源、Bootstrap、映射、SPARQL 和 AI 助手放进同一条工作流。
               页面只做一件事: 让你快速进入状态，不在这里浪费注意力。

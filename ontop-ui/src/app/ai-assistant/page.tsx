@@ -98,21 +98,21 @@ export default function AIAssistantPage() {
 
   const loadAssistantContext = async () => {
     try {
-      const [questionConfig, summary, endpoint] = await Promise.all([
-        ai.getQuickQuestions(),
+      // First get endpoint status to know the current ds_id
+      const endpoint = await sparql.endpointStatus();
+      const dsId = endpoint.ds_id || '';
+
+      const [questionConfig, summary] = await Promise.all([
+        ai.getQuickQuestions(dsId),
         ai.ontologySummary(),
-        sparql.endpointStatus(),
       ]);
 
       setQuickQuestions(questionConfig.questions);
       setExamplePrompts(buildAssistantExamples(summary));
 
-      const mappingFile = endpoint.mapping_path.split('/').pop() || '活跃映射';
-      const mappingPath = endpoint.mapping_path.toLowerCase();
-
-      if (mappingPath.includes('lvfa')) setSceneLabel('lvfa');
-      else if (mappingPath.includes('retail')) setSceneLabel('retail');
-      else setSceneLabel(mappingFile);
+      const sceneName = endpoint.ds_name || endpoint.mapping_path.split('/').pop() || '活跃映射';
+      setSceneLabel(sceneName);
+      const mappingFile = sceneName;
 
       const suggestedQuestion = questionConfig.questions[0]?.question;
       setMessages([
@@ -120,13 +120,13 @@ export default function AIAssistantPage() {
           id: 'welcome',
           role: 'assistant',
           content: suggestedQuestion
-            ? `你好！我是天织语义平台 AI 助手，当前连接的是 ${mappingFile}。你可以直接问我：“${suggestedQuestion}”。`
+            ? `你好！我是天织语义平台 AI 助手，当前连接的是 ${mappingFile}。你可以直接问我：”${suggestedQuestion}”。`
             : `你好！我是天织语义平台 AI 助手，当前连接的是 ${mappingFile}。`,
         },
       ]);
     } catch {
       setQuickQuestions([]);
-      setExamplePrompts(['"查询当前知识图谱中的全部实体"']);
+      setExamplePrompts(['”查询当前知识图谱中的全部实体”']);
       setSceneLabel('当前端点');
     }
   };

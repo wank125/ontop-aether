@@ -12,6 +12,7 @@ import {
   DropdownMenuTrigger,
 } from '@/components/ui/dropdown-menu';
 import { Button } from '@/components/ui/button';
+import { Badge } from '@/components/ui/badge';
 import {
   Bell,
   ChevronDown,
@@ -25,33 +26,52 @@ import {
   Loader2,
 } from 'lucide-react';
 import { cn } from '@/lib/utils';
-import { sparql, mappings } from '@/lib/api';
+import { sparql, mappings, endpointRegistry, type EndpointRegistration } from '@/lib/api';
 import { useAuth } from '@/lib/auth';
 
-interface EndpointStatus {
+interface EndpointState {
   status: 'running' | 'stopped' | 'error';
   port: number;
+  dsId: string;
+  dsName: string;
 }
 
 export function TopBar() {
   const { user, logout } = useAuth();
-  const [endpointStatus, setEndpointStatus] = useState<EndpointStatus>({
+  const [endpoint, setEndpoint] = useState<EndpointState>({
     status: 'stopped',
     port: 8080,
+    dsId: '',
+    dsName: '',
   });
   const [restarting, setRestarting] = useState(false);
+  const [endpoints, setEndpoints] = useState<EndpointRegistration[]>([]);
+  const [switching, setSwitching] = useState(false);
 
   const checkStatus = async () => {
     try {
-      const { running, port } = await sparql.endpointStatus();
-      setEndpointStatus({ status: running ? 'running' : 'stopped', port });
+      const res = await sparql.endpointStatus();
+      setEndpoint({
+        status: res.running ? 'running' : 'stopped',
+        port: res.port,
+        dsId: res.ds_id || '',
+        dsName: res.ds_name || '',
+      });
     } catch {
-      setEndpointStatus({ status: 'error', port: 8080 });
+      setEndpoint({ status: 'error', port: 8080, dsId: '', dsName: '' });
     }
+  };
+
+  const loadEndpoints = async () => {
+    try {
+      const list = await endpointRegistry.list();
+      setEndpoints(list);
+    } catch { /* ignore */ }
   };
 
   useEffect(() => {
     checkStatus();
+    loadEndpoints();
     const interval = setInterval(checkStatus, 10000);
     return () => clearInterval(interval);
   }, []);
@@ -65,17 +85,28 @@ export function TopBar() {
     setRestarting(false);
   };
 
+  const handleSwitch = async (dsId: string) => {
+    if (dsId === endpoint.dsId || switching) return;
+    setSwitching(true);
+    try {
+      await endpointRegistry.activate(dsId);
+      await new Promise(r => setTimeout(r, 8000));
+      await Promise.all([checkStatus(), loadEndpoints()]);
+    } catch { /* ignore */ }
+    setSwitching(false);
+  };
+
   const statusColor =
-    endpointStatus.status === 'running'
+    endpoint.status === 'running'
       ? 'text-emerald-500'
-      : endpointStatus.status === 'error'
+      : endpoint.status === 'error'
         ? 'text-red-500'
         : 'text-amber-500';
 
   const statusLabel =
-    endpointStatus.status === 'running'
+    endpoint.status === 'running'
       ? '运行中'
-      : endpointStatus.status === 'error'
+      : endpoint.status === 'error'
         ? '异常'
         : '已停止';
 
@@ -97,7 +128,7 @@ export function TopBar() {
             <Button variant="ghost" className="relative h-9 gap-2 px-2">
               <div className="relative">
                 <Server className={cn('h-4 w-4', statusColor)} />
-                {endpointStatus.status === 'running' && (
+                {endpoint.status === 'running' && (
                   <span className="absolute -right-0.5 -top-0.5 flex h-2 w-2">
                     <span className="absolute inline-flex h-full w-full rounded-full bg-emerald-500 opacity-75 animate-ping" />
                     <span className="relative inline-flex h-2 w-2 rounded-full bg-emerald-500" />
@@ -105,11 +136,11 @@ export function TopBar() {
                 )}
               </div>
               <span className={cn('hidden text-xs sm:inline', statusColor)}>
-                Ontop :{endpointStatus.port} · {statusLabel}
+                {endpoint.dsName || 'Ontop'} :{endpoint.port} · {statusLabel}
               </span>
             </Button>
           </DropdownMenuTrigger>
-          <DropdownMenuContent align="end" className="w-56">
+          <DropdownMenuContent align="end" className="w-64">
             <DropdownMenuLabel className="font-normal">
               <div className="flex items-center gap-2">
                 <Server className={cn('h-4 w-4', statusColor)} />
@@ -124,8 +155,14 @@ export function TopBar() {
               </div>
               <div className="flex items-center justify-between text-sm">
                 <span className="text-muted-foreground">端口</span>
-                <span className="font-medium">{endpointStatus.port}</span>
+                <span className="font-medium">{endpoint.port}</span>
               </div>
+              {endpoint.dsName && (
+                <div className="flex items-center justify-between text-sm">
+                  <span className="text-muted-foreground">数据源</span>
+                  <span className="font-medium text-xs">{endpoint.dsName}</span>
+                </div>
+              )}
             </div>
             <DropdownMenuSeparator />
             <div className="flex gap-2 p-2">
@@ -153,6 +190,37 @@ export function TopBar() {
                 检测
               </Button>
             </div>
+
+            {endpoints.length > 1 && (
+              <>
+                <DropdownMenuSeparator />
+                <DropdownMenuLabel className="font-normal text-xs text-muted-foreground">
+                  切换数据源
+                </DropdownMenuLabel>
+                <div className="max-h-48 overflow-y-auto">
+                  {endpoints.map((ep) => {
+                    const isCurrent = ep.ds_id === endpoint.dsId;
+                    return (
+                      <DropdownMenuItem
+                        key={ep.ds_id}
+                        className="flex items-center justify-between gap-2 py-2"
+                        disabled={isCurrent || switching}
+                        onClick={() => handleSwitch(ep.ds_id)}
+                      >
+                        <span className="truncate text-sm">{ep.ds_name}</span>
+                        {isCurrent ? (
+                          <Badge variant="secondary" className="shrink-0 text-[10px] h-5">
+                            当前
+                          </Badge>
+                        ) : switching ? (
+                          <Loader2 className="h-3 w-3 shrink-0 animate-spin" />
+                        ) : null}
+                      </DropdownMenuItem>
+                    );
+                  })}
+                </div>
+              </>
+            )}
           </DropdownMenuContent>
         </DropdownMenu>
 

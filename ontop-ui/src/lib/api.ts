@@ -185,7 +185,7 @@ export const sparql = {
   deleteHistory: (id: string) =>
     api<void>(`/sparql/history/${id}`, { method: 'DELETE' }),
   endpointStatus: () =>
-    api<{ running: boolean; port: number; ontology_path: string; mapping_path: string; properties_path: string }>('/sparql/endpoint-status'),
+    api<{ running: boolean; port: number; ontology_path: string; mapping_path: string; properties_path: string; ds_id: string; ds_name: string }>('/sparql/endpoint-status'),
 };
 
 // ── Ontology (TTL) ────────────────────────────────────
@@ -432,10 +432,10 @@ export const ai = {
       method: 'PUT',
       body: JSON.stringify({ system_prompt }),
     }),
-  getQuickQuestions: () =>
-    api<{ questions: QuickQuestion[] }>('/ai/quick-questions'),
-  updateQuickQuestions: (questions: QuickQuestion[]) =>
-    api<{ success: boolean; message: string }>('/ai/quick-questions', {
+  getQuickQuestions: (dsId?: string) =>
+    api<{ questions: QuickQuestion[] }>(`/ai/quick-questions${dsId ? `?ds_id=${dsId}` : ''}`),
+  updateQuickQuestions: (questions: QuickQuestion[], dsId?: string) =>
+    api<{ success: boolean; message: string }>(`/ai/quick-questions${dsId ? `?ds_id=${dsId}` : ''}`, {
       method: 'PUT',
       body: JSON.stringify({ questions }),
     }),
