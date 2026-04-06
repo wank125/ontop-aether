@@ -27,7 +27,8 @@ def _parse_obda_via_engine(content: str) -> MappingContent | None:
         return None
 
     body = resp.json()
-    if not body.get("success"):
+    data = body.get("data", body)
+    if not data.get("success"):
         return None
 
     mappings = [
@@ -36,11 +37,11 @@ def _parse_obda_via_engine(content: str) -> MappingContent | None:
             target=item.get("target", ""),
             source=item.get("source", ""),
         )
-        for item in body.get("mappings", [])
+        for item in data.get("mappings", [])
     ]
     prefixes = {
         str(prefix).rstrip(":"): str(uri)
-        for prefix, uri in (body.get("prefixes") or {}).items()
+        for prefix, uri in (data.get("prefixes") or {}).items()
     }
     return MappingContent(prefixes=prefixes, mappings=mappings)
 
