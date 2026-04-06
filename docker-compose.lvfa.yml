@@ -29,8 +29,18 @@ services:
         condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms512m -Xmx2g"
+      SQLITE_DB_PATH: /app/data/ontop_ui.db
+      ENCRYPTION_KEY_PATH: /app/data/.encryption_key
+      ONTOP_ENDPOINT_URL: http://ontop-endpoint-lvfa:8080
+      ONTOP_ENDPOINT_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_DATA_DIR: /app/data
+      ONTOP_OUTPUT_DIR: /opt/ontop-output
     ports:
       - "8083:8081"
+    volumes:
+      - ./ontop-backend/data-lvfa:/app/data
+      - ./ontop-endpoint/lvfa-active:/opt/ontop-endpoint/active
+      - ./ontop-output:/opt/ontop-output
 
   # ── Dedicated Ontop SPARQL Endpoint（LVFA）────────────
   ontop-endpoint-lvfa:
@@ -98,8 +108,10 @@ services:
     container_name: ontop-lvfa-frontend
     depends_on:
       - backend-lvfa
+      - ontop-engine-lvfa
     environment:
       BACKEND_URL: http://backend-lvfa:8000
+      ENGINE_URL: http://ontop-engine-lvfa:8081
       PORT: "5000"
       COZE_PROJECT_ENV: PROD
     ports:

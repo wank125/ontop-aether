@@ -9,10 +9,39 @@ const hostname = process.env.HOSTNAME || 'localhost';
 const port = parseInt(process.env.PORT || '5000', 10);
 
 const BACKEND_URL = process.env.BACKEND_URL || 'http://localhost:8000';
+const ENGINE_URL = process.env.ENGINE_URL || 'http://localhost:8081';
 const LOG_DIR = join(process.cwd(), '..', 'logs');
 const FRONTEND_LOG_FILE = join(LOG_DIR, 'frontend.log');
 
 mkdirSync(LOG_DIR, { recursive: true });
+
+// Paths migrated to ontop-engine (Java)
+const ENGINE_PREFIXES = [
+  '/api/v1/datasources/',
+  '/api/v1/endpoint-registry',
+  '/api/v1/mappings',
+  '/api/v1/ontology',
+  '/api/v1/sparql/',
+];
+
+// Bootstrap paths stay on Python backend (need LLM)
+const BACKEND_OVERRIDES = [
+  '/api/v1/datasources/',
+];
+
+function isBootstrapPath(pathname: string): boolean {
+  return BACKEND_OVERRIDES.some(prefix => {
+    if (!pathname.startsWith(prefix)) return false;
+    const rest = pathname.slice(prefix.length);
+    return rest.includes('/bootstrap');
+  });
+}
+
+function shouldRouteToEngine(pathname: string): boolean {
+  if (isBootstrapPath(pathname)) return false;
+  if (pathname === '/api/v1/datasources') return true;
+  return ENGINE_PREFIXES.some(prefix => pathname.startsWith(prefix));
+}
 
 function writeLog(level: 'INFO' | 'ERROR', message: string) {
   const line = `${new Date().toISOString()} |${level.padEnd(6)}| frontend - ${message}`;
@@ -31,7 +60,7 @@ const handle = app.getRequestHandler();
 function readBody(req: IncomingMessage): Promise<Buffer> {
   return new Promise((resolve, reject) => {
     const chunks: Buffer[] = [];
-    req.on('data', (chunk) => chunks.push(Buffer.from(chunk)));
+    req.on('data', (chunk: Buffer) => chunks.push(Buffer.from(chunk)));
     req.on('end', () => resolve(Buffer.concat(chunks)));
     req.on('error', reject);
   });
@@ -48,9 +77,11 @@ app.prepare().then(() => {
 
       writeLog('INFO', `REQ  ${method} ${parsedUrl.pathname || path} from=${clientIp}`);
 
-      // Runtime API proxy — forwards /api/* to the backend
+      // Runtime API proxy — routes /api/* to engine or backend
       if (parsedUrl.pathname?.startsWith('/api/')) {
-        const backendUrl = `${BACKEND_URL}${parsedUrl.pathname}${parsedUrl.search || ''}`;
+        const useEngine = shouldRouteToEngine(parsedUrl.pathname);
+        const targetUrl = useEngine ? ENGINE_URL : BACKEND_URL;
+        const backendUrl = `${targetUrl}${parsedUrl.pathname}${parsedUrl.search || ''}`;
 
         // Build headers (drop hop-by-hop)
         const headers: Record<string, string> = {};
@@ -108,7 +139,7 @@ app.prepare().then(() => {
       'INFO',
       `Server listening at http://${hostname}:${port} as ${
         dev ? 'development' : process.env.COZE_PROJECT_ENV
-      } (proxy -> ${BACKEND_URL})`,
+      } (backend -> ${BACKEND_URL}, engine -> ${ENGINE_URL})`,
     );
   });
 });

@@ -52,8 +52,12 @@ public class GlobalExceptionHandler {
         body.put("message", ex.getMessage() != null ? ex.getMessage() : ex.getClass().getSimpleName());
         body.put("errorType", ex.getClass().getSimpleName());
 
+        String msg = ex.getMessage() != null ? ex.getMessage() : "";
+        HttpStatus status = msg.contains("not running") || msg.contains("Connection refused")
+                ? HttpStatus.SERVICE_UNAVAILABLE : HttpStatus.BAD_REQUEST;
+
         log.warn("[{}] Business error ({}): {}", rid, ex.getClass().getSimpleName(), ex.getMessage());
-        return new ResponseEntity<>(body, HttpStatus.BAD_REQUEST);
+        return new ResponseEntity<>(body, status);
     }
 
     /**

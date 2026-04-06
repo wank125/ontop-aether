@@ -29,8 +29,18 @@ services:
         condition: service_healthy
     environment:
       JAVA_TOOL_OPTIONS: "-Xms512m -Xmx2g"
+      SQLITE_DB_PATH: /app/data/ontop_ui.db
+      ENCRYPTION_KEY_PATH: /app/data/.encryption_key
+      ONTOP_ENDPOINT_URL: http://ontop-endpoint:8080
+      ONTOP_ENDPOINT_ACTIVE_DIR: /opt/ontop-endpoint/active
+      ONTOP_DATA_DIR: /app/data
+      ONTOP_OUTPUT_DIR: /opt/ontop-output
     ports:
       - "8081:8081"
+    volumes:
+      - ./ontop-backend/data:/app/data
+      - ./ontop-endpoint/active:/opt/ontop-endpoint/active
+      - ./ontop-output:/opt/ontop-output
 
   # ── Dedicated Ontop SPARQL Endpoint ───────────────────
   ontop-endpoint:
@@ -105,6 +115,7 @@ services:
       - backend
     environment:
       BACKEND_URL: http://backend:8000
+      ENGINE_URL: http://ontop-engine:8081
       PORT: "5000"
       COZE_PROJECT_ENV: PROD
     ports:

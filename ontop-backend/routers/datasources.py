@@ -1,4 +1,8 @@
-"""Data source management router."""
+"""Data source bootstrap router (CRUD migrated to ontop-engine Java).
+
+Only bootstrap-related endpoints remain here because they need LLM integration.
+CRUD (list/get/create/update/delete/test/schemas/schema) is handled by ontop-engine.
+"""
 import json
 import tempfile
 from datetime import datetime
@@ -8,7 +12,7 @@ from urllib.parse import urlparse
 
 from fastapi import APIRouter, HTTPException
 
-from models.datasource import DataSource, DataSourceCreate, DataSourceUpdate, BootstrapRequest
+from models.datasource import BootstrapRequest
 from services.ontop_cli import extract_db_metadata, bootstrap as ontop_bootstrap
 from services.bootstrap_service import (
     build_preview,
@@ -22,92 +26,10 @@ from services.ontology_format import normalize_ontology_to_turtle
 from services.ontology_enrichment import enrich_ontology_labels
 from services.annotation_merge import merge_annotations_to_ttl
 from config import DATA_DIR
-from repositories.datasource_repo import (
-    list_datasources as repo_list,
-    get_datasource as repo_get,
-    create_datasource as repo_create,
-    update_datasource as repo_update,
-    delete_datasource as repo_delete,
-)
+from repositories.datasource_repo import get_datasource as repo_get
 from repositories.endpoint_registry_repo import register_datasource as register_endpoint
 
 router = APIRouter(prefix="/datasources", tags=["datasources"])
-
-
-@router.get("")
-async def list_datasources():
-    return repo_list()
-
-
-@router.post("", status_code=201)
-async def create_datasource(data: DataSourceCreate):
-    return repo_create(
-        name=data.name,
-        jdbc_url=data.jdbc_url,
-        user=data.user,
-        password=data.password,
-        driver=data.driver,
-    )
-
-
-@router.get("/{ds_id}")
-async def get_datasource(ds_id: str):
-    ds = repo_get(ds_id)
-    if not ds:
-        raise HTTPException(404, "Data source not found")
-    return ds
-
-
-@router.put("/{ds_id}")
-async def update_datasource(ds_id: str, data: DataSourceUpdate):
-    ds = repo_update(ds_id, data.model_dump(exclude_none=True))
-    if not ds:
-        raise HTTPException(404, "Data source not found")
-    return ds
-
-
-@router.delete("/{ds_id}", status_code=204)
-async def delete_datasource(ds_id: str):
-    repo_delete(ds_id)
-
-
-@router.post("/{ds_id}/test")
-async def test_connection(ds_id: str):
-    ds = _get_ds(ds_id)
-    props_path = _write_temp_properties(ds)
-    try:
-        success, output = await extract_db_metadata(props_path)
-        return {"connected": success, "message": output[:500] if not success else "Connection successful"}
-    finally:
-        Path(props_path).unlink(missing_ok=True)
-
-
-@router.get("/{ds_id}/schemas")
-async def list_schemas(ds_id: str):
-    """Return distinct schema names from the database metadata."""
-    ds = _get_ds(ds_id)
-    schema_data = await _get_schema_metadata(ds)
-    schema_names: list[str] = []
-    seen: set[str] = set()
-    for relation in schema_data.get("relations", []):
-        schema_name = _relation_schema_name(relation)
-        if schema_name not in seen:
-            seen.add(schema_name)
-            schema_names.append(schema_name)
-    return {"schemas": schema_names}
-
-
-@router.get("/{ds_id}/schema")
-async def get_schema(ds_id: str, schema_filter: Optional[str] = None):
-    ds = _get_ds(ds_id)
-    schema_data = await _get_schema_metadata(ds)
-    if schema_filter:
-        filtered = [
-            r for r in schema_data.get("relations", [])
-            if _relation_belongs_to_schema(r, schema_filter)
-        ]
-        schema_data["relations"] = filtered
-    return schema_data
 
 
 @router.post("/{ds_id}/bootstrap")
@@ -133,9 +55,6 @@ async def run_bootstrap(ds_id: str, req: BootstrapRequest):
             req.include_dependencies,
         )
     elif _is_mysql_datasource(ds):
-        # MySQL metadata often includes system schemas such as `sys`. Build the "full"
-        # bootstrap from filtered business tables instead of handing every visible relation
-        # to Ontop directly.
         schema = await _get_schema_metadata(ds)
         requested_tables = [
             ".".join(_normalize_identifier(part) for part in relation.get("name", [])).split(".")[-1]
@@ -188,8 +107,6 @@ async def run_bootstrap(ds_id: str, req: BootstrapRequest):
     }
     manifest_path, selected_tables_path = write_manifest(version_dir, manifest)
 
-    # active TTL 放在 {DATA_DIR}/{ds_id}/active/merged_ontology.ttl
-    # 与 Bootstrap 版本目录隔离，作为 Ontop endpoint 的实际输入
     active_dir = Path(DATA_DIR) / ds_id / "active"
     active_dir.mkdir(parents=True, exist_ok=True)
     active_ttl_path = str(active_dir / "merged_ontology.ttl")
@@ -207,7 +124,6 @@ async def run_bootstrap(ds_id: str, req: BootstrapRequest):
 
     asyncio.create_task(_enrich_then_merge())
 
-    # 登记和内部端点注册表——让用户可以切换激活数据源
     ds_record = repo_get(ds_id)
     register_endpoint(
         ds_id=ds_id,
@@ -216,7 +132,7 @@ async def run_bootstrap(ds_id: str, req: BootstrapRequest):
         ontology_path=onto_path,
         mapping_path=mapping_path,
         properties_path=str(props_path),
-        set_current=False,   # 不自动切换，由用户手动选择
+        set_current=False,
     )
 
     return {
@@ -240,20 +156,20 @@ async def get_latest_bootstrap(ds_id: str):
     root_output_dir = Path(DATA_DIR) / ds_id
     if not root_output_dir.exists():
         return None
-        
+
     dirs = [d for d in root_output_dir.iterdir() if d.is_dir() and d.name.startswith("bootstrap-")]
     if not dirs:
         return None
-        
+
     dirs.sort(key=lambda x: x.name, reverse=True)
     latest_dir = dirs[0]
-    
+
     manifest_path = latest_dir / "manifest.json"
     if not manifest_path.exists():
-         return None
-         
+        return None
+
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
-    
+
     return {
         "version": manifest.get("version"),
         "mode": manifest.get("mode"),
@@ -292,10 +208,7 @@ async def preview_bootstrap(ds_id: str, req: BootstrapRequest):
     return build_preview(schema, requested_tables, resolved_tables, added_dependencies)
 
 
-def _relation_belongs_to_schema(relation: dict, schema_name: str) -> bool:
-    """Check if a relation belongs to the given schema."""
-    return _relation_schema_name(relation) == schema_name
-
+# ── Internal helpers ──
 
 def _get_ds(ds_id: str) -> dict:
     ds = repo_get(ds_id)

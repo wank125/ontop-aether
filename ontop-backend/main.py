@@ -74,22 +74,22 @@ app.add_middleware(
 )
 
 from routers import (
-    datasources, mappings, sparql, ai_query, ontology,
-    workbench, publishing, annotations, glossary,
-    endpoint_registry, suggestions, auth,
+    datasources, ai_query, workbench, publishing, annotations, glossary,
+    suggestions, auth,
 )
+
+# Note: datasources CRUD, mappings, sparql, ontology, endpoint_registry
+# have been migrated to ontop-engine (Java). Frontend routes directly
+# to ontop-engine via Next.js rewrites.
+# datasources router kept for bootstrap endpoints (needs LLM).
 
 app.include_router(auth.router,              prefix="/api/v1")
 app.include_router(datasources.router,       prefix="/api/v1")
-app.include_router(mappings.router,          prefix="/api/v1")
-app.include_router(sparql.router,            prefix="/api/v1")
 app.include_router(ai_query.router,          prefix="/api/v1")
-app.include_router(ontology.router,          prefix="/api/v1")
 app.include_router(workbench.router,         prefix="/api/v1")
 app.include_router(publishing.router,        prefix="/api/v1")
 app.include_router(annotations.router,       prefix="/api/v1")
 app.include_router(glossary.router,          prefix="/api/v1")
-app.include_router(endpoint_registry.router, prefix="/api/v1")
 app.include_router(suggestions.router,       prefix="/api/v1")
 
 
