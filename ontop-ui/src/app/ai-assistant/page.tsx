@@ -40,21 +40,20 @@ interface Message {
 
 function buildAssistantExamples(summary: OntologySummary): string[] {
   const examples: string[] = [];
+  const cls = summary.classes;
+  const props = summary.object_properties.length + summary.data_properties.length;
 
-  if (summary.classes.includes('PropertyProject')) {
-    examples.push('"查询所有物业项目"');
+  if (cls.length > 0) {
+    examples.push(`"查询所有 ${cls[0]}"`);
   }
-  if (summary.classes.includes('SpaceUnit')) {
-    examples.push('"统计每个项目的空间单元数量"');
+  if (cls.length >= 2) {
+    examples.push(`"${cls[0]}和${cls[1]}之间的关系"`);
   }
-  if (summary.classes.includes('Bill')) {
-    examples.push('"找出待缴账单及金额"');
+  if (props > 0 && cls.length > 0) {
+    examples.push(`"按属性排序 ${cls[0]}，取前10"`);
   }
-  if (summary.classes.includes('WorkOrder')) {
-    examples.push('"最近有哪些工单"');
-  }
-  if (examples.length === 0 && summary.classes.length > 0) {
-    examples.push(`"查询所有 ${summary.classes[0]}"`);
+  if (cls.length >= 3) {
+    examples.push(`"统计各类${cls[0]}的数量"`);
   }
   if (examples.length === 0) {
     examples.push('"查询当前知识图谱中的全部实体"');
@@ -252,8 +251,8 @@ export default function AIAssistantPage() {
   };
 
   return (
-    <div className="flex" style={{ height: 'calc(100vh - 56px - 48px)' }}>
-      <div className="flex flex-1 flex-col border-r border-border">
+    <div className="flex min-h-0 overflow-hidden" style={{ height: 'calc(100vh - 56px - 48px)' }}>
+      <div className="flex min-h-0 flex-1 flex-col border-r border-border">
         <div className="mb-4 border-b border-border pb-4">
           <div className="flex items-center gap-3">
             <div className="flex h-10 w-10 items-center justify-center rounded-lg bg-gradient-to-br from-[oklch(0.70_0.15_280)] to-[oklch(0.65_0.18_200)]">
@@ -269,7 +268,7 @@ export default function AIAssistantPage() {
           </div>
         </div>
 
-        <ScrollArea className="flex-1 p-4">
+        <ScrollArea className="min-h-0 flex-1 p-4">
           <div className="space-y-4">
             {messages.map((message) => (
               <div
@@ -422,7 +421,7 @@ export default function AIAssistantPage() {
           </div>
         </ScrollArea>
 
-        <div className="border-t border-border p-4">
+        <div className="shrink-0 border-t border-border bg-background/95 p-4 backdrop-blur-sm">
           <div className="flex gap-2">
             <Input
               value={inputValue}
@@ -457,7 +456,7 @@ export default function AIAssistantPage() {
         </div>
       </div>
 
-      <div className="w-72 border-l border-border p-4">
+      <div className="w-72 shrink-0 overflow-y-auto border-l border-border p-4">
         <Card>
           <CardHeader className="pb-2">
             <CardTitle className="text-sm">使用说明</CardTitle>
