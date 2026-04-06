@@ -187,7 +187,6 @@ export function TopBar() {
                 <span className="text-sm font-medium">{user?.display_name || user?.username || ''}</span>
                 <span className="text-xs text-muted-foreground">{user?.role === 'admin' ? '管理员' : user?.role || ''}</span>
               </div>
-              </div>
               <ChevronDown className="h-4 w-4 text-muted-foreground" />
             </Button>
           </DropdownMenuTrigger>
