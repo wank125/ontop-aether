@@ -1,5 +1,7 @@
 package com.tianzhi.ontopengine.service;
 
+import com.tianzhi.ontopengine.model.EndpointRegistration;
+import com.tianzhi.ontopengine.repository.EndpointRegistryRepository;
 import com.tianzhi.ontopengine.repository.QueryHistoryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -8,6 +10,7 @@ import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
+import java.util.HashMap;
 import java.util.Map;
 
 /**
@@ -30,10 +33,13 @@ public class SparqlProxyService {
 
     private final RestTemplate restTemplate;
     private final QueryHistoryRepository historyRepo;
+    private final EndpointRegistryRepository endpointRegistryRepo;
 
-    public SparqlProxyService(RestTemplate restTemplate, QueryHistoryRepository historyRepo) {
+    public SparqlProxyService(RestTemplate restTemplate, QueryHistoryRepository historyRepo,
+                              EndpointRegistryRepository endpointRegistryRepo) {
         this.restTemplate = restTemplate;
         this.historyRepo = historyRepo;
+        this.endpointRegistryRepo = endpointRegistryRepo;
     }
 
     /**
@@ -126,6 +132,9 @@ public class SparqlProxyService {
      * Check endpoint status by sending a simple ASK query.
      */
     public Map<String, Object> getEndpointStatus() {
+        Map<String, Object> result = new HashMap<>();
+        result.put("port", 8080);
+
         try {
             org.springframework.util.MultiValueMap<String, String> formData =
                     new org.springframework.util.LinkedMultiValueMap<>();
@@ -137,13 +146,26 @@ public class SparqlProxyService {
 
             HttpEntity<org.springframework.util.MultiValueMap<String, String>> entity =
                     new HttpEntity<>(formData, headers);
-            ResponseEntity<byte[]> response = restTemplate.exchange(
-                    endpointUrl + "/sparql", HttpMethod.POST, entity, byte[].class);
+            restTemplate.exchange(endpointUrl + "/sparql", HttpMethod.POST, entity, byte[].class);
 
-            return Map.of("running", true, "port", 8080);
+            result.put("running", true);
         } catch (Exception e) {
-            return Map.of("running", false, "port", 8080);
+            result.put("running", false);
         }
+
+        // Attach current endpoint file paths
+        try {
+            EndpointRegistration current = endpointRegistryRepo.getCurrent();
+            if (current != null) {
+                result.put("ontology_path", current.getOntologyPath() != null ? current.getOntologyPath() : "");
+                result.put("mapping_path", current.getMappingPath() != null ? current.getMappingPath() : "");
+                result.put("properties_path", current.getPropertiesPath() != null ? current.getPropertiesPath() : "");
+                result.put("ds_name", current.getDsName() != null ? current.getDsName() : "");
+            }
+        } catch (Exception ignored) {
+        }
+
+        return result;
     }
 
     private int countBindings(String json) {
