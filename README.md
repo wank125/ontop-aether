@@ -29,6 +29,61 @@
 | 平台治理 | `/governance` | RBAC、API Key（`oak_`）、审计日志 |
 | 系统设置 | `/system` | 用户信息、服务状态、端点状态 |
 
+## 页面预览
+
+<table>
+  <tr>
+    <td align="center"><b>首页工作台</b></td>
+    <td align="center"><b>数据源管理</b></td>
+    <td align="center"><b>数据库概览</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/home.png" width="400" alt="首页工作台"/></td>
+    <td><img src="docs/screenshots/datasource.png" width="400" alt="数据源管理"/></td>
+    <td><img src="docs/screenshots/db-schema.png" width="400" alt="数据库概览"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>SPARQL 查询</b></td>
+    <td align="center"><b>映射编辑</b></td>
+    <td align="center"><b>AI 助手</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/sparql.png" width="400" alt="SPARQL 查询"/></td>
+    <td><img src="docs/screenshots/mapping.png" width="400" alt="映射编辑"/></td>
+    <td><img src="docs/screenshots/ai-assistant.png" width="400" alt="AI 助手"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>本体可视化</b></td>
+    <td align="center"><b>AI 设置</b></td>
+    <td align="center"><b>系统设置</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/ontology.png" width="400" alt="本体可视化"/></td>
+    <td><img src="docs/screenshots/settings.png" width="400" alt="AI 设置"/></td>
+    <td><img src="docs/screenshots/system.png" width="400" alt="系统设置"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>语义标注</b></td>
+    <td align="center"><b>业务词汇表</b></td>
+    <td align="center"><b>本体精化</b></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/annotations.png" width="400" alt="语义标注"/></td>
+    <td><img src="docs/screenshots/glossary.png" width="400" alt="业务词汇表"/></td>
+    <td><img src="docs/screenshots/refinement.png" width="400" alt="本体精化"/></td>
+  </tr>
+  <tr>
+    <td align="center"><b>数据发布</b></td>
+    <td></td>
+    <td></td>
+  </tr>
+  <tr>
+    <td><img src="docs/screenshots/publishing.png" width="400" alt="数据发布"/></td>
+    <td></td>
+    <td></td>
+  </tr>
+</table>
+
 ## 双后端架构
 
 前端 `server.ts` 根据路径自动路由到不同后端：
