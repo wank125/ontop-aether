@@ -27,14 +27,14 @@ def _hash_password(password: str, salt: str) -> str:
 
 def _get_user_by_username(conn, username: str):
     return conn.execute(
-        "SELECT id, username, password_hash, salt, display_name, email, role FROM users WHERE username = ?",
+        "SELECT id, username, password_hash, salt, display_name, email, role, tenant_id, status FROM users WHERE username = ?",
         (username,),
     ).fetchone()
 
 
 def _get_user_by_id(conn, user_id: str):
     return conn.execute(
-        "SELECT id, username, display_name, email, role FROM users WHERE id = ?",
+        "SELECT id, username, display_name, email, role, tenant_id, status FROM users WHERE id = ?",
         (user_id,),
     ).fetchone()
 
@@ -92,10 +92,18 @@ def verify_request_token(request: Request) -> dict:
     user = _validate_token(conn, token)
     if not user:
         raise HTTPException(status_code=401, detail="token 无效或已过期")
-    return user
+    return {
+        "id": user["id"],
+        "username": user["username"],
+        "display_name": user["display_name"],
+        "email": user["email"],
+        "role": user["role"],
+        "tenant_id": user.get("tenant_id", ""),
+        "status": user.get("status", "active"),
+    }
 
 
-# ── Login ────────────────────────────────────────────────
+# ── Login ──
 
 
 @router.post("/login")
@@ -123,6 +131,14 @@ async def login(body: dict):
     conn.commit()
 
     logger.info("User '%s' logged in", username)
+
+    # Update last_login_at
+    conn.execute(
+        "UPDATE users SET last_login_at = ? WHERE id = ?",
+        (datetime.now(timezone.utc).isoformat(), user["id"]),
+    )
+    conn.commit()
+
     return {
         "token": token,
         "user": {
@@ -131,6 +147,8 @@ async def login(body: dict):
             "display_name": user["display_name"],
             "email": user["email"],
             "role": user["role"],
+            "tenant_id": user["tenant_id"] if "tenant_id" in user.keys() else "",
+            "status": user["status"] if "status" in user.keys() else "active",
         },
     }
 

@@ -17,6 +17,9 @@ import {
   Tags,
   BookMarked,
   Wand2,
+  FolderKanban,
+  ShieldCheck,
+  ScrollText,
 } from 'lucide-react';
 
 const navItems = [
@@ -31,6 +34,12 @@ const navItems = [
   { title: '本体精化',     href: '/refinement',    icon: Wand2,       description: 'AI 精化建议并自动应用' },
   { title: 'AI 设置',      href: '/settings',      icon: Settings,    description: '模型与提示词配置' },
   { title: '数据发布',     href: '/publishing',    icon: Share2,      description: 'API/MCP/插件配置' },
+];
+
+const govItems = [
+  { title: '项目管理',     href: '/governance/projects', icon: FolderKanban, description: '项目与环境' },
+  { title: '访问控制',     href: '/governance/access',   icon: ShieldCheck,  description: '角色与 API 密钥' },
+  { title: '审计日志',     href: '/governance/audit',    icon: ScrollText,   description: '操作审计记录' },
 ];
 
 export function SidebarNav() {
@@ -56,6 +65,48 @@ export function SidebarNav() {
       <nav className="flex-1 overflow-y-auto px-3 py-4">
         <div className="space-y-1">
           {navItems.map((item) => {
+            const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
+            return (
+              <Link
+                key={item.href}
+                href={item.href}
+                className={cn(
+                  'group flex items-center gap-3 rounded-lg px-3 py-2.5 text-sm font-medium transition-all duration-200',
+                  isActive
+                    ? 'bg-[var(--sidebar-accent)] text-[var(--sidebar-accent-foreground)]'
+                    : 'text-[var(--muted-foreground)] hover:bg-[var(--sidebar-accent)] hover:text-[var(--sidebar-foreground)]'
+                )}
+              >
+                <item.icon
+                  className={cn(
+                    'h-5 w-5 transition-colors',
+                    isActive
+                      ? 'text-[var(--sidebar-primary)]'
+                      : 'text-[var(--muted-foreground)] group-hover:text-[var(--sidebar-foreground)]'
+                  )}
+                />
+                <div className="flex-1">
+                  <div>{item.title}</div>
+                  <div className="text-xs text-[var(--muted-foreground)] opacity-70">
+                    {item.description}
+                  </div>
+                </div>
+                {isActive && (
+                  <div className="h-5 w-0.5 rounded-full bg-gradient-to-b from-[oklch(0.70_0.15_280)] to-[oklch(0.65_0.18_200)]" />
+                )}
+              </Link>
+            );
+          })}
+        </div>
+
+        {/* ── 平台治理 ── */}
+        <div className="mt-4 mb-2 px-3">
+          <p className="text-[10px] font-semibold uppercase tracking-widest text-[var(--muted-foreground)] opacity-60">
+            平台治理
+          </p>
+        </div>
+        <div className="space-y-1">
+          {govItems.map((item) => {
             const isActive = pathname === item.href || pathname.startsWith(item.href + '/');
             return (
               <Link

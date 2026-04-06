@@ -75,7 +75,7 @@ app.add_middleware(
 
 from routers import (
     datasources, ai_query, workbench, publishing, annotations, glossary,
-    suggestions, auth,
+    suggestions, auth, governance,
 )
 
 # Note: datasources CRUD, mappings, sparql, ontology, endpoint_registry
@@ -91,10 +91,18 @@ app.include_router(publishing.router,        prefix="/api/v1")
 app.include_router(annotations.router,       prefix="/api/v1")
 app.include_router(glossary.router,          prefix="/api/v1")
 app.include_router(suggestions.router,       prefix="/api/v1")
+app.include_router(governance.router,        prefix="/api/v1")
 
 
 @app.middleware("http")
 async def request_logging_middleware(request: Request, call_next) -> Response:
+    # ── Governance context resolution ──
+    try:
+        from dependencies.context import resolve_context as _resolve_ctx
+        _resolve_ctx(request)
+    except Exception:
+        pass  # context resolution must never block
+
     # Auth check for external-facing routes (/mcp and /api/v1)
     _auth_paths = ("/mcp", "/api/v1")
     _skip_paths = ("/api/v1/docs", "/api/v1/openapi.json", "/api/v1/redoc")
@@ -132,6 +140,37 @@ async def request_logging_middleware(request: Request, call_next) -> Response:
         response.status_code,
         elapsed_ms,
     )
+
+    # ── Audit event (fire-and-forget) ──
+    try:
+        import json as _json
+        from repositories.audit_repo import save_audit_event
+        gov_ctx = getattr(request.state, "governance_context", {}) or {}
+        user_info = getattr(request.state, "user", None) or {}
+        path_parts = path.strip("/").split("/")
+        save_audit_event({
+            "tenant_id": gov_ctx.get("tenant_id", ""),
+            "project_id": gov_ctx.get("project_id", ""),
+            "environment_id": gov_ctx.get("environment_id", ""),
+            "event_type": "http_request",
+            "event_category": path_parts[1] if len(path_parts) > 1 else "api",
+            "actor_type": "api_key" if user_info.get("is_api_key") else "user" if user_info.get("id") else "system",
+            "actor_user_id": user_info.get("id", ""),
+            "actor_display": user_info.get("username", user_info.get("display_name", "")),
+            "request_id": request.headers.get("X-Request-ID", ""),
+            "source_ip": client_host,
+            "user_agent": request.headers.get("user-agent", ""),
+            "resource_type": path_parts[2] if len(path_parts) > 2 else "",
+            "resource_id": path_parts[3] if len(path_parts) > 3 else "",
+            "action": request.method,
+            "status": "success" if 200 <= response.status_code < 400 else "failure",
+            "duration_ms": elapsed_ms,
+            "error_code": str(response.status_code) if response.status_code >= 400 else "",
+            "metadata_json": _json.dumps({"method": request.method, "path": path}),
+        })
+    except Exception:
+        pass  # audit must never break the request
+
     return response
 
 
