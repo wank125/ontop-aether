@@ -18,13 +18,7 @@ import {
   Mail,
   Clock,
 } from 'lucide-react';
-
-interface SystemConfig {
-  ontop_cli: string;
-  ontop_endpoint_url: string;
-  llm_base_url: string;
-  llm_model: string;
-}
+import { sparql, system, type SystemConfig } from '@/lib/api';
 
 interface EndpointStatus {
   running: boolean;
@@ -75,20 +69,19 @@ export default function SystemSettingsPage() {
     async function fetchSystemInfo() {
       try {
         const [configRes, statusRes, healthRes] = await Promise.allSettled([
-          fetch('/api/v1/config'),
-          fetch('/api/v1/sparql/endpoint-status'),
-          fetch('/api/v1/health'),
+          system.getConfig(),
+          sparql.endpointStatus(),
+          system.getHealth(),
         ]);
 
-        if (configRes.status === 'fulfilled' && configRes.value.ok) {
-          setConfig(await configRes.value.json());
+        if (configRes.status === 'fulfilled') {
+          setConfig(configRes.value);
         }
-        if (statusRes.status === 'fulfilled' && statusRes.value.ok) {
-          setEndpointStatus(await statusRes.value.json());
+        if (statusRes.status === 'fulfilled') {
+          setEndpointStatus(statusRes.value);
         }
-        if (healthRes.status === 'fulfilled' && healthRes.value.ok) {
-          const data = await healthRes.value.json();
-          setHealthStatus(data.status === 'ok' ? 'healthy' : 'unhealthy');
+        if (healthRes.status === 'fulfilled') {
+          setHealthStatus(healthRes.value.status === 'ok' ? 'healthy' : 'unhealthy');
         }
       } finally {
         setLoading(false);

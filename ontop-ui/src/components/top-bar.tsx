@@ -14,6 +14,14 @@ import {
 import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import {
+  Dialog,
+  DialogContent,
+  DialogDescription,
+  DialogHeader,
+  DialogTitle,
+  DialogTrigger,
+} from '@/components/ui/dialog';
+import {
   Bell,
   ChevronDown,
   LogOut,
@@ -234,9 +242,71 @@ export function TopBar() {
         </Button>
 
         {/* 帮助按钮 */}
-        <Button variant="ghost" size="icon" className="h-9 w-9">
-          <HelpCircle className="h-4 w-4" />
-        </Button>
+        <Dialog>
+          <DialogTrigger asChild>
+            <Button variant="ghost" size="icon" className="h-9 w-9">
+              <HelpCircle className="h-4 w-4" />
+            </Button>
+          </DialogTrigger>
+          <DialogContent className="max-w-2xl">
+            <DialogHeader>
+              <DialogTitle>使用说明书</DialogTitle>
+              <DialogDescription>
+                当前平台围绕 Ontop 语义端点工作，所有页面默认基于当前激活数据源运行。
+              </DialogDescription>
+            </DialogHeader>
+
+            <div className="space-y-5 text-sm text-muted-foreground">
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold text-foreground">快速上手</h3>
+                <ol className="list-decimal space-y-1 pl-5">
+                  <li>先到“数据源管理”创建或检查 JDBC 数据源。</li>
+                  <li>在“数据库概览”确认表结构后执行 Bootstrap。</li>
+                  <li>在“映射编辑”与“本体可视化”检查生成结果。</li>
+                  <li>随后可在 AI 助手、语义标注、业务词汇和本体精化页面继续加工。</li>
+                </ol>
+              </section>
+
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold text-foreground">数据源上下文</h3>
+                <ul className="list-disc space-y-1 pl-5">
+                  <li>顶部端点状态菜单显示当前激活数据源，并支持切换端点。</li>
+                  <li>语义标注、业务词汇、本体精化页面默认跟随当前激活数据源初始化。</li>
+                  <li>这些页面内部的下拉框只切换当前页面的审核或分析对象，不等于全局切换端点。</li>
+                </ul>
+              </section>
+
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold text-foreground">主要页面</h3>
+                <ul className="grid gap-2 sm:grid-cols-2">
+                  <li className="rounded-md border border-border bg-muted/20 px-3 py-2">
+                    <span className="font-medium text-foreground">数据源管理</span>
+                    <p className="mt-1 text-xs">连接数据库、探测结构、执行 Bootstrap。</p>
+                  </li>
+                  <li className="rounded-md border border-border bg-muted/20 px-3 py-2">
+                    <span className="font-medium text-foreground">SPARQL 查询</span>
+                    <p className="mt-1 text-xs">执行语义查询并查看 Ontop 重写 SQL。</p>
+                  </li>
+                  <li className="rounded-md border border-border bg-muted/20 px-3 py-2">
+                    <span className="font-medium text-foreground">语义标注</span>
+                    <p className="mt-1 text-xs">审核 LLM 标注并合并进 active ontology。</p>
+                  </li>
+                  <li className="rounded-md border border-border bg-muted/20 px-3 py-2">
+                    <span className="font-medium text-foreground">数据发布</span>
+                    <p className="mt-1 text-xs">管理 API Key、MCP 服务和工具定义。</p>
+                  </li>
+                </ul>
+              </section>
+
+              <section className="space-y-2">
+                <h3 className="text-sm font-semibold text-foreground">认证说明</h3>
+                <p>
+                  当前版本已经接入基础账号登录。未登录访问工作台页面会自动跳转到登录页，登录成功后使用 Bearer token 维持会话。
+                </p>
+              </section>
+            </div>
+          </DialogContent>
+        </Dialog>
 
         {/* 分隔线 */}
         <div className="mx-2 h-6 w-px bg-border" />

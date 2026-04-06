@@ -174,7 +174,7 @@ export default function SettingsPage() {
   useEffect(() => {
     Promise.all([
       ai.getConfig(),
-      fetch('/api/v1/ai/providers').then((r) => r.json()),
+      ai.getProviders(),
       ai.getSystemPrompt(),
       ai.getQuickQuestions(),
     ])
@@ -276,12 +276,7 @@ export default function SettingsPage() {
   const handleSaveConfig = async () => {
     setSavingConfig(true);
     try {
-      const response = await fetch('/api/v1/ai/config', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(config),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await ai.updateConfig(config);
       setOriginalConfig(config);
       setConfigChanged(false);
       setConfigSaved(true);
@@ -298,12 +293,7 @@ export default function SettingsPage() {
   const handleSavePrompt = async () => {
     setSavingPrompt(true);
     try {
-      const response = await fetch('/api/v1/ai/system-prompt', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ system_prompt: systemPrompt }),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await ai.updateSystemPrompt(systemPrompt);
       setOriginalPrompt(systemPrompt);
       setPromptSaved(true);
       toast.success('提示词已保存');
@@ -319,12 +309,7 @@ export default function SettingsPage() {
   const handleSaveQuestions = async () => {
     setSavingQuestions(true);
     try {
-      const response = await fetch('/api/v1/ai/quick-questions', {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ questions }),
-      });
-      if (!response.ok) throw new Error(`HTTP ${response.status}`);
+      await ai.updateQuickQuestions(questions);
       setOriginalQuestions(questions);
       setQuestionsSaved(true);
       toast.success('快捷问题已保存');

@@ -315,6 +315,17 @@ export interface ModelDiscoveryResponse {
   error?: string;
 }
 
+export interface SystemConfig {
+  ontop_cli: string;
+  ontop_endpoint_url: string;
+  llm_base_url: string;
+  llm_model: string;
+}
+
+export interface HealthStatus {
+  status: string;
+}
+
 // ── Workbench Types ────────────────────────────────────
 
 export interface ClassCandidate {
@@ -413,13 +424,15 @@ export const ai = {
   },
 
   // ── AI Config ────────────────────────────────────
+  getProviders: () =>
+    api<Record<string, ProviderPreset>>('/ai/providers'),
   getConfig: () =>
     api<AIConfig>('/ai/config'),
   updateConfig: (data: Partial<AIConfig>) =>
-      api<{ success: boolean; message: string }>('/ai/config', {
-        method: 'PUT',
-        body: JSON.stringify(data),
-      }),
+    api<{ success: boolean; message: string }>('/ai/config', {
+      method: 'PUT',
+      body: JSON.stringify(data),
+    }),
   discoverModels: (data: { provider?: string; base_url?: string; api_key?: string }) =>
     api<ModelDiscoveryResponse>('/ai/models', {
       method: 'POST',
@@ -439,6 +452,13 @@ export const ai = {
       method: 'PUT',
       body: JSON.stringify({ questions }),
     }),
+};
+
+export const system = {
+  getConfig: () =>
+    api<SystemConfig>('/config'),
+  getHealth: () =>
+    api<HealthStatus>('/health'),
 };
 
 // ── Publishing ───────────────────────────────────────
