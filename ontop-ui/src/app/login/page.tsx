@@ -55,10 +55,6 @@ export default function LoginPage() {
       <div className="relative mx-auto grid min-h-screen w-full max-w-7xl items-center gap-16 px-6 py-12 lg:grid-cols-[1.08fr_420px] lg:px-12">
         <section className="space-y-12 text-white">
           <div className="space-y-5">
-            <div className="inline-flex items-center gap-2 rounded-full border border-white/12 bg-white/6 px-4 py-2 backdrop-blur">
-              <Zap className="h-4 w-4 text-[oklch(0.78_0.16_85)]" />
-              <span className="text-sm font-medium">平台入口</span>
-            </div>
             <div className="space-y-2">
               <p className="text-xs font-medium uppercase tracking-[0.32em] text-cyan-200/70">
                 Ontop Aether
