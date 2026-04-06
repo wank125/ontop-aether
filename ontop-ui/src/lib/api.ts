@@ -381,7 +381,12 @@ export const ai = {
   ontologySummary: () =>
     api<OntologySummary>('/ai/ontology-summary'),
   streamQuery: async function* (question: string): AsyncGenerator<AIStep> {
-    const res = await fetch(`${API_BASE}/ai/query?question=${encodeURIComponent(question)}`);
+    const token = getAuthToken();
+    const headers: Record<string, string> = {
+      'X-Internal-Request': 'true',
+    };
+    if (token) headers['Authorization'] = `Bearer ${token}`;
+    const res = await fetch(`${API_BASE}/ai/query?question=${encodeURIComponent(question)}`, { headers });
     if (!res.ok) throw new Error(`AI query failed: ${res.statusText}`);
     const reader = res.body!.getReader();
     const decoder = new TextDecoder();

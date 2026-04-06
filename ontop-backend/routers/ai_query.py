@@ -434,7 +434,11 @@ async def update_system_prompt(data: SystemPromptUpdate):
 async def get_quick_questions():
     """Get quick questions list."""
     config = _load_ai_config()
-    return {"questions": config.get("quick_questions", DEFAULT_QUICK_QUESTIONS)}
+    qs = config.get("quick_questions", DEFAULT_QUICK_QUESTIONS)
+    if isinstance(qs, str):
+        import json
+        qs = json.loads(qs)
+    return {"questions": qs}
 
 
 @router.put("/quick-questions")
