@@ -1,7 +1,7 @@
 package com.tianzhi.ontop.endpoint.controller;
 
 import it.unibz.inf.ontop.injection.OntopSQLOWLAPIConfiguration;
-import it.unibz.inf.ontop.rdf4j.repository.impl.OntopVirtualRepository;
+import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
@@ -22,17 +22,17 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @RestController
 public class OntologyFetcherController {
 
-    private final OntopSQLOWLAPIConfiguration configuration;
+    private final OntopRepositoryConfig repositoryConfig;
 
     @Autowired
-    public OntologyFetcherController(OntopVirtualRepository repository,
-                                     OntopSQLOWLAPIConfiguration configuration) {
-        this.configuration = configuration;
+    public OntologyFetcherController(OntopRepositoryConfig repositoryConfig) {
+        this.repositoryConfig = repositoryConfig;
     }
 
     @RequestMapping("/ontology")
     public ResponseEntity<String> ontology() {
         try {
+            OntopSQLOWLAPIConfiguration configuration = repositoryConfig.getConfiguration();
             Optional<OWLOntology> optionalOntology = configuration.loadInputOntology();
             if (!optionalOntology.isPresent()) {
                 return new ResponseEntity<>("No ontology found", HttpStatus.NOT_FOUND);

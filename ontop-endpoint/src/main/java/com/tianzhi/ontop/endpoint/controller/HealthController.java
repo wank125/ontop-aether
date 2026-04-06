@@ -1,5 +1,6 @@
 package com.tianzhi.ontop.endpoint.controller;
 
+import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
 import it.unibz.inf.ontop.rdf4j.repository.impl.OntopVirtualRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
@@ -11,16 +12,17 @@ import java.util.Map;
 @RestController
 public class HealthController {
 
-    private final OntopVirtualRepository repository;
+    private final OntopRepositoryConfig repositoryConfig;
 
     @Autowired
-    public HealthController(OntopVirtualRepository repository) {
-        this.repository = repository;
+    public HealthController(OntopRepositoryConfig repositoryConfig) {
+        this.repositoryConfig = repositoryConfig;
     }
 
     @GetMapping("/health")
     public ResponseEntity<Map<String, Object>> health() {
-        boolean isInitialized = repository.isInitialized();
+        OntopVirtualRepository repository = repositoryConfig.getRepository();
+        boolean isInitialized = repository != null && repository.isInitialized();
         return ResponseEntity.ok(Map.of(
                 "status", isInitialized ? "UP" : "DOWN",
                 "repository", isInitialized ? "initialized" : "not initialized"

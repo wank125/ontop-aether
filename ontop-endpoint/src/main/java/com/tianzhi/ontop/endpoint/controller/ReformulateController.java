@@ -5,6 +5,7 @@ import it.unibz.inf.ontop.exception.OntopConnectionException;
 import it.unibz.inf.ontop.exception.OntopReformulationException;
 import it.unibz.inf.ontop.rdf4j.repository.OntopRepositoryConnection;
 import it.unibz.inf.ontop.rdf4j.repository.impl.OntopVirtualRepository;
+import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
@@ -22,11 +23,11 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 @RestController
 public class ReformulateController {
 
-    private final OntopVirtualRepository repository;
+    private final OntopRepositoryConfig repositoryConfig;
 
     @Autowired
-    public ReformulateController(OntopVirtualRepository repository) {
-        this.repository = repository;
+    public ReformulateController(OntopRepositoryConfig repositoryConfig) {
+        this.repositoryConfig = repositoryConfig;
     }
 
     @RequestMapping(value = "/ontop/reformulate")
@@ -35,6 +36,7 @@ public class ReformulateController {
                                               HttpServletRequest request)
             throws OntopConnectionException, OntopReformulationException {
 
+        OntopVirtualRepository repository = repositoryConfig.getRepository();
         ImmutableMultimap<String, String> inputHeaders = extractHttpHeaders(request);
 
         try (OntopRepositoryConnection connection = repository.getConnection()) {

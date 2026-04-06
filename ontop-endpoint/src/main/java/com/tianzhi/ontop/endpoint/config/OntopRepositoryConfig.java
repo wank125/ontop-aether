@@ -37,6 +37,14 @@ public class OntopRepositoryConfig {
     private volatile OntopVirtualRepository repository;
     private volatile OntopSQLOWLAPIConfiguration configuration;
 
+    public OntopVirtualRepository getRepository() {
+        return this.repository;
+    }
+
+    public OntopSQLOWLAPIConfiguration getConfiguration() {
+        return this.configuration;
+    }
+
     @Bean
     public OntopVirtualRepository ontopRepository() {
         initSeedFiles();
@@ -65,7 +73,8 @@ public class OntopRepositoryConfig {
         this.configuration = buildConfiguration();
         this.repository = OntopRepository.defaultRepository(configuration);
         this.repository.init();
-        log.info("Ontop repository restarted successfully");
+        log.info("Ontop repository restarted: mapping={}, ontology={}, properties={}",
+                mappingFile, ontologyFile, propertiesFile);
     }
 
     private OntopSQLOWLAPIConfiguration buildConfiguration() {

@@ -2,9 +2,9 @@ package com.tianzhi.ontop.endpoint.controller;
 
 import com.google.common.collect.ImmutableMultimap;
 import it.unibz.inf.ontop.endpoint.processor.SparqlQueryExecutor;
-import it.unibz.inf.ontop.rdf4j.repository.OntopRepository;
 import it.unibz.inf.ontop.rdf4j.repository.OntopRepositoryConnection;
 import it.unibz.inf.ontop.rdf4j.repository.impl.OntopVirtualRepository;
+import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
 import org.eclipse.rdf4j.query.*;
 import org.eclipse.rdf4j.query.resultio.BooleanQueryResultWriter;
 import org.eclipse.rdf4j.query.resultio.TupleQueryResultWriter;
@@ -45,11 +45,11 @@ import static org.springframework.http.MediaType.APPLICATION_FORM_URLENCODED_VAL
 public class SparqlController {
 
     private static final Logger log = LoggerFactory.getLogger(SparqlController.class);
-    private final OntopVirtualRepository repository;
+    private final OntopRepositoryConfig repositoryConfig;
 
     @Autowired
-    public SparqlController(OntopVirtualRepository repository) {
-        this.repository = repository;
+    public SparqlController(OntopRepositoryConfig repositoryConfig) {
+        this.repositoryConfig = repositoryConfig;
     }
 
     @RequestMapping(value = "/sparql", method = RequestMethod.GET)
@@ -86,6 +86,7 @@ public class SparqlController {
 
     private void executeQuery(String accept, String query,
                               HttpServletRequest request, HttpServletResponse response) throws IOException {
+        OntopVirtualRepository repository = repositoryConfig.getRepository();
         ImmutableMultimap<String, String> httpHeaders = extractHttpHeaders(request);
 
         try (OntopRepositoryConnection connection = repository.getConnection()) {
@@ -177,7 +178,7 @@ public class SparqlController {
     }
 
     private void addCacheHeaders(HttpServletResponse response) {
-        repository.getHttpCacheHeaders().getMap().forEach(response::setHeader);
+        repositoryConfig.getRepository().getHttpCacheHeaders().getMap().forEach(response::setHeader);
     }
 
     private static ImmutableMultimap<String, String> extractHttpHeaders(HttpServletRequest request) {
