@@ -1,12 +1,9 @@
-"""端点切换服务 — 将目标数据源的 active 文件同步到共享端点目录并触发 reload。
+"""端点切换服务 — 将目标数据源的 active 文件同步到共享端点目录并触发 restart。
 
 部署假设（Docker 模式）：
   - backend 容器和 ontop-endpoint 容器共享同一个卷挂载到 ONTOP_ENDPOINT_ACTIVE_DIR
   - 切换逻辑：把 {ds_active_dir}/* 复制到 {ONTOP_ENDPOINT_ACTIVE_DIR}/
-  - 触发 reload：调用 Ontop Admin API 的 /ontop/reload（如不支持则重启容器 HTTP API）
-
-本地开发模式（非 Docker）：
-  - 直接 start_endpoint（已有逻辑），不需要文件同步
+  - 触发 restart：调用 native Spring Boot 端点的 POST /ontop/restart
 """
 import logging
 import shutil
@@ -32,8 +29,8 @@ async def switch_to_datasource(ds_id: str) -> tuple[bool, str]:
     Steps:
       1. 从 endpoint_registry 读取 ds_id 的文件路径
       2. 将文件复制到共享 active 目录
-      3. 更新 active_endpoint.json（backend 内部路由使用）
-      4. 调用 Ontop reload（约 5-10s）
+      3. 调用 /ontop/restart 让 Java 端重新加载（约 5-10s）
+      4. 更新 active_endpoint.json（backend 内部路由使用）
       5. 更新注册表 is_current 标记
 
     Returns:
@@ -64,24 +61,21 @@ async def switch_to_datasource(ds_id: str) -> tuple[bool, str]:
                 active_dir=active_path,
             )
         except Exception as e:
-            logger.warning("File sync failed: %s", e)
+            return False, f"文件同步失败：{e}"
 
-    # 步骤 3：更新 active_endpoint.json
+    # 步骤 3：触发端点 restart（从同一路径重新读取文件）
+    ok, msg = await _trigger_restart()
+    if not ok:
+        logger.warning("Endpoint restart failed: %s", msg)
+        return False, f"文件已切换，但端点 restart 失败：{msg}"
+
+    # 步骤 4：restart 成功后，更新 active_endpoint.json 和注册表
     save_active_endpoint_config({
         "ontology_path": ontology_path,
         "mapping_path":  mapping_path,
         "properties_path": properties_path,
     })
-
-    # 步骤 4：触发端点 reload
-    ok, msg = await _trigger_reload(ontology_path, mapping_path, properties_path)
-
-    # 步骤 5：更新注册表标记（无论 reload 是否成功，都记录激活意图）
     activate(ds_id)
-
-    if not ok:
-        logger.warning("Endpoint reload failed but registry updated: %s", msg)
-        return False, f"文件已切换，但端点 reload 失败：{msg}。请手动重启 ontop-endpoint 容器。"
 
     return True, f"已切换到数据源 {reg.get('ds_name', ds_id)}"
 
@@ -106,36 +100,18 @@ def _sync_files_to_active(
             logger.warning("Source file not found: %s", src)
 
 
-async def _trigger_reload(
-    ontology_path: str,
-    mapping_path: str,
-    properties_path: str,
-) -> tuple[bool, str]:
-    """触发 Ontop endpoint 重新加载文件。
+async def _trigger_restart() -> tuple[bool, str]:
+    """调用 native Spring Boot 端点的 POST /ontop/restart。
 
-    优先尝试 Ontop Admin API，失败则 fallback 到 start_endpoint。
+    Java 端 OntopRepositoryConfig.restart() 会从构造时确定的文件路径
+    重新读取 mapping/ontology/properties，无需传参。
     """
-    # 方案 A：Ontop Admin API（Ontop 5.x 支持 POST /ontop/reload）
     try:
-        async with httpx.AsyncClient(timeout=15.0) as client:
-            resp = await client.post(
-                f"{ONTOP_ENDPOINT_URL}/ontop/reload",
-                json={},
-            )
+        async with httpx.AsyncClient(timeout=30.0) as client:
+            resp = await client.post(f"{ONTOP_ENDPOINT_URL}/ontop/restart")
             if resp.status_code in (200, 204):
-                logger.info("Ontop reload via Admin API succeeded")
-                return True, "reload OK"
-    except Exception as e:
-        logger.debug("Admin API reload failed, falling back: %s", e)
-
-    # 方案 B：fallback — start_endpoint（已有逻辑，会重启 Ontop 进程）
-    try:
-        from services.ontop_endpoint import start_endpoint
-        ok, msg = await start_endpoint(
-            ontology_path=ontology_path,
-            mapping_path=mapping_path,
-            properties_path=properties_path,
-        )
-        return ok, msg
+                logger.info("Endpoint restart succeeded")
+                return True, "restart OK"
+            return False, f"HTTP {resp.status_code}: {resp.text}"
     except Exception as e:
         return False, str(e)
