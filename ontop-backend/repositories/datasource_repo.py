@@ -5,10 +5,13 @@ from datetime import datetime
 from database import get_connection, encrypt_value, decrypt_value
 
 
-def list_datasources() -> list[dict]:
+def list_datasources(project_id: str | None = None) -> list[dict]:
     """Return all datasources (passwords decrypted)."""
     conn = get_connection()
-    rows = conn.execute("SELECT * FROM datasources ORDER BY created_at").fetchall()
+    if project_id:
+        rows = conn.execute("SELECT * FROM datasources WHERE project_id = ? OR project_id = '' ORDER BY created_at", (project_id,)).fetchall()
+    else:
+        rows = conn.execute("SELECT * FROM datasources ORDER BY created_at").fetchall()
     result = []
     for r in rows:
         d = dict(r)

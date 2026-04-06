@@ -7,12 +7,19 @@ from database import get_connection
 MAX_HISTORY = 500
 
 
-def list_history() -> list[dict]:
-    """Return query history, most recent first."""
+def list_history(project_id: str | None = None) -> list[dict]:
+    """Return query history, most recent first. Optionally filter by project_id."""
     conn = get_connection()
-    rows = conn.execute(
-        "SELECT id, query, timestamp, result_count, source_ip, caller, duration_ms, status, error_message FROM query_history ORDER BY timestamp DESC"
-    ).fetchall()
+    if project_id:
+        rows = conn.execute(
+            "SELECT id, query, timestamp, result_count, source_ip, caller, duration_ms, status, error_message "
+            "FROM query_history WHERE project_id = ? OR project_id = '' ORDER BY timestamp DESC",
+            (project_id,),
+        ).fetchall()
+    else:
+        rows = conn.execute(
+            "SELECT id, query, timestamp, result_count, source_ip, caller, duration_ms, status, error_message FROM query_history ORDER BY timestamp DESC"
+        ).fetchall()
     return [dict(r) for r in rows]
 
 

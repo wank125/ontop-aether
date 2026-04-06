@@ -227,6 +227,150 @@ CREATE TABLE IF NOT EXISTS sessions (
 
 CREATE INDEX IF NOT EXISTS idx_session_user ON sessions(user_id);
 
+-- ══════════════════════════════════════════════════════════
+-- P1-A 治理基础表
+-- ══════════════════════════════════════════════════════════
+
+-- 租户：企业级隔离边界
+CREATE TABLE IF NOT EXISTS tenants (
+    id          TEXT PRIMARY KEY,
+    code        TEXT NOT NULL UNIQUE,
+    name        TEXT NOT NULL,
+    status      TEXT NOT NULL DEFAULT 'active',
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT
+);
+
+-- 项目：语义资产管理边界
+CREATE TABLE IF NOT EXISTS projects (
+    id            TEXT PRIMARY KEY,
+    tenant_id     TEXT NOT NULL,
+    code          TEXT NOT NULL,
+    name          TEXT NOT NULL,
+    description   TEXT NOT NULL DEFAULT '',
+    owner_user_id TEXT NOT NULL DEFAULT '',
+    status        TEXT NOT NULL DEFAULT 'active',
+    created_at    TEXT NOT NULL,
+    updated_at    TEXT,
+    UNIQUE(tenant_id, code),
+    FOREIGN KEY (tenant_id) REFERENCES tenants(id)
+);
+
+-- 环境：固定 dev / test / prod
+CREATE TABLE IF NOT EXISTS environments (
+    id                  TEXT PRIMARY KEY,
+    project_id          TEXT NOT NULL,
+    name                TEXT NOT NULL,
+    display_name        TEXT NOT NULL DEFAULT '',
+    endpoint_url        TEXT NOT NULL DEFAULT '',
+    active_registry_id  TEXT NOT NULL DEFAULT '',
+    settings_json       TEXT NOT NULL DEFAULT '{}',
+    created_at          TEXT NOT NULL,
+    updated_at          TEXT,
+    UNIQUE(project_id, name),
+    FOREIGN KEY (project_id) REFERENCES projects(id)
+);
+
+-- 角色
+CREATE TABLE IF NOT EXISTS roles (
+    id          TEXT PRIMARY KEY,
+    code        TEXT NOT NULL UNIQUE,
+    name        TEXT NOT NULL,
+    scope_type  TEXT NOT NULL,
+    is_system   INTEGER NOT NULL DEFAULT 1,
+    created_at  TEXT NOT NULL
+);
+
+-- 权限
+CREATE TABLE IF NOT EXISTS permissions (
+    id            TEXT PRIMARY KEY,
+    code          TEXT NOT NULL UNIQUE,
+    name          TEXT NOT NULL,
+    resource_type TEXT NOT NULL,
+    action        TEXT NOT NULL
+);
+
+-- 角色-权限关联
+CREATE TABLE IF NOT EXISTS role_permissions (
+    role_id       TEXT NOT NULL,
+    permission_id TEXT NOT NULL,
+    PRIMARY KEY (role_id, permission_id),
+    FOREIGN KEY (role_id) REFERENCES roles(id),
+    FOREIGN KEY (permission_id) REFERENCES permissions(id)
+);
+
+-- 角色绑定：用户在特定范围内被授予的角色
+CREATE TABLE IF NOT EXISTS role_bindings (
+    id             TEXT PRIMARY KEY,
+    user_id        TEXT NOT NULL,
+    role_id        TEXT NOT NULL,
+    tenant_id      TEXT NOT NULL DEFAULT '',
+    project_id     TEXT NOT NULL DEFAULT '',
+    environment_id TEXT NOT NULL DEFAULT '',
+    created_at     TEXT NOT NULL,
+    created_by     TEXT NOT NULL DEFAULT '',
+    FOREIGN KEY (user_id) REFERENCES users(id),
+    FOREIGN KEY (role_id) REFERENCES roles(id)
+);
+
+CREATE INDEX IF NOT EXISTS idx_rb_user ON role_bindings(user_id);
+
+-- API 凭据：独立机器身份
+CREATE TABLE IF NOT EXISTS api_credentials (
+    id                  TEXT PRIMARY KEY,
+    tenant_id           TEXT NOT NULL DEFAULT '',
+    project_id          TEXT NOT NULL DEFAULT '',
+    environment_id      TEXT NOT NULL DEFAULT '',
+    name                TEXT NOT NULL,
+    type                TEXT NOT NULL DEFAULT 'human',
+    key_prefix          TEXT NOT NULL DEFAULT '',
+    secret_hash         TEXT NOT NULL,
+    secret_encrypted    TEXT NOT NULL DEFAULT '',
+    created_by_user_id  TEXT NOT NULL DEFAULT '',
+    expires_at          TEXT,
+    last_used_at        TEXT,
+    status              TEXT NOT NULL DEFAULT 'active',
+    allowed_scopes_json TEXT NOT NULL DEFAULT '[]',
+    allowed_ips_json    TEXT NOT NULL DEFAULT '[]',
+    created_at          TEXT NOT NULL,
+    updated_at          TEXT
+);
+
+CREATE INDEX IF NOT EXISTS idx_api_cred_prefix ON api_credentials(key_prefix, status);
+
+-- 统一审计事件
+CREATE TABLE IF NOT EXISTS audit_events (
+    id                      TEXT PRIMARY KEY,
+    tenant_id               TEXT NOT NULL DEFAULT '',
+    project_id              TEXT NOT NULL DEFAULT '',
+    environment_id          TEXT NOT NULL DEFAULT '',
+    event_type              TEXT NOT NULL DEFAULT '',
+    event_category          TEXT NOT NULL DEFAULT '',
+    actor_type              TEXT NOT NULL DEFAULT 'system',
+    actor_user_id           TEXT NOT NULL DEFAULT '',
+    actor_api_credential_id TEXT NOT NULL DEFAULT '',
+    actor_display           TEXT NOT NULL DEFAULT '',
+    request_id              TEXT NOT NULL DEFAULT '',
+    session_id              TEXT NOT NULL DEFAULT '',
+    source_ip               TEXT NOT NULL DEFAULT '',
+    user_agent              TEXT NOT NULL DEFAULT '',
+    resource_type           TEXT NOT NULL DEFAULT '',
+    resource_id             TEXT NOT NULL DEFAULT '',
+    resource_name           TEXT NOT NULL DEFAULT '',
+    action                  TEXT NOT NULL DEFAULT '',
+    status                  TEXT NOT NULL DEFAULT 'success',
+    duration_ms             REAL,
+    error_code              TEXT NOT NULL DEFAULT '',
+    error_message           TEXT NOT NULL DEFAULT '',
+    metadata_json           TEXT NOT NULL DEFAULT '{}',
+    created_at              TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_audit_tenant  ON audit_events(tenant_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_project ON audit_events(project_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_actor   ON audit_events(actor_user_id, created_at DESC);
+CREATE INDEX IF NOT EXISTS idx_audit_type    ON audit_events(event_type, created_at DESC);
+
 """
 
 
@@ -262,12 +406,197 @@ def _seed_admin_user(conn):
     logger.info("Seeded default admin user (admin/admin123)")
 
 
+# ── P1-A 治理种子数据 ──────────────────────────────────────
+
+def _seed_governance_defaults(conn):
+    """Seed default tenant, project, environments, roles, permissions."""
+    import secrets as _sec
+    from datetime import datetime as _dt, timezone as _tz
+    now = _dt.now(_tz.utc).isoformat()
+
+    # ── 默认租户 ──
+    if conn.execute("SELECT COUNT(*) FROM tenants").fetchone()[0] == 0:
+        tenant_id = _sec.token_hex(8)
+        conn.execute(
+            "INSERT INTO tenants (id, code, name, status, created_at) VALUES (?, ?, ?, ?, ?)",
+            (tenant_id, "default", "默认租户", "active", now),
+        )
+        logger.info("Seeded default tenant: %s", tenant_id)
+    else:
+        tenant_id = conn.execute("SELECT id FROM tenants WHERE code = 'default'").fetchone()[0]
+
+    # ── 默认项目 ──
+    admin_row = conn.execute("SELECT id FROM users WHERE username = 'admin'").fetchone()
+    admin_id = admin_row[0] if admin_row else ""
+
+    if conn.execute("SELECT COUNT(*) FROM projects").fetchone()[0] == 0:
+        project_id = _sec.token_hex(8)
+        conn.execute(
+            "INSERT INTO projects (id, tenant_id, code, name, description, owner_user_id, status, created_at) VALUES (?, ?, ?, ?, ?, ?, ?, ?)",
+            (project_id, tenant_id, "default", "默认项目", "系统自动创建的默认项目", admin_id, "active", now),
+        )
+        logger.info("Seeded default project: %s", project_id)
+    else:
+        project_id = conn.execute("SELECT id FROM projects WHERE code = 'default'").fetchone()[0]
+
+    # ── 固定三环境 ──
+    for env_name, display in [("dev", "开发"), ("test", "测试"), ("prod", "生产")]:
+        if conn.execute("SELECT COUNT(*) FROM environments WHERE project_id = ? AND name = ?", (project_id, env_name)).fetchone()[0] == 0:
+            env_id = _sec.token_hex(8)
+            conn.execute(
+                "INSERT INTO environments (id, project_id, name, display_name, created_at) VALUES (?, ?, ?, ?, ?)",
+                (env_id, project_id, env_name, display, now),
+            )
+    logger.info("Seeded default environments for project %s", project_id)
+
+    # ── 内置角色 ──
+    _BUILTIN_ROLES = [
+        ("platform_admin",  "平台管理员", "platform"),
+        ("security_admin",  "安全管理员", "platform"),
+        ("project_owner",   "项目负责人", "project"),
+        ("editor",          "编辑者",     "project"),
+        ("reviewer",        "审核者",     "project"),
+        ("publisher",       "发布者",     "project"),
+        ("viewer",          "查看者",     "project"),
+        ("api_client",      "API 客户端", "environment"),
+    ]
+    role_ids = {}
+    for code, name, scope in _BUILTIN_ROLES:
+        existing = conn.execute("SELECT id FROM roles WHERE code = ?", (code,)).fetchone()
+        if existing:
+            role_ids[code] = existing[0]
+        else:
+            rid = _sec.token_hex(8)
+            conn.execute(
+                "INSERT INTO roles (id, code, name, scope_type, is_system, created_at) VALUES (?, ?, ?, ?, 1, ?)",
+                (rid, code, name, scope, now),
+            )
+            role_ids[code] = rid
+    logger.info("Seeded %d built-in roles", len(role_ids))
+
+    # ── 权限 ──
+    _BUILTIN_PERMISSIONS = [
+        ("datasource.read",      "查看数据源",   "datasource", "read"),
+        ("datasource.write",     "管理数据源",   "datasource", "write"),
+        ("ontology.read",        "查看本体",     "ontology",   "read"),
+        ("ontology.write",       "编辑本体",     "ontology",   "write"),
+        ("mapping.read",         "查看映射",     "mapping",    "read"),
+        ("mapping.write",        "编辑映射",     "mapping",    "write"),
+        ("glossary.read",        "查看词汇表",   "glossary",   "read"),
+        ("glossary.write",       "编辑词汇表",   "glossary",   "write"),
+        ("publishing.read",      "查看发布配置", "publishing",  "read"),
+        ("publishing.write",     "编辑发布配置", "publishing",  "write"),
+        ("release.create",       "创建发布",     "release",    "create"),
+        ("release.approve",      "审批发布",     "release",    "approve"),
+        ("release.execute",      "执行发布",     "release",    "execute"),
+        ("audit.read",           "查看审计",     "audit",      "read"),
+        ("apikey.read",          "查看 API Key", "apikey",     "read"),
+        ("apikey.write",         "管理 API Key", "apikey",     "write"),
+        ("member.manage",        "管理成员",     "member",     "manage"),
+    ]
+    perm_ids = {}
+    for code, name, res_type, action in _BUILTIN_PERMISSIONS:
+        existing = conn.execute("SELECT id FROM permissions WHERE code = ?", (code,)).fetchone()
+        if existing:
+            perm_ids[code] = existing[0]
+        else:
+            pid = _sec.token_hex(8)
+            conn.execute(
+                "INSERT INTO permissions (id, code, name, resource_type, action) VALUES (?, ?, ?, ?, ?)",
+                (pid, code, name, res_type, action),
+            )
+            perm_ids[code] = pid
+    logger.info("Seeded %d built-in permissions", len(perm_ids))
+
+    # ── 角色-权限映射 ──
+    _ROLE_PERMISSIONS = {
+        "platform_admin":  [c for c, *_ in _BUILTIN_PERMISSIONS],
+        "security_admin":  ["audit.read", "apikey.read", "apikey.write", "member.manage"],
+        "project_owner":   ["datasource.read", "datasource.write", "ontology.read", "ontology.write",
+                            "mapping.read", "mapping.write", "glossary.read", "glossary.write",
+                            "publishing.read", "publishing.write", "release.create", "release.approve",
+                            "release.execute", "apikey.read", "apikey.write", "member.manage"],
+        "editor":          ["datasource.read", "ontology.read", "ontology.write",
+                            "mapping.read", "mapping.write", "glossary.read", "glossary.write",
+                            "publishing.read", "release.create"],
+        "reviewer":        ["datasource.read", "ontology.read", "mapping.read", "glossary.read",
+                            "publishing.read", "release.approve"],
+        "publisher":       ["publishing.read", "release.create", "release.execute"],
+        "viewer":          ["datasource.read", "ontology.read", "mapping.read", "glossary.read",
+                            "publishing.read", "audit.read"],
+        "api_client":      ["datasource.read", "ontology.read", "mapping.read", "glossary.read",
+                            "publishing.read"],
+    }
+    for role_code, perm_codes in _ROLE_PERMISSIONS.items():
+        rid = role_ids.get(role_code)
+        if not rid:
+            continue
+        for perm_code in perm_codes:
+            pid = perm_ids.get(perm_code)
+            if not pid:
+                continue
+            try:
+                conn.execute(
+                    "INSERT OR IGNORE INTO role_permissions (role_id, permission_id) VALUES (?, ?)",
+                    (rid, pid),
+                )
+            except sqlite3.IntegrityError:
+                pass
+
+    # ── admin 用户绑定 platform_admin 角色 ──
+    if admin_id and "platform_admin" in role_ids:
+        existing_binding = conn.execute(
+            "SELECT id FROM role_bindings WHERE user_id = ? AND role_id = ?",
+            (admin_id, role_ids["platform_admin"]),
+        ).fetchone()
+        if not existing_binding:
+            conn.execute(
+                "INSERT INTO role_bindings (id, user_id, role_id, tenant_id, created_at, created_by) VALUES (?, ?, ?, ?, ?, ?)",
+                (_sec.token_hex(8), admin_id, role_ids["platform_admin"], tenant_id, now, admin_id),
+            )
+
+    conn.commit()
+    logger.info("Governance seed data committed")
+
+
+def _backfill_governance_context(conn):
+    """Backfill existing rows with default project_id and dev environment_id."""
+    try:
+        project = conn.execute("SELECT id FROM projects WHERE code = 'default'").fetchone()
+        dev_env = conn.execute(
+            "SELECT id FROM environments WHERE project_id = ? AND name = 'dev'",
+            (project[0],) if project else ("",),
+        ).fetchone()
+        if not project or not dev_env:
+            return
+        pid, eid = project[0], dev_env[0]
+        for table in ("publishing_config", "endpoint_registry", "query_history", "datasources"):
+            conn.execute(
+                f"UPDATE {table} SET project_id = ?, environment_id = ? WHERE project_id = '' OR project_id IS NULL",
+                (pid, eid),
+            )
+        conn.commit()
+        logger.info("Backfilled governance context (project=%s, env=%s)", pid, eid)
+    except Exception as e:
+        logger.warning("Governance context backfill skipped: %s", e)
+
+
+def _backfill_admin_tenant(conn):
+    """Set admin user's tenant_id to default tenant."""
+    admin = conn.execute("SELECT id FROM users WHERE username = 'admin'").fetchone()
+    tenant = conn.execute("SELECT id FROM tenants WHERE code = 'default'").fetchone()
+    if admin and tenant:
+        conn.execute("UPDATE users SET tenant_id = ? WHERE username = 'admin'", (tenant[0],))
+        conn.commit()
+
+
 def init_db():
     """Create tables if they don't exist."""
     conn = get_connection()
     conn.executescript(_SCHEMA_SQL)
     conn.commit()
     _seed_admin_user(conn)
+    _seed_governance_defaults(conn)
 
     # ── Schema migrations (idempotent) ───────────────────
     _migrations = [
@@ -276,6 +605,20 @@ def init_db():
         "ALTER TABLE query_history ADD COLUMN duration_ms REAL",
         "ALTER TABLE query_history ADD COLUMN status TEXT DEFAULT 'ok'",
         "ALTER TABLE query_history ADD COLUMN error_message TEXT DEFAULT ''",
+        # P1-A: users 表补列
+        "ALTER TABLE users ADD COLUMN tenant_id TEXT DEFAULT ''",
+        "ALTER TABLE users ADD COLUMN status TEXT DEFAULT 'active'",
+        "ALTER TABLE users ADD COLUMN auth_source TEXT DEFAULT 'local'",
+        "ALTER TABLE users ADD COLUMN last_login_at TEXT DEFAULT ''",
+        # P1-A: 现有业务表补列
+        "ALTER TABLE publishing_config ADD COLUMN project_id TEXT DEFAULT ''",
+        "ALTER TABLE publishing_config ADD COLUMN environment_id TEXT DEFAULT ''",
+        "ALTER TABLE endpoint_registry ADD COLUMN project_id TEXT DEFAULT ''",
+        "ALTER TABLE endpoint_registry ADD COLUMN environment_id TEXT DEFAULT ''",
+        "ALTER TABLE query_history ADD COLUMN project_id TEXT DEFAULT ''",
+        "ALTER TABLE query_history ADD COLUMN environment_id TEXT DEFAULT ''",
+        "ALTER TABLE datasources ADD COLUMN project_id TEXT DEFAULT ''",
+        "ALTER TABLE datasources ADD COLUMN environment_id TEXT DEFAULT ''",
     ]
     for sql in _migrations:
         try:
@@ -284,6 +627,12 @@ def init_db():
             pass  # column already exists
     conn.execute("CREATE INDEX IF NOT EXISTS idx_history_caller ON query_history(caller)")
     conn.commit()
+
+    # 回填 admin 用户的 tenant_id
+    _backfill_admin_tenant(conn)
+
+    # 回填现有数据的 project_id / environment_id
+    _backfill_governance_context(conn)
 
     logger.info("Database initialized at %s", DB_PATH)
 

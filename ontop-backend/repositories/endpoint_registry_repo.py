@@ -21,10 +21,16 @@ def _row_to_dict(row) -> dict:
 
 # ── Read ─────────────────────────────────────────────────
 
-def list_registrations() -> list[dict]:
-    rows = get_connection().execute(
-        "SELECT * FROM endpoint_registry ORDER BY is_current DESC, last_bootstrap DESC"
-    ).fetchall()
+def list_registrations(project_id: str | None = None) -> list[dict]:
+    if project_id:
+        rows = get_connection().execute(
+            "SELECT * FROM endpoint_registry WHERE project_id = ? OR project_id = '' ORDER BY is_current DESC, last_bootstrap DESC",
+            (project_id,),
+        ).fetchall()
+    else:
+        rows = get_connection().execute(
+            "SELECT * FROM endpoint_registry ORDER BY is_current DESC, last_bootstrap DESC"
+        ).fetchall()
     return [_row_to_dict(r) for r in rows]
 
 

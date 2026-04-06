@@ -802,3 +802,98 @@ export const suggestions = {
 
 
 
+// ── Governance ──────────────────────────────────────────
+
+export interface Tenant {
+  id: string; code: string; name: string; status: string; created_at: string;
+}
+export interface Project {
+  id: string; tenant_id: string; code: string; name: string; description: string;
+  owner_user_id: string; status: string; created_at: string;
+}
+export interface Environment {
+  id: string; project_id: string; name: string; display_name: string;
+  endpoint_url: string; active_registry_id: string;
+}
+export interface Role {
+  id: string; code: string; name: string; scope_type: string;
+  is_system: boolean; permissions: Permission[];
+}
+export interface Permission {
+  id: string; code: string; name: string; resource_type: string; action: string;
+}
+export interface RoleBinding {
+  id: string; user_id: string; role_code: string; role_name: string;
+  username: string; display_name: string; project_id: string;
+}
+export interface ApiCredentialView {
+  id: string; name: string; type: string; key_prefix: string; status: string;
+  expires_at: string | null; last_used_at: string | null; created_at: string;
+}
+export interface AuditEventView {
+  id: string; event_type: string; event_category: string; actor_display: string; action: string;
+  resource_type: string; resource_name: string; status: string;
+  duration_ms: number | null; source_ip: string; metadata_json: string; created_at: string;
+}
+
+export const governance = {
+  tenants: {
+    list: () => api<Tenant[]>('/governance/tenants'),
+    get: (id: string) => api<Tenant>(`/governance/tenants/${id}`),
+  },
+  projects: {
+    list: (tenantId?: string) =>
+      api<Project[]>(`/governance/projects${tenantId ? `?tenant_id=${tenantId}` : ''}`),
+    create: (data: { code: string; name: string; description?: string }) =>
+      api<Project>('/governance/projects', { method: 'POST', body: JSON.stringify(data) }),
+    get: (id: string) => api<Project>(`/governance/projects/${id}`),
+    update: (id: string, data: Partial<Project>) =>
+      api<Project>(`/governance/projects/${id}`, { method: 'PUT', body: JSON.stringify(data) }),
+    environments: (projectId: string) =>
+      api<Environment[]>(`/governance/projects/${projectId}/environments`),
+    members: (projectId: string) =>
+      api<any[]>(`/governance/projects/${projectId}/members`),
+  },
+  roles: {
+    list: () => api<Role[]>('/governance/roles'),
+    permissions: () => api<Permission[]>('/governance/permissions'),
+    updatePermissions: (roleId: string, permIds: string[]) =>
+      api<Role>(`/governance/roles/${roleId}/permissions`, {
+        method: 'PUT', body: JSON.stringify({ permission_ids: permIds }),
+      }),
+  },
+  roleBindings: {
+    list: (params?: Record<string, string>) => {
+      const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+      return api<RoleBinding[]>(`/governance/bindings${qs}`);
+    },
+    create: (data: { user_id: string; role_code: string; project_id?: string }) =>
+      api<RoleBinding>('/governance/bindings', { method: 'POST', body: JSON.stringify(data) }),
+    delete: (id: string) =>
+      api<{ deleted: boolean }>(`/governance/bindings/${id}`, { method: 'DELETE' }),
+  },
+  apiKeys: {
+    list: (params?: Record<string, string>) => {
+      const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+      return api<ApiCredentialView[]>(`/governance/api-keys${qs}`);
+    },
+    create: (data: { name: string; type?: string; expires_at?: string; allowed_scopes?: string[]; allowed_ips?: string[] }) =>
+      api<ApiCredentialView & { secret?: string }>('/governance/api-keys', {
+        method: 'POST', body: JSON.stringify(data),
+      }),
+    revoke: (id: string) =>
+      api<ApiCredentialView>(`/governance/api-keys/${id}/revoke`, { method: 'POST' }),
+  },
+  audit: {
+    list: (params: Record<string, any>) => {
+      const qs = '?' + new URLSearchParams(
+        Object.entries(params).filter(([, v]) => v != null && v !== '').map(([k, v]) => [k, String(v)])
+      ).toString();
+      return api<{ items: AuditEventView[]; total: number; page: number; page_size: number }>(`/governance/audit${qs}`);
+    },
+    stats: (params?: Record<string, string>) => {
+      const qs = params ? '?' + new URLSearchParams(params).toString() : '';
+      return api<any>(`/governance/audit/stats${qs}`);
+    },
+  },
+};
