@@ -7,9 +7,11 @@
 
 import { useEffect, useState } from 'react';
 import { toast } from 'sonner';
-import { Bot, CheckCircle2, Database, GitMerge, Loader2, Tags, Workflow } from 'lucide-react';
+import { Bot, CheckCircle2, Database, GitMerge, Loader2, Sparkles, Tags, Workflow } from 'lucide-react';
 import { Badge } from '@/components/ui/badge';
 import { Card, CardContent } from '@/components/ui/card';
+import { Progress } from '@/components/ui/progress';
+import { useTaskProgress } from '@/hooks/useTaskProgress';
 import {
   Select,
   SelectContent,
@@ -59,6 +61,19 @@ export default function AnnotationsPage() {
   const [loading, setLoading]   = useState(true);
   const [stats, setStats]       = useState<AnnotationStats>({ pending: 0, accepted: 0, rejected: 0, total: 0 });
   const [statsLoading, setStatsLoading] = useState(false);
+
+  // ── Enrichment progress tracking ──
+  const { task: enrichTask, isRunning: enrichRunning } = useTaskProgress({
+    dsId,
+    taskType: 'enrichment',
+    pollInterval: 2000,
+    onComplete: () => {
+      // Refresh stats when enrichment completes
+      if (dsId) {
+        annotations.stats(dsId).then(setStats).catch(() => {});
+      }
+    },
+  });
 
   useEffect(() => {
     Promise.all([datasources.list(), endpointRegistry.current()])
@@ -150,6 +165,22 @@ export default function AnnotationsPage() {
           icon={GitMerge}
         />
       </div>
+
+      {/* Enrichment running banner */}
+      {enrichRunning && (
+        <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm text-violet-400">
+            <Sparkles className="h-4 w-4 animate-pulse" />
+            LLM 正在后台生成语义标注，完成后请刷新查看候选标注。
+          </div>
+          <Progress value={Math.round((enrichTask?.progress ?? 0) * 100)} className="h-2" />
+          {enrichTask && enrichTask.total > 0 && (
+            <p className="text-xs text-muted-foreground">
+              {enrichTask.message || `${enrichTask.current}/${enrichTask.total} 个实体已处理`}
+            </p>
+          )}
+        </div>
+      )}
 
       <div className="grid gap-4 xl:grid-cols-[1.2fr_0.8fr]">
         <Card className="border-border/70 bg-card/80">

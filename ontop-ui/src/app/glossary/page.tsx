@@ -3,6 +3,7 @@
 import { useCallback, useEffect, useState } from 'react';
 import Link from 'next/link';
 import { toast } from 'sonner';
+import { useTaskProgress } from '@/hooks/useTaskProgress';
 import { Button } from '@/components/ui/button';
 import { Input } from '@/components/ui/input';
 import { Badge } from '@/components/ui/badge';
@@ -40,6 +41,7 @@ import {
   Layers,
   Link2,
 } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
 import {
   glossary,
   datasources,
@@ -115,6 +117,15 @@ export default function GlossaryPage() {
   const [formSaving, setSaving] = useState(false);
   const [showCreate, setCreate] = useState(false);
 
+  // ── Task progress tracking ──
+  const { task: glossaryTask, isRunning: glossaryRunning } = useTaskProgress({
+    dsId,
+    taskType: 'glossary',
+    pollInterval: 2000,
+    onComplete: () => { load(); toast.success('词汇表生成完成'); },
+    onFail: (t) => { load(); toast.error('词汇表生成失败: ' + (t.error || '未知错误')); },
+  });
+
   // Load datasources
   useEffect(() => {
     Promise.all([datasources.list(), endpointRegistry.current()])
@@ -173,7 +184,7 @@ export default function GlossaryPage() {
     try {
       const res = await glossary.generate(dsId);
       toast.success(res.message + `（预计生成 ${res.estimated_terms} 条）`);
-      setTimeout(load, 3000); // 后台任务，稍后刷新
+      // Progress will be tracked by useTaskProgress hook
     } catch (e: any) {
       toast.error('生成失败: ' + e.message);
     } finally {
@@ -389,6 +400,22 @@ export default function GlossaryPage() {
           </Button>
         </div>
       </div>
+
+      {/* Glossary generation progress */}
+      {(glossaryRunning || (glossaryTask && glossaryTask.status === 'running')) && (
+        <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm text-violet-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            {glossaryTask?.message || '正在生成词汇表...'}
+          </div>
+          <Progress value={Math.round((glossaryTask?.progress ?? 0) * 100)} className="h-2" />
+          {glossaryTask && (
+            <p className="text-xs text-muted-foreground">
+              {glossaryTask.current}/{glossaryTask.total} 批次已处理
+            </p>
+          )}
+        </div>
+      )}
 
       {/* Filter */}
       <div className="flex items-center gap-2">

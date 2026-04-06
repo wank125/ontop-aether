@@ -169,40 +169,57 @@ async def enrich_ontology_labels(
     model  = llm_service._model
     total_written = 0
 
-    for i in range(0, len(all_entities), batch_size):
-        batch  = all_entities[i: i + batch_size]
-        labels = await _call_llm_for_labels(batch, client, model)
+    # ── 进度追踪 ──
+    from repositories import task_progress_repo
+    task_id = task_progress_repo.create_task("enrichment", ds_id, total=len(all_entities))
 
-        for item in labels:
-            name = item.get("name", "")
-            if not name:
-                continue
-            # 找到该实体的 kind
-            kind = next((e["kind"] for e in batch if e["name"] == name), "class")
+    try:
+        for i in range(0, len(all_entities), batch_size):
+            batch = all_entities[i: i + batch_size]
+            labels = await _call_llm_for_labels(batch, client, model)
 
-            for lang, label_key, comment_key in [
-                ("zh", "label_zh", "comment_zh"),
-                ("en", "label_en", "comment_en"),
-            ]:
-                label   = item.get(label_key, "")
-                comment = item.get(comment_key, "")
-                if label or comment:
-                    annotation_repo.upsert_annotation(
-                        ds_id=ds_id,
-                        entity_uri=name,
-                        entity_kind=kind,
-                        lang=lang,
-                        label=label,
-                        comment=comment,
-                        source="llm",
-                    )
-                    total_written += 1
+            for item in labels:
+                name = item.get("name", "")
+                if not name:
+                    continue
+                kind = next((e["kind"] for e in batch if e["name"] == name), "class")
 
-        if i + batch_size < len(all_entities):
-            await asyncio.sleep(0.5)  # 避免 LLM 限速
+                for lang, label_key, comment_key in [
+                    ("zh", "label_zh", "comment_zh"),
+                    ("en", "label_en", "comment_en"),
+                ]:
+                    label   = item.get(label_key, "")
+                    comment = item.get(comment_key, "")
+                    if label or comment:
+                        annotation_repo.upsert_annotation(
+                            ds_id=ds_id,
+                            entity_uri=name,
+                            entity_kind=kind,
+                            lang=lang,
+                            label=label,
+                            comment=comment,
+                            source="llm",
+                        )
+                        total_written += 1
 
-    logger.info(
-        "enrich_ontology_labels: wrote %d annotation records for ds_id=%s",
-        total_written, ds_id
-    )
-    return total_written
+            processed = min(i + batch_size, len(all_entities))
+            task_progress_repo.update_progress(
+                task_id, current=processed,
+                message=f"正在生成语义注释 {processed}/{len(all_entities)}...",
+            )
+
+            if i + batch_size < len(all_entities):
+                await asyncio.sleep(0.5)
+
+        task_progress_repo.complete_task(
+            task_id,
+            result=f'{{"total_written": {total_written}}}',
+        )
+        logger.info(
+            "enrich_ontology_labels: wrote %d annotation records for ds_id=%s",
+            total_written, ds_id,
+        )
+        return total_written
+    except Exception as e:
+        task_progress_repo.fail_task(task_id, str(e))
+        raise

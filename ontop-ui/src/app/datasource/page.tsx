@@ -47,6 +47,8 @@ import { datasources, type DataSource } from '@/lib/api';
 import { Collapsible, CollapsibleContent, CollapsibleTrigger } from '@/components/ui/collapsible';
 import { Checkbox } from '@/components/ui/checkbox';
 import { Switch } from '@/components/ui/switch';
+import { Progress } from '@/components/ui/progress';
+import { useTaskProgress } from '@/hooks/useTaskProgress';
 
 const driverOptions = [
   { value: 'postgresql', label: 'PostgreSQL', className: 'org.postgresql.Driver' },
@@ -219,6 +221,19 @@ export default function DataSourcePage() {
   const [schemaTreeSearch, setSchemaTreeSearch] = useState('');
   const [openSchemas, setOpenSchemas] = useState<Set<string>>(new Set());
   const [bootstrapMode, setBootstrapMode] = useState<'full' | 'partial'>('full');
+
+  // ── Enrichment progress tracking after bootstrap ──
+  const { task: enrichTask, isRunning: enrichRunning } = useTaskProgress({
+    dsId: activeId ?? '',
+    taskType: 'enrichment',
+    pollInterval: 2000,
+    onComplete: () => {
+      toast.success('语义标注生成完成，前往「语义标注」页面审核');
+    },
+    onFail: (t) => {
+      toast.error('语义标注生成失败: ' + (t.error || '未知错误'));
+    },
+  });
   const updateNewDataSource = (
     field: 'name' | 'jdbcUrl' | 'username' | 'password' | 'driver',
     value: string
@@ -899,6 +914,22 @@ export default function DataSourcePage() {
                   <div className="flex items-center justify-center rounded-xl border border-border/70 bg-card/60 py-12">
                     <Loader2 className="mr-2 h-5 w-5 animate-spin text-muted-foreground" />
                     <span className="text-sm text-muted-foreground">正在探测结构...</span>
+                  </div>
+                )}
+
+                {/* Enrichment progress after Bootstrap */}
+                {enrichRunning && (
+                  <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4 space-y-2">
+                    <div className="flex items-center gap-2 text-sm text-violet-400">
+                      <Sparkles className="h-4 w-4 animate-pulse" />
+                      {enrichTask?.message || 'LLM 正在生成语义标注...'}
+                    </div>
+                    <Progress value={Math.round((enrichTask?.progress ?? 0) * 100)} className="h-2" />
+                    {enrichTask && enrichTask.total > 0 && (
+                      <p className="text-xs text-muted-foreground">
+                        {enrichTask.current}/{enrichTask.total} 个实体已处理
+                      </p>
+                    )}
                   </div>
                 )}
 

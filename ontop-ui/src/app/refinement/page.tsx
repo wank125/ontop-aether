@@ -27,6 +27,8 @@ import {
   XCircle,
   Zap,
 } from 'lucide-react';
+import { Progress } from '@/components/ui/progress';
+import { useTaskProgress } from '@/hooks/useTaskProgress';
 import {
   datasources,
   endpointRegistry,
@@ -108,6 +110,15 @@ export default function OntologySuggestionsPage() {
   const [filterStatus, setFilter] = useState<SuggestionStatus | 'all'>('all');
   const [expanded, setExpanded] = useState<Set<string>>(new Set());
 
+  // ── Task progress tracking ──
+  const { task: advisorTask, isRunning: advisorRunning } = useTaskProgress({
+    dsId,
+    taskType: 'advisor',
+    pollInterval: 2000,
+    onComplete: () => { load(); toast.success('本体精化分析完成'); },
+    onFail: (t) => { load(); toast.error('分析失败: ' + (t.error || '未知错误')); },
+  });
+
   useEffect(() => {
     Promise.all([datasources.list(), endpointRegistry.current()])
       .then(([list, current]) => {
@@ -147,8 +158,8 @@ export default function OntologySuggestionsPage() {
     setAnalyze(true);
     try {
       await sugApi.analyze(dsId);
-      toast.success('分析任务已启动（后台运行，约 30s 后刷新查看）');
-      setTimeout(load, 35000);
+      toast.success('分析任务已启动，正在后台运行...');
+      // Progress tracked by useTaskProgress hook
     } catch (e: any) {
       toast.error('分析失败: ' + e.message);
     } finally {
@@ -314,6 +325,17 @@ export default function OntologySuggestionsPage() {
           </Button>
         </div>
       </div>
+
+      {/* Advisor progress */}
+      {(advisorRunning || (advisorTask && advisorTask.status === 'running')) && (
+        <div className="rounded-xl border border-violet-500/30 bg-violet-500/5 p-4 space-y-2">
+          <div className="flex items-center gap-2 text-sm text-violet-400">
+            <Loader2 className="h-4 w-4 animate-spin" />
+            {advisorTask?.message || '正在分析本体结构...'}
+          </div>
+          <Progress value={Math.round((advisorTask?.progress ?? 0) * 100)} className="h-2" />
+        </div>
+      )}
 
       {/* Filter tabs */}
       <div className="flex items-center gap-1 border-b border-[var(--border)] pb-0">

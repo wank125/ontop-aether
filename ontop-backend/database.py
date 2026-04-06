@@ -371,6 +371,25 @@ CREATE INDEX IF NOT EXISTS idx_audit_project ON audit_events(project_id, created
 CREATE INDEX IF NOT EXISTS idx_audit_actor   ON audit_events(actor_user_id, created_at DESC);
 CREATE INDEX IF NOT EXISTS idx_audit_type    ON audit_events(event_type, created_at DESC);
 
+-- LLM 异步任务进度追踪
+CREATE TABLE IF NOT EXISTS task_progress (
+    id          TEXT PRIMARY KEY,
+    task_type   TEXT NOT NULL,
+    ds_id       TEXT NOT NULL,
+    status      TEXT NOT NULL DEFAULT 'running',
+    progress    REAL NOT NULL DEFAULT 0.0,
+    current     INTEGER NOT NULL DEFAULT 0,
+    total       INTEGER NOT NULL DEFAULT 0,
+    message     TEXT NOT NULL DEFAULT '',
+    result      TEXT NOT NULL DEFAULT '',
+    error       TEXT NOT NULL DEFAULT '',
+    created_at  TEXT NOT NULL,
+    updated_at  TEXT NOT NULL
+);
+
+CREATE INDEX IF NOT EXISTS idx_task_type_ds  ON task_progress(task_type, ds_id);
+CREATE INDEX IF NOT EXISTS idx_task_status   ON task_progress(status);
+
 """
 
 

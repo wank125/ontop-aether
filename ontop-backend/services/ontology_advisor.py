@@ -46,42 +46,58 @@ async def analyze_ontology(ds_id: str) -> int:
     Returns:
         写入的建议条数
     """
-    from repositories import suggestion_repo
+    from repositories import suggestion_repo, task_progress_repo
     from services import llm_service
     from services.active_endpoint_config import load_active_endpoint_config
     from repositories.annotation_repo import list_annotations
 
-    # 清除旧的 pending/rejected 建议（保留 accepted/applied）
-    deleted = suggestion_repo.delete_ds_suggestions(ds_id, status="pending")
-    suggestion_repo.delete_ds_suggestions(ds_id, status="rejected")
-    if deleted:
-        logger.info("analyze_ontology: cleared %d old suggestions for ds_id=%s", deleted, ds_id)
+    # ── 进度追踪 ──
+    task_id = task_progress_repo.create_task("advisor", ds_id, total=1)
 
-    # 获取本体上下文：类、属性
-    ontology_context = await _build_ontology_context(ds_id)
-    if not ontology_context:
-        logger.warning("analyze_ontology: no ontology context for ds_id=%s", ds_id)
-        return 0
+    try:
+        task_progress_repo.update_progress(task_id, current=0, message="正在分析本体结构...")
 
-    # 获取已 accepted 注释作为语义上下文
-    accepted = list_annotations(ds_id, status="accepted")
-    annotation_context = _format_annotation_context(accepted)
+        # 清除旧的 pending/rejected 建议（保留 accepted/applied）
+        deleted = suggestion_repo.delete_ds_suggestions(ds_id, status="pending")
+        suggestion_repo.delete_ds_suggestions(ds_id, status="rejected")
+        if deleted:
+            logger.info("analyze_ontology: cleared %d old suggestions for ds_id=%s", deleted, ds_id)
 
-    raw_suggestions = await _call_llm_for_suggestions(
-        ontology_context=ontology_context,
-        annotation_context=annotation_context,
-        llm_client=llm_service._client,
-        model=llm_service._model,
-    )
+        # 获取本体上下文：类、属性
+        ontology_context = await _build_ontology_context(ds_id)
+        if not ontology_context:
+            logger.warning("analyze_ontology: no ontology context for ds_id=%s", ds_id)
+            task_progress_repo.complete_task(task_id, result='{"total_written": 0}')
+            return 0
 
-    # 补充 auto_apply 默认值
-    for s in raw_suggestions:
-        if "auto_apply" not in s:
-            s["auto_apply"] = AUTO_APPLY_MAP.get(s.get("type", ""), False)
+        task_progress_repo.update_progress(task_id, current=0, message="正在调用 LLM 生成精化建议...")
 
-    count = suggestion_repo.batch_create(ds_id, raw_suggestions)
-    logger.info("analyze_ontology: generated %d suggestions for ds_id=%s", count, ds_id)
-    return count
+        # 获取已 accepted 注释作为语义上下文
+        accepted = list_annotations(ds_id, status="accepted")
+        annotation_context = _format_annotation_context(accepted)
+
+        raw_suggestions = await _call_llm_for_suggestions(
+            ontology_context=ontology_context,
+            annotation_context=annotation_context,
+            llm_client=llm_service._client,
+            model=llm_service._model,
+        )
+
+        # 补充 auto_apply 默认值
+        for s in raw_suggestions:
+            if "auto_apply" not in s:
+                s["auto_apply"] = AUTO_APPLY_MAP.get(s.get("type", ""), False)
+
+        count = suggestion_repo.batch_create(ds_id, raw_suggestions)
+        task_progress_repo.complete_task(
+            task_id,
+            result=f'{{"total_written": {count}}}',
+        )
+        logger.info("analyze_ontology: generated %d suggestions for ds_id=%s", count, ds_id)
+        return count
+    except Exception as e:
+        task_progress_repo.fail_task(task_id, str(e))
+        raise
 
 
 async def _build_ontology_context(ds_id: str) -> str:

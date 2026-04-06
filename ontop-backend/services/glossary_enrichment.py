@@ -26,7 +26,7 @@ async def generate_glossary_from_annotations(ds_id: str, batch_size: int = 15) -
     Returns:
         新写入的词汇条数（不含跳过的重复项）
     """
-    from repositories import annotation_repo, glossary_repo
+    from repositories import annotation_repo, glossary_repo, task_progress_repo
     from services import llm_service
 
     # 获取已 accepted 的 zh 注释（zh 包含 comment，信息最丰富）
@@ -45,31 +45,48 @@ async def generate_glossary_from_annotations(ds_id: str, batch_size: int = 15) -
 
     total_written = 0
 
-    for i in range(0, len(accepted_zh), batch_size):
-        batch = accepted_zh[i: i + batch_size]
-        new_terms = await _call_llm_for_glossary(batch, llm_service._client, llm_service._model)
+    # ── 进度追踪 ──
+    task_id = task_progress_repo.create_task("glossary", ds_id, total=len(accepted_zh))
 
-        for t in new_terms:
-            if not t.get("term") or not t.get("entity_uri"):
-                continue
-            glossary_repo.upsert_term(
-                ds_id=ds_id,
-                term=t["term"],
-                entity_uri=t["entity_uri"],
-                entity_kind=t.get("entity_kind", "data_property"),
-                aliases=t.get("aliases", []),
-                description=t.get("description", ""),
-                example_questions=t.get("example_questions", []),
-                source="llm",
-                overwrite=False,   # 不覆盖人工词汇
+    try:
+        for i in range(0, len(accepted_zh), batch_size):
+            batch = accepted_zh[i: i + batch_size]
+            new_terms = await _call_llm_for_glossary(batch, llm_service._client, llm_service._model)
+
+            for t in new_terms:
+                if not t.get("term") or not t.get("entity_uri"):
+                    continue
+                glossary_repo.upsert_term(
+                    ds_id=ds_id,
+                    term=t["term"],
+                    entity_uri=t["entity_uri"],
+                    entity_kind=t.get("entity_kind", "data_property"),
+                    aliases=t.get("aliases", []),
+                    description=t.get("description", ""),
+                    example_questions=t.get("example_questions", []),
+                    source="llm",
+                    overwrite=False,
+                )
+                total_written += 1
+
+            processed = min(i + batch_size, len(accepted_zh))
+            task_progress_repo.update_progress(
+                task_id, current=processed,
+                message=f"正在生成词汇 {processed}/{len(accepted_zh)}...",
             )
-            total_written += 1
 
-        if i + batch_size < len(accepted_zh):
-            await asyncio.sleep(0.5)
+            if i + batch_size < len(accepted_zh):
+                await asyncio.sleep(0.5)
 
-    logger.info("generate_glossary: wrote %d terms for ds_id=%s", total_written, ds_id)
-    return total_written
+        task_progress_repo.complete_task(
+            task_id,
+            result=f'{{"total_written": {total_written}}}',
+        )
+        logger.info("generate_glossary: wrote %d terms for ds_id=%s", total_written, ds_id)
+        return total_written
+    except Exception as e:
+        task_progress_repo.fail_task(task_id, str(e))
+        raise
 
 
 async def _call_llm_for_glossary(

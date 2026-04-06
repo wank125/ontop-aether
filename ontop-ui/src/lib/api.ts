@@ -807,6 +807,30 @@ export const suggestions = {
 
 
 
+// ── Task Progress ────────────────────────────────────────
+
+export interface TaskProgress {
+  id:         string;
+  task_type:  string;
+  ds_id:      string;
+  status:     'running' | 'completed' | 'failed';
+  progress:   number;
+  current:    number;
+  total:      number;
+  message:    string;
+  result:     string;
+  error:      string;
+  created_at: string;
+  updated_at: string;
+}
+
+export const tasks = {
+  list: (dsId: string) =>
+    api<TaskProgress[]>(`/tasks/${dsId}`),
+  get: (dsId: string, taskType: string) =>
+    api<TaskProgress>(`/tasks/${dsId}/${taskType}`),
+};
+
 // ── Governance ──────────────────────────────────────────
 
 export interface Tenant {

@@ -75,7 +75,7 @@ app.add_middleware(
 
 from routers import (
     datasources, ai_query, workbench, publishing, annotations, glossary,
-    suggestions, auth, governance,
+    suggestions, auth, governance, tasks as task_router,
 )
 
 # Note: datasources CRUD, mappings, sparql, ontology, endpoint_registry
@@ -92,6 +92,7 @@ app.include_router(annotations.router,       prefix="/api/v1")
 app.include_router(glossary.router,          prefix="/api/v1")
 app.include_router(suggestions.router,       prefix="/api/v1")
 app.include_router(governance.router,        prefix="/api/v1")
+app.include_router(task_router.router,       prefix="/api/v1")
 
 
 @app.middleware("http")
