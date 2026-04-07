@@ -7,7 +7,7 @@
     "dev": "bash ./scripts/dev.sh",
     "preinstall": "npx only-allow pnpm",
     "lint": "eslint",
-    "start": "bash ./scripts/start.sh",
+    "start": "next start",
     "ts-check": "tsc -p tsconfig.json"
   },
   "dependencies": {
@@ -87,8 +87,6 @@
     "react-dev-inspector": "^2.0.1",
     "shadcn": "latest",
     "tailwindcss": "^4",
-    "tsup": "^8.3.5",
-    "tsx": "^4.19.2",
     "typescript": "^5"
   },
   "packageManager": "pnpm@9.0.0",

@@ -10,30 +10,17 @@ RUN pnpm install --frozen-lockfile
 
 COPY . .
 
-ENV BACKEND_URL=http://backend:8000
-RUN pnpm next build && \
-    pnpm exec tsup src/server.ts --format cjs --platform node --target node20 --outDir dist
+RUN pnpm next build
 
-# ── Stage 2: Production deps only ──────────────────────
-FROM builder AS prod-deps
+# ── Stage 2: Serve with nginx ──────────────────────────
+FROM nginx:alpine
 
-RUN pnpm install --frozen-lockfile --prod
+COPY --from=builder /app/out /usr/share/nginx/html
+COPY nginx.conf /etc/nginx/conf.d/default.conf
 
-# ── Stage 3: Run ───────────────────────────────────────
-FROM node:20-slim
-
-WORKDIR /app
-
-COPY --from=builder /app/.next/ .next/
-COPY --from=builder /app/public/ public/
-COPY --from=builder /app/dist/ dist/
-COPY --from=prod-deps /app/node_modules/ node_modules/
-COPY --from=builder /app/package.json .
-
-ENV COZE_PROJECT_ENV=PROD
-ENV PORT=5000
-ENV BACKEND_URL=http://backend:8000
+# Override default nginx port
+RUN sed -i 's/listen 80/listen 5000/' /etc/nginx/nginx.conf || true
 
 EXPOSE 5000
 
-CMD ["node", "dist/server.js"]
+CMD ["nginx", "-g", "daemon off;"]
