@@ -36,8 +36,8 @@ services:
       ONTOP_DATA_DIR: /app/data
       ONTOP_OUTPUT_DIR: /opt/ontop-output
       ONTOP_INTERNAL_SECRET: ${ONTOP_INTERNAL_SECRET:-changeme-in-production}
-    ports:
-      - "8081:8081"
+    expose:
+      - "8081"
     volumes:
       - ./ontop-backend/data:/app/data
       - ./ontop-endpoint/active:/opt/ontop-endpoint/active
@@ -59,8 +59,8 @@ services:
       ONTOP_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
       ONTOP_REPOS_DIR: /opt/ontop-repos
       ONTOP_INTERNAL_SECRET: ${ONTOP_INTERNAL_SECRET:-changeme-in-production}
-    ports:
-      - "18080:8080"
+    expose:
+      - "8080"
     volumes:
       - ./ontop-endpoint/active:/opt/ontop-endpoint/active
       - ./ontop-repos:/opt/ontop-repos

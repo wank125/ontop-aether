@@ -754,9 +754,14 @@ export const endpointRegistry = {
     api<EndpointRegistration | { message: string; current: null }>('/endpoint-registry/current'),
 
   activate: (dsId: string) =>
-    api<{ message: string; ds_id: string; note: string }>(
+    api<{ task_id: string; ds_id: string; status: string; message: string; poll_url: string }>(
       `/endpoint-registry/${dsId}/activate`,
       { method: 'PUT' },
+    ),
+
+  taskStatus: (taskId: string) =>
+    api<{ task_id: string; ds_id: string; status: string; message: string; created_at: number; completed_at?: number; duration_ms?: number }>(
+      `/endpoint-registry/tasks/${taskId}`,
     ),
 };
 

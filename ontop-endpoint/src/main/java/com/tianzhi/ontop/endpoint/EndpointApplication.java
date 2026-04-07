@@ -1,6 +1,8 @@
 package com.tianzhi.ontop.endpoint;
 
 import com.tianzhi.ontop.endpoint.config.InternalSecretInterceptor;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.annotation.Bean;
@@ -10,6 +12,8 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
 
 @SpringBootApplication
 public class EndpointApplication {
+
+    private static final Logger log = LoggerFactory.getLogger(EndpointApplication.class);
 
     public static void main(String[] args) {
         SpringApplication.run(EndpointApplication.class, args);

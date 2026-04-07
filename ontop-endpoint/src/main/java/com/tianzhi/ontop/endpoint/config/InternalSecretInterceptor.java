@@ -7,8 +7,11 @@ import org.springframework.http.HttpStatus;
 import org.springframework.stereotype.Component;
 import org.springframework.web.servlet.HandlerInterceptor;
 
+import javax.annotation.PostConstruct;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
+import java.nio.charset.StandardCharsets;
+import java.security.MessageDigest;
 
 @Component
 public class InternalSecretInterceptor implements HandlerInterceptor {
@@ -18,6 +21,17 @@ public class InternalSecretInterceptor implements HandlerInterceptor {
     @Value("${ontop.internal-secret:}")
     private String internalSecret;
 
+    private static final String DEFAULT_SECRET = "changeme-in-production";
+
+    @PostConstruct
+    public void warnOnDefaultSecret() {
+        if (internalSecret == null || internalSecret.isBlank()) {
+            log.warn("⚠ ONTOP_INTERNAL_SECRET is not set — management API authentication is DISABLED. Set a strong secret in production.");
+        } else if (internalSecret.equals(DEFAULT_SECRET)) {
+            log.warn("⚠ ONTOP_INTERNAL_SECRET is using the default value '{}'. Change it for production deployments.", DEFAULT_SECRET);
+        }
+    }
+
     @Override
     public boolean preHandle(HttpServletRequest request, HttpServletResponse response, Object handler) throws Exception {
         if (internalSecret == null || internalSecret.isBlank()) {
@@ -25,7 +39,9 @@ public class InternalSecretInterceptor implements HandlerInterceptor {
         }
 
         String provided = request.getHeader("X-Internal-Secret");
-        if (provided != null && provided.equals(internalSecret)) {
+        if (provided != null && MessageDigest.isEqual(
+                provided.getBytes(StandardCharsets.UTF_8),
+                internalSecret.getBytes(StandardCharsets.UTF_8))) {
             return true;
         }
 

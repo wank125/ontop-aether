@@ -11,6 +11,9 @@ import org.springframework.web.bind.annotation.*;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+import java.util.UUID;
+import java.util.concurrent.CompletableFuture;
+import java.util.concurrent.ConcurrentHashMap;
 
 @RestController
 @RequestMapping("/api/v1/endpoint-registry")
@@ -20,6 +23,9 @@ public class EndpointRegistryController {
 
     private final EndpointRegistryRepository repo;
     private final EndpointSwitcherService switcher;
+
+    /** In-memory task store for tracking async activate operations. */
+    private final ConcurrentHashMap<String, SwitchTask> taskStore = new ConcurrentHashMap<>();
 
     public EndpointRegistryController(EndpointRegistryRepository repo, EndpointSwitcherService switcher) {
         this.repo = repo;
@@ -44,24 +50,79 @@ public class EndpointRegistryController {
     }
 
     @PutMapping("/{dsId}/activate")
-    public ResponseEntity<Map<String, String>> activate(@PathVariable String dsId) {
+    public ResponseEntity<Map<String, Object>> activate(@PathVariable String dsId) {
         EndpointRegistration reg = repo.getByDsId(dsId);
         if (reg == null) {
             return ResponseEntity.notFound().build();
         }
 
-        // Run switch asynchronously using a thread
-        new Thread(() -> {
-            Object[] result = switcher.switchToDatasource(dsId);
-            if (!(Boolean) result[0]) {
-                log.warn("Switch to {} failed: {}", dsId, result[1]);
-            }
-        }).start();
+        String taskId = UUID.randomUUID().toString().substring(0, 8);
+        SwitchTask task = new SwitchTask(taskId, dsId);
+        taskStore.put(taskId, task);
 
-        Map<String, String> response = new HashMap<>();
-        response.put("message", "切换任务已提交，目标数据源：" + reg.getDsName());
+        CompletableFuture.runAsync(() -> {
+            task.status = "running";
+            try {
+                Object[] result = switcher.switchToDatasource(dsId);
+                if ((Boolean) result[0]) {
+                    task.status = "completed";
+                    task.message = String.valueOf(result[1]);
+                } else {
+                    task.status = "failed";
+                    task.message = String.valueOf(result[1]);
+                }
+            } catch (Exception e) {
+                task.status = "failed";
+                task.message = e.getMessage();
+            }
+            task.completedAt = System.currentTimeMillis();
+            log.info("Switch task {} for {} completed: status={}", taskId, dsId, task.status);
+        });
+
+        Map<String, Object> response = new HashMap<>();
+        response.put("task_id", taskId);
         response.put("ds_id", dsId);
-        response.put("note", "端点重启约需 5-10 秒，期间 SPARQL 查询将返回 503");
+        response.put("status", "pending");
+        response.put("message", "切换任务已提交，目标数据源：" + reg.getDsName());
+        response.put("poll_url", "/api/v1/endpoint-registry/tasks/" + taskId);
+        return ResponseEntity.accepted().body(response);
+    }
+
+    @GetMapping("/tasks/{taskId}")
+    public ResponseEntity<Map<String, Object>> getTaskStatus(@PathVariable String taskId) {
+        SwitchTask task = taskStore.get(taskId);
+        if (task == null) {
+            return ResponseEntity.notFound().build();
+        }
+        Map<String, Object> response = new HashMap<>();
+        response.put("task_id", task.taskId);
+        response.put("ds_id", task.dsId);
+        response.put("status", task.status);
+        response.put("message", task.message);
+        response.put("created_at", task.createdAt);
+        if (task.completedAt > 0) {
+            response.put("completed_at", task.completedAt);
+            response.put("duration_ms", task.completedAt - task.createdAt);
+        }
         return ResponseEntity.ok(response);
+    }
+
+    /** In-memory task record for tracking activate operations. */
+    public static class SwitchTask {
+        public final String taskId;
+        public final String dsId;
+        public volatile String status;  // pending, running, completed, failed
+        public volatile String message;
+        public final long createdAt;
+        public volatile long completedAt;
+
+        public SwitchTask(String taskId, String dsId) {
+            this.taskId = taskId;
+            this.dsId = dsId;
+            this.status = "pending";
+            this.message = null;
+            this.createdAt = System.currentTimeMillis();
+            this.completedAt = 0;
+        }
     }
 }
