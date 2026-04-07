@@ -1,0 +1,26 @@
+[
+  {
+    "db_id": "car_1",
+    "datasource_id": "d6d8d985",
+    "success": true,
+    "table_count": 0
+  },
+  {
+    "db_id": "world_1",
+    "datasource_id": "290830b5",
+    "success": true,
+    "table_count": 0
+  },
+  {
+    "db_id": "college_1",
+    "datasource_id": "579ef6c9",
+    "success": true,
+    "table_count": 0
+  },
+  {
+    "db_id": "music_1",
+    "datasource_id": "75e05967",
+    "success": true,
+    "table_count": 0
+  }
+]
