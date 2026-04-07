@@ -25,6 +25,17 @@ public class RepositoryProxyController {
     @Value("${ontop.endpoint.url}")
     private String endpointUrl;
 
+    @Value("${ontop.internal-secret:}")
+    private String internalSecret;
+
+    private HttpHeaders headersWithSecret() {
+        HttpHeaders headers = new HttpHeaders();
+        if (internalSecret != null && !internalSecret.isBlank()) {
+            headers.set("X-Internal-Secret", internalSecret);
+        }
+        return headers;
+    }
+
     public RepositoryProxyController(RestTemplate restTemplate) {
         this.restTemplate = restTemplate;
     }
@@ -32,9 +43,10 @@ public class RepositoryProxyController {
     @GetMapping
     public ResponseEntity<List<Map<String, Object>>> list() {
         try {
+            HttpEntity<Void> entity = new HttpEntity<>(headersWithSecret());
             ResponseEntity<List<Map<String, Object>>> response = restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories",
-                    HttpMethod.GET, null,
+                    HttpMethod.GET, entity,
                     new ParameterizedTypeReference<>() {});
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
@@ -46,7 +58,7 @@ public class RepositoryProxyController {
     @PostMapping
     public ResponseEntity<Map<String, Object>> register(@RequestBody Map<String, String> body) {
         try {
-            HttpHeaders headers = new HttpHeaders();
+            HttpHeaders headers = headersWithSecret();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<Map<String, String>> entity = new HttpEntity<>(body, headers);
 
@@ -65,9 +77,10 @@ public class RepositoryProxyController {
     @DeleteMapping("/{dsId}")
     public ResponseEntity<Void> unregister(@PathVariable String dsId) {
         try {
+            HttpEntity<Void> entity = new HttpEntity<>(headersWithSecret());
             restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories/" + dsId,
-                    HttpMethod.DELETE, null,
+                    HttpMethod.DELETE, entity,
                     new ParameterizedTypeReference<Void>() {});
             return ResponseEntity.ok().build();
         } catch (Exception e) {
@@ -79,9 +92,10 @@ public class RepositoryProxyController {
     @PutMapping("/{dsId}/activate")
     public ResponseEntity<Map<String, Object>> activate(@PathVariable String dsId) {
         try {
+            HttpEntity<Void> entity = new HttpEntity<>(headersWithSecret());
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories/" + dsId + "/activate",
-                    HttpMethod.PUT, null,
+                    HttpMethod.PUT, entity,
                     new ParameterizedTypeReference<>() {});
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
@@ -94,9 +108,10 @@ public class RepositoryProxyController {
     @PostMapping("/{dsId}/restart")
     public ResponseEntity<Map<String, Object>> restart(@PathVariable String dsId) {
         try {
+            HttpEntity<Void> entity = new HttpEntity<>(headersWithSecret());
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories/" + dsId + "/restart",
-                    HttpMethod.POST, null,
+                    HttpMethod.POST, entity,
                     new ParameterizedTypeReference<>() {});
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {
@@ -109,9 +124,10 @@ public class RepositoryProxyController {
     @GetMapping("/{dsId}/health")
     public ResponseEntity<Map<String, Object>> health(@PathVariable String dsId) {
         try {
+            HttpEntity<Void> entity = new HttpEntity<>(headersWithSecret());
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories/" + dsId + "/health",
-                    HttpMethod.GET, null,
+                    HttpMethod.GET, entity,
                     new ParameterizedTypeReference<>() {});
             return ResponseEntity.ok(response.getBody());
         } catch (Exception e) {

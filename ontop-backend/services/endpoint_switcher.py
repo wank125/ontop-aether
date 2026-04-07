@@ -11,7 +11,7 @@ from pathlib import Path
 
 import httpx
 
-from config import ONTOP_ENDPOINT_URL
+from config import ONTOP_ENDPOINT_URL, ONTOP_INTERNAL_SECRET
 from services.active_endpoint_config import save_active_endpoint_config
 
 logger = logging.getLogger(__name__)
@@ -107,8 +107,11 @@ async def _trigger_restart() -> tuple[bool, str]:
     重新读取 mapping/ontology/properties，无需传参。
     """
     try:
+        headers = {}
+        if ONTOP_INTERNAL_SECRET:
+            headers["X-Internal-Secret"] = ONTOP_INTERNAL_SECRET
         async with httpx.AsyncClient(timeout=30.0) as client:
-            resp = await client.post(f"{ONTOP_ENDPOINT_URL}/ontop/restart")
+            resp = await client.post(f"{ONTOP_ENDPOINT_URL}/ontop/restart", headers=headers)
             if resp.status_code in (200, 204):
                 logger.info("Endpoint restart succeeded")
                 return True, "restart OK"

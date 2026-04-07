@@ -11,6 +11,7 @@ from config import (
     ONTOP_ENDPOINT_ADMIN_URL,
     ONTOP_ENDPOINT_PORT,
     ONTOP_ENDPOINT_URL,
+    ONTOP_INTERNAL_SECRET,
 )
 from services.active_endpoint_config import load_active_endpoint_config, save_active_endpoint_config
 
@@ -24,9 +25,12 @@ def _copy_active_file(source: str, target: Path):
 
 
 async def _restart_remote_endpoint() -> tuple[bool, str]:
+    headers = {}
+    if ONTOP_INTERNAL_SECRET:
+        headers["X-Internal-Secret"] = ONTOP_INTERNAL_SECRET
     async with httpx.AsyncClient(timeout=15.0) as client:
         try:
-            resp = await client.post(f"{ONTOP_ENDPOINT_ADMIN_URL}/ontop/restart")
+            resp = await client.post(f"{ONTOP_ENDPOINT_ADMIN_URL}/ontop/restart", headers=headers)
             if resp.status_code not in {200, 204}:
                 return False, resp.text[:500]
         except httpx.ConnectError:

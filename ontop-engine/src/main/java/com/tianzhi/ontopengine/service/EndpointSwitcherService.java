@@ -37,6 +37,9 @@ public class EndpointSwitcherService {
     @Value("${ontop.endpoint.active-dir}")
     private String activeDir;
 
+    @Value("${ontop.internal-secret:}")
+    private String internalSecret;
+
     public EndpointSwitcherService(EndpointRegistryRepository registryRepo, RestTemplate restTemplate) {
         this.registryRepo = registryRepo;
         this.restTemplate = restTemplate;
@@ -82,8 +85,15 @@ public class EndpointSwitcherService {
             }
         }
 
-        // Step 2: Set as active on endpoint
+        // Step 2: Set as active on endpoint (only meaningful in multi-repo mode)
         boolean activated = tryActivateViaApi(dsId);
+
+        if (registered && !activated) {
+            log.error("Registration succeeded but activation failed for dsId={}", dsId);
+            return new Object[]{false,
+                    "Datasource registered on endpoint but activation failed. "
+                    + "The endpoint may still be serving the previous datasource."};
+        }
 
         // Step 3: Update local registry
         registryRepo.activate(dsId);
@@ -102,6 +112,9 @@ public class EndpointSwitcherService {
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
+            if (internalSecret != null && !internalSecret.isBlank()) {
+                headers.set("X-Internal-Secret", internalSecret);
+            }
 
             String body = String.format(
                     "{\"dsId\":\"%s\",\"ontologyPath\":\"%s\",\"mappingPath\":\"%s\",\"propertiesPath\":\"%s\"}",
@@ -130,9 +143,15 @@ public class EndpointSwitcherService {
      */
     private boolean tryActivateViaApi(String dsId) {
         try {
+            HttpHeaders headers = new HttpHeaders();
+            if (internalSecret != null && !internalSecret.isBlank()) {
+                headers.set("X-Internal-Secret", internalSecret);
+            }
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+
             ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
                     endpointUrl + "/api/v1/repositories/" + dsId + "/activate",
-                    HttpMethod.PUT, null,
+                    HttpMethod.PUT, entity,
                     new ParameterizedTypeReference<>() {});
 
             if (response.getStatusCode().is2xxSuccessful()) {
@@ -171,8 +190,13 @@ public class EndpointSwitcherService {
 
     private boolean triggerRestart() {
         try {
+            HttpHeaders headers = new HttpHeaders();
+            if (internalSecret != null && !internalSecret.isBlank()) {
+                headers.set("X-Internal-Secret", internalSecret);
+            }
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
             ResponseEntity<Void> resp = restTemplate.postForEntity(
-                    endpointUrl + "/ontop/restart", null, Void.class);
+                    endpointUrl + "/ontop/restart", entity, Void.class);
             if (resp.getStatusCode().is2xxSuccessful()) {
                 log.info("Endpoint restart succeeded");
                 return true;

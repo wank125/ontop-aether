@@ -36,6 +36,7 @@ ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE = Path(
     os.environ.get("ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE", str(ONTOP_ENDPOINT_ACTIVE_DIR / "active.properties"))
 )
 ONTOP_ENGINE_URL = os.environ.get("ONTOP_ENGINE_URL", "http://localhost:8081")
+ONTOP_INTERNAL_SECRET = os.environ.get("ONTOP_INTERNAL_SECRET", "")
 
 # FastAPI
 FASTAPI_PORT = int(os.environ.get("FASTAPI_PORT", "8000"))

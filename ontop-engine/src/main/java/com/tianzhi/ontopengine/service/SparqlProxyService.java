@@ -31,6 +31,9 @@ public class SparqlProxyService {
     @Value("${ontop.endpoint.url}")
     private String endpointUrl;
 
+    @Value("${ontop.internal-secret:}")
+    private String internalSecret;
+
     private final RestTemplate restTemplate;
     private final QueryHistoryRepository historyRepo;
     private final EndpointRegistryRepository endpointRegistryRepo;
@@ -169,8 +172,13 @@ public class SparqlProxyService {
 
         // Try to get repository list from endpoint
         try {
-            ResponseEntity<java.util.List> reposResponse = restTemplate.getForEntity(
-                    endpointUrl + "/api/v1/repositories", java.util.List.class);
+            HttpHeaders headers = new HttpHeaders();
+            if (internalSecret != null && !internalSecret.isBlank()) {
+                headers.set("X-Internal-Secret", internalSecret);
+            }
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+            ResponseEntity<java.util.List> reposResponse = restTemplate.exchange(
+                    endpointUrl + "/api/v1/repositories", HttpMethod.GET, entity, java.util.List.class);
             if (reposResponse.getStatusCode().is2xxSuccessful() && reposResponse.getBody() != null) {
                 result.put("repositories", reposResponse.getBody());
             }

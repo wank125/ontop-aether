@@ -35,6 +35,7 @@ services:
       ONTOP_ENDPOINT_ACTIVE_DIR: /opt/ontop-endpoint/active
       ONTOP_DATA_DIR: /app/data
       ONTOP_OUTPUT_DIR: /opt/ontop-output
+      ONTOP_INTERNAL_SECRET: ${ONTOP_INTERNAL_SECRET:-changeme-in-production}
     ports:
       - "8081:8081"
     volumes:
@@ -57,6 +58,7 @@ services:
       ONTOP_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
       ONTOP_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
       ONTOP_REPOS_DIR: /opt/ontop-repos
+      ONTOP_INTERNAL_SECRET: ${ONTOP_INTERNAL_SECRET:-changeme-in-production}
     ports:
       - "18080:8080"
     volumes:
@@ -89,6 +91,7 @@ services:
       ONTOP_ENDPOINT_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
       ONTOP_ENDPOINT_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
       ONTOP_ENGINE_URL: http://ontop-engine:8081
+      ONTOP_INTERNAL_SECRET: ${ONTOP_INTERNAL_SECRET:-changeme-in-production}
       FASTAPI_PORT: "8000"
       # LLM on host (LM Studio)
       LLM_BASE_URL: http://192.168.31.244:1234/v1

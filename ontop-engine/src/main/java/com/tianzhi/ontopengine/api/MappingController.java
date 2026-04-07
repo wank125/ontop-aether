@@ -4,6 +4,8 @@ import com.tianzhi.ontopengine.model.MappingContent;
 import com.tianzhi.ontopengine.model.MappingFile;
 import com.tianzhi.ontopengine.service.MappingFileService;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpHeaders;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import org.springframework.web.client.RestTemplate;
@@ -22,6 +24,9 @@ public class MappingController {
 
     @Value("${ontop.endpoint.url}")
     private String endpointUrl;
+
+    @Value("${ontop.internal-secret:}")
+    private String internalSecret;
 
     public MappingController(MappingFileService service, RestTemplate restTemplate) {
         this.service = service;
@@ -80,7 +85,12 @@ public class MappingController {
     @PostMapping("/restart-endpoint")
     public ResponseEntity<Map<String, Object>> restartEndpoint(@RequestBody(required = false) Map<String, String> req) {
         try {
-            restTemplate.postForEntity(endpointUrl + "/ontop/restart", null, Void.class);
+            HttpHeaders headers = new HttpHeaders();
+            if (internalSecret != null && !internalSecret.isBlank()) {
+                headers.set("X-Internal-Secret", internalSecret);
+            }
+            HttpEntity<Void> entity = new HttpEntity<>(headers);
+            restTemplate.postForEntity(endpointUrl + "/ontop/restart", entity, Void.class);
             return ResponseEntity.ok(Map.of("success", true, "message", "Endpoint restarted"));
         } catch (Exception e) {
             return ResponseEntity.internalServerError().body(

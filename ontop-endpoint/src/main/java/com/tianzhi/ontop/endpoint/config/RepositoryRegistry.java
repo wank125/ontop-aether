@@ -26,19 +26,19 @@ public class RepositoryRegistry {
 
     public synchronized RepositoryEntry register(String dsId, String ontologyPath,
                                                   String mappingPath, String propertiesPath) {
-        // Shutdown existing if present
-        RepositoryEntry existing = repos.get(dsId);
-        if (existing != null) {
-            shutdownEntry(existing);
-        }
-
+        // Build and init NEW repo first — if this throws, old repo is untouched
         OntopSQLOWLAPIConfiguration configuration = buildConfiguration(ontologyPath, mappingPath, propertiesPath);
         OntopVirtualRepository repository = (OntopVirtualRepository) OntopRepository.defaultRepository(configuration);
         repository.init();
 
-        RepositoryEntry entry = new RepositoryEntry(dsId, ontologyPath, mappingPath,
+        RepositoryEntry newEntry = new RepositoryEntry(dsId, ontologyPath, mappingPath,
                 propertiesPath, configuration, repository);
-        repos.put(dsId, entry);
+
+        // Atomic swap: put new entry, then shut down old
+        RepositoryEntry existing = repos.put(dsId, newEntry);
+        if (existing != null) {
+            shutdownEntry(existing);
+        }
 
         // Auto-set as active if no active exists
         if (activeDsId == null) {
@@ -47,7 +47,7 @@ public class RepositoryRegistry {
 
         log.info("Registered repository dsId={}, ontology={}, mapping={}, properties={}",
                 dsId, ontologyPath, mappingPath, propertiesPath);
-        return entry;
+        return newEntry;
     }
 
     // ── Unregister ──────────────────────────────────────────
