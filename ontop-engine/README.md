@@ -172,22 +172,23 @@ docker run --rm -p 8081:8081 onto-engine
 
 - `frontend`：Next.js 前端
 - `backend`：FastAPI 业务编排层
-- `ontop-engine`：建模期 Java 服务
-- `ontop-endpoint`：在线查询 Java 服务
+- `ontop-engine`：建模期 Java 服务 + SPARQL 代理 + Repository 管理
+- `ontop-endpoint`：在线查询 Java 服务（多 Repository）
 
 在这套架构里：
 
 1. `ontop-ui/backend` 调用 `ontop-engine`
 2. `ontop-engine` 返回文本结果
 3. `ontop-ui/backend` 再把这些结果落地为版本文件
-4. `ontop-ui/backend` 决定哪组文件切换为 active
-5. `ontop-endpoint` 负责读取 active 文件并提供在线 SPARQL 查询
+4. `ontop-engine` 代理 SPARQL 查询到 `ontop-endpoint`
+5. `ontop-engine` 代理 Repository 管理 API 到 `ontop-endpoint`
+6. `ontop-endpoint` 负责多 Repository SPARQL 查询执行
 
 也就是说：
 
-- `ontop-engine` 负责“算”
-- `ontop-ui/backend` 负责“存”和“编排”
-- `ontop-endpoint` 负责“查”
+- `ontop-engine` 负责”算”、”代理”和”管理”
+- `ontop-ui/backend` 负责”存”和”编排”
+- `ontop-endpoint` 负责”查”（多 Repository 并发）
 
 ## 当前边界
 

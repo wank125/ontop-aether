@@ -95,7 +95,8 @@
 | `/api/v1/endpoint-registry` | Java | 端点注册表、数据源切换 |
 | `/api/v1/mappings` | Java | 映射文件读写、验证 |
 | `/api/v1/ontology` | Java | TTL 文件解析（OWLAPI） |
-| `/api/v1/sparql/*` | Java | SPARQL 代理 + 查询历史 |
+| `/api/v1/sparql/*` | Java | SPARQL 代理 + 查询历史（支持按 dsId 路由） |
+| `/api/v1/repositories/*` | Java | 多 Repository 管理（注册/注销/激活/重启） |
 | `/api/v1/auth/*` | Python | 认证 |
 | `/api/v1/ai/*` | Python | AI 自然语言查询 |
 | `/api/v1/annotations/*` | Python | 语义标注 |
@@ -110,7 +111,7 @@
 |------|------|--------|
 | ontop-engine | 数据源 CRUD、端点切换、映射读写、TTL 解析、SPARQL 代理 | Spring Boot + JdbcTemplate + OWLAPI |
 | ontop-backend | Bootstrap 编排、AI/LLM 查询、标注、词汇表、精化、治理、认证 | FastAPI + OpenAI SDK |
-| ontop-endpoint | SPARQL 查询执行、SQL reformulate | Ontop 5.5.0 |
+| ontop-endpoint | 多 Repository SPARQL 查询执行、SQL reformulate | Ontop 5.5.0 + Spring Boot |
 
 ### SQLite 共享
 
@@ -157,7 +158,8 @@ ontop-aether/
 │       ├── repository/           # 3 个 JdbcTemplate 数据访问
 │       ├── model/                # 12 个 DTO
 │       └── config/               # SQLite + RestTemplate + Fernet 加密
-├── ontop-endpoint/               # Ontop SPARQL Endpoint
+├── ontop-endpoint/               # Ontop SPARQL Endpoint（多 Repository 支持）
+├── ontop-repos/                  # 多 Repository 持久化数据目录
 ├── ontop-db/                     # 数据库初始化脚本（PostgreSQL / MySQL）
 ├── ontop-output/                 # 共享产物（.ttl, .obda, .properties）
 ├── docs/                         # 文档

@@ -67,9 +67,10 @@
 - **审计日志**：自动记录所有 HTTP 请求，支持查询与筛选
 
 ### 12. 端点注册表（后台功能）
-- Bootstrap 完成后自动注册本体/映射/属性文件路径
-- `PUT /api/v1/endpoint-registry/{ds_id}/activate` 切换激活数据源
-- 切换时文件同步到共享 active 目录 + 触发 Ontop restart（约 5-10s）
+- Bootstrap 完成后自动注册到多 Repository 端点
+- 多个数据源可同时查询，通过 `/{dsId}/sparql` 路径路由
+- `PUT /api/v1/endpoint-registry/{ds_id}/activate` 切换默认激活数据源（零切换时间）
+- `GET /api/v1/repositories` 查看所有已注册 Repository 状态
 
 ## 技术栈
 
@@ -78,7 +79,7 @@
 | 前端 | Next.js 16 + React 19 + TypeScript + Tailwind CSS 4 + shadcn/ui |
 | 后端（业务） | Python FastAPI + httpx + OpenAI SDK + SQLite |
 | 引擎（CRUD） | Java Spring Boot + JdbcTemplate + OWLAPI + SQLite |
-| 端点 | Ontop 5.5.0 SPARQL Endpoint（Spring Boot 原生） |
+| 端点 | Ontop 5.5.0 SPARQL Endpoint（Spring Boot 原生，多 Repository 支持） |
 | MCP | Model Context Protocol SDK (Python mcp>=1.0.0) |
 | LLM | OpenAI 兼容 API（LM Studio / Ollama / DeepSeek 等） |
 | 数据库 | PostgreSQL 16 (Docker) |
@@ -95,7 +96,8 @@
 | `/api/v1/endpoint-registry` | ontop-engine (Java) | 端点注册表、切换 |
 | `/api/v1/mappings` | ontop-engine (Java) | 映射文件读写、验证 |
 | `/api/v1/ontology` | ontop-engine (Java) | TTL 文件解析 |
-| `/api/v1/sparql/*` | ontop-engine (Java) | SPARQL 代理 + 历史记录 |
+| `/api/v1/sparql/*` | ontop-engine (Java) | SPARQL 代理 + 历史记录（支持按 dsId 路由） |
+| `/api/v1/repositories/*` | ontop-engine (Java) | 多 Repository 管理（注册/注销/激活/重启） |
 | `/api/v1/auth/*` | ontop-backend (Python) | 认证 |
 | `/api/v1/ai/*` | ontop-backend (Python) | AI 自然语言查询 |
 | `/api/v1/annotations/*` | ontop-backend (Python) | 语义标注 |
@@ -142,7 +144,8 @@ ontop-aether/
 │       ├── repository/           # JdbcTemplate 数据访问
 │       ├── model/                # DTO
 │       └── config/               # SQLite + RestTemplate + 加密
-├── ontop-endpoint/               # Ontop SPARQL Endpoint
+├── ontop-endpoint/               # Ontop SPARQL Endpoint（多 Repository 支持）
+├── ontop-repos/                  # 多 Repository 持久化数据
 ├── ontop-db/                     # 数据库初始化脚本
 ├── ontop-output/                 # 共享产物（.ttl, .obda, .properties）
 ├── docker-compose.yml            # 默认 retail 环境

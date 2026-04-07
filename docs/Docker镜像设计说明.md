@@ -102,30 +102,39 @@ Dockerfile：
 Dockerfile：
 [ontop-endpoint/Dockerfile](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/Dockerfile)
 
-启动脚本：
-[ontop-endpoint/entrypoint.sh](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/entrypoint.sh)
-
 构建方式：
 
-1. 下载官方发布的 `ontop-cli-5.5.0.zip`
-2. 在运行镜像内保留 `/opt/ontop-cli`
-3. 复制 [ontop-endpoint/seed](/Users/wangkai/SynologyDrive/20-本体建模/18-microsoft-fabric-ontology/ontop-aether/ontop-endpoint/seed) 的种子文件
-4. 启动时如 active 文件不存在，则从 seed 初始化
+1. 基于 `maven:3.9.9-eclipse-temurin-17` 多阶段构建
+2. 在构建阶段执行 `mvn -q -DskipTests package`，编译自定义 Spring Boot 应用
+3. 运行阶段基于 `eclipse-temurin:17-jre`
+4. 内嵌 Ontop 5.5.0 依赖，不再是 CLI 包装
 
 运行模式：
 
 - 容器内端口固定 `8080`
 - 宿主机端口按环境映射为 `18080 / 18081 / 18082`
-- 通过 `--dev` 启动，支持 `/ontop/restart`
-- 开启 `--enable-download-ontology`
+- JVM 内存上限 2g（`-Xmx2g`）
 
-固定读取的运行时文件：
+多 Repository 架构：
 
-- `active_ontology.ttl`
-- `active_mapping.obda`
-- `active.properties`
+- `RepositoryRegistry`：ConcurrentHashMap 管理多个 `OntopVirtualRepository` 实例
+- 启动时自动从 `ontop.repos-dir`（`/opt/ontop-repos`）加载所有数据源
+- 每个数据源独立 Repository，支持 `/{dsId}/sparql` 路径路由
+- `/sparql` 无参路由使用当前激活数据源（向后兼容）
 
-这些文件来自共享卷，由 backend 写入，endpoint 读取。
+管理 API：
+
+- `GET /api/v1/repositories` — 列出所有 Repository
+- `POST /api/v1/repositories` — 注册新 Repository
+- `DELETE /api/v1/repositories/{dsId}` — 注销 Repository
+- `PUT /api/v1/repositories/{dsId}/activate` — 激活指定 Repository
+- `POST /api/v1/repositories/{dsId}/restart` — 重启指定 Repository
+- `GET /api/v1/repositories/{dsId}/health` — 单 Repository 健康检查
+
+关键卷映射：
+
+- `./ontop-repos:/opt/ontop-repos`：多 Repository 持久化目录
+- `./ontop-endpoint/active:/opt/ontop-endpoint/active`：兼容旧模式的 seed 文件
 
 ### 3.4 `backend`
 
@@ -208,13 +217,26 @@ Frontend
   -> 返回 SPARQL 查询结果 / SQL reformulation
 ```
 
-### 4.3 切换在线映射链路
+### 4.3 多 Repository 注册与查询链路
 
 ```text
 Frontend
-  -> Backend (/api/v1/mappings/restart-endpoint)
-  -> Backend 将指定 ontology / mapping / properties 复制到 active 目录
-  -> Backend 调用 ontop-endpoint /ontop/restart
+  -> Java Engine (POST /api/v1/repositories)
+  -> ontop-endpoint (POST /api/v1/repositories)
+  -> RepositoryRegistry.register(dsId, ontology, mapping, properties)
+  -> OntopVirtualRepository 构建并初始化
+
+查询链路：
+Frontend
+  -> Java Engine (POST /api/v1/sparql/query?dsId=xxx)
+  -> ontop-endpoint (POST /{dsId}/sparql)
+  -> RepositoryRegistry.get(dsId) 获取对应 Repository
+  -> 执行 SPARQL 查询并返回结果
+
+旧版兼容链路（文件复制 + 重启）：
+  当 endpoint 不支持多 Repository API 时，
+  -> Backend 将文件复制到 active 目录
+  -> 调用 ontop-endpoint /ontop/restart
   -> ontop-endpoint 重新加载 active 文件
 ```
 
@@ -255,8 +277,8 @@ Frontend
 
 ## 7. 当前已知约束
 
-1. active 切换仍采用“复制文件 + 远程 restart”模式
-   这不是配置中心推送，也不是真正意义上的热更新。
+1. 多 Repository 端点已支持零切换时间查询
+   每个 Repository 独立加载，通过 `/{dsId}/sparql` 路径路由。旧版”复制文件 + restart”模式作为 fallback 保留。
 
 2. backend 仍然以文件作为 Ontop 运行时真源
    Bootstrap 结果会落地为 `.ttl/.obda/.properties`，而不是只存在数据库里。
