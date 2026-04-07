@@ -2,6 +2,7 @@ package com.tianzhi.ontop.endpoint.controller;
 
 import it.unibz.inf.ontop.injection.OntopSQLOWLAPIConfiguration;
 import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
+import com.tianzhi.ontop.endpoint.config.RepositoryRegistry;
 import org.semanticweb.owlapi.model.OWLOntology;
 import org.semanticweb.owlapi.model.OWLOntologyCreationException;
 import org.semanticweb.owlapi.model.OWLOntologyStorageException;
@@ -9,6 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -23,16 +25,41 @@ import static org.springframework.http.HttpHeaders.CONTENT_TYPE;
 public class OntologyFetcherController {
 
     private final OntopRepositoryConfig repositoryConfig;
+    private final RepositoryRegistry registry;
 
     @Autowired
-    public OntologyFetcherController(OntopRepositoryConfig repositoryConfig) {
+    public OntologyFetcherController(OntopRepositoryConfig repositoryConfig, RepositoryRegistry registry) {
         this.repositoryConfig = repositoryConfig;
+        this.registry = registry;
     }
 
+    /**
+     * Download ontology from the active repository.
+     */
     @RequestMapping("/ontology")
     public ResponseEntity<String> ontology() {
+        return fetchOntology(repositoryConfig.getConfiguration());
+    }
+
+    /**
+     * Download ontology from a specific repository by dsId.
+     */
+    @RequestMapping("/{dsId}/ontology")
+    public ResponseEntity<String> ontologyByDsId(@PathVariable String dsId) {
+        var entry = registry.getEntry(dsId);
+        if (entry == null) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND)
+                    .body("Repository not found: " + dsId);
+        }
+        return fetchOntology(entry.getConfiguration());
+    }
+
+    private ResponseEntity<String> fetchOntology(OntopSQLOWLAPIConfiguration configuration) {
+        if (configuration == null) {
+            return ResponseEntity.status(HttpStatus.SERVICE_UNAVAILABLE)
+                    .body("No configuration available");
+        }
         try {
-            OntopSQLOWLAPIConfiguration configuration = repositoryConfig.getConfiguration();
             Optional<OWLOntology> optionalOntology = configuration.loadInputOntology();
             if (!optionalOntology.isPresent()) {
                 return new ResponseEntity<>("No ontology found", HttpStatus.NOT_FOUND);

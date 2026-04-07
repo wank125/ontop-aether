@@ -171,13 +171,13 @@ export const mappings = {
 // ── SPARQL ─────────────────────────────────────────────
 
 export const sparql = {
-  query: (query: string, format = 'json') =>
-    api<SparqlResults>('/sparql/query', {
+  query: (query: string, format = 'json', dsId?: string) =>
+    api<SparqlResults>(dsId ? `/${dsId}/sparql/query` : '/sparql/query', {
       method: 'POST',
       body: JSON.stringify({ query, format }),
     }),
-  reformulate: (query: string) =>
-    api<{ sql: string }>('/sparql/reformulate', {
+  reformulate: (query: string, dsId?: string) =>
+    api<{ sql: string }>(dsId ? `/${dsId}/sparql/reformulate` : '/sparql/reformulate', {
       method: 'POST',
       body: JSON.stringify({ query }),
     }),
@@ -185,7 +185,7 @@ export const sparql = {
   deleteHistory: (id: string) =>
     api<void>(`/sparql/history/${id}`, { method: 'DELETE' }),
   endpointStatus: () =>
-    api<{ running: boolean; port: number; ontology_path: string; mapping_path: string; properties_path: string; ds_id: string; ds_name: string }>('/sparql/endpoint-status'),
+    api<{ running: boolean; port: number; ontology_path: string; mapping_path: string; properties_path: string; ds_id: string; ds_name: string; repositories?: Array<Record<string, any>> }>('/sparql/endpoint-status'),
 };
 
 // ── Ontology (TTL) ────────────────────────────────────
@@ -849,6 +849,46 @@ export const tasks = {
     api<TaskProgress[]>(`/tasks/${dsId}`),
   get: (dsId: string, taskType: string) =>
     api<TaskProgress>(`/tasks/${dsId}/${taskType}`),
+};
+
+// ── Repository Management ──────────────────────────────
+
+export interface RepositoryInfo {
+  ds_id: string;
+  ontology_path: string;
+  mapping_path: string;
+  properties_path: string;
+  initialized: boolean;
+  active: boolean;
+  created_at: string;
+  last_query_at: string;
+}
+
+export const repositories = {
+  list: () =>
+    api<RepositoryInfo[]>('/repositories'),
+  register: (dsId: string, ontologyPath: string, mappingPath: string, propertiesPath: string) =>
+    api<{ status: string; ds_id: string; message: string }>('/repositories', {
+      method: 'POST',
+      body: JSON.stringify({
+        ds_id: dsId,
+        ontology_path: ontologyPath,
+        mapping_path: mappingPath,
+        properties_path: propertiesPath,
+      }),
+    }),
+  unregister: (dsId: string) =>
+    api<void>(`/repositories/${dsId}`, { method: 'DELETE' }),
+  activate: (dsId: string) =>
+    api<{ status: string; active_ds_id: string }>(`/repositories/${dsId}/activate`, {
+      method: 'PUT',
+    }),
+  restart: (dsId: string) =>
+    api<{ status: string; message: string }>(`/repositories/${dsId}/restart`, {
+      method: 'POST',
+    }),
+  health: (dsId: string) =>
+    api<{ status: string; ds_id: string; initialized: boolean }>(`/repositories/${dsId}/health`),
 };
 
 // ── Governance ──────────────────────────────────────────

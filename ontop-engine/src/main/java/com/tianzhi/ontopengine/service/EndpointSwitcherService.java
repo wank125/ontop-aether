@@ -5,7 +5,8 @@ import com.tianzhi.ontopengine.repository.EndpointRegistryRepository;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Value;
-import org.springframework.http.ResponseEntity;
+import org.springframework.core.ParameterizedTypeReference;
+import org.springframework.http.*;
 import org.springframework.stereotype.Service;
 import org.springframework.web.client.RestTemplate;
 
@@ -17,7 +18,10 @@ import java.util.Map;
 
 /**
  * Switches the active SPARQL endpoint to a different datasource.
- * Copies files to shared active dir and triggers endpoint restart.
+ *
+ * Supports two modes:
+ * 1. Multi-repo mode: registers the datasource on the endpoint's /api/v1/repositories API
+ * 2. Legacy fallback: copies files to shared active dir and triggers restart
  */
 @Service
 public class EndpointSwitcherService {
@@ -56,31 +60,93 @@ public class EndpointSwitcherService {
             return new Object[]{false, "Endpoint file paths incomplete, please re-run Bootstrap"};
         }
 
-        // Step 1: Copy files to shared active directory
-        if (activeDir != null && !activeDir.isEmpty()) {
-            try {
-                Path activePath = Path.of(activeDir);
-                Files.createDirectories(activePath);
-                syncFilesToActive(ontologyPath, mappingPath, propertiesPath, activePath);
-            } catch (Exception e) {
-                return new Object[]{false, "File sync failed: " + e.getMessage()};
+        // Step 1: Try multi-repo registration via API
+        boolean registered = tryRegisterViaApi(dsId, ontologyPath, mappingPath, propertiesPath);
+
+        if (!registered) {
+            // Fallback: legacy file copy + restart
+            log.info("Multi-repo API not available, falling back to file copy + restart");
+            if (activeDir != null && !activeDir.isEmpty()) {
+                try {
+                    Path activePath = Path.of(activeDir);
+                    Files.createDirectories(activePath);
+                    syncFilesToActive(ontologyPath, mappingPath, propertiesPath, activePath);
+                } catch (Exception e) {
+                    return new Object[]{false, "File sync failed: " + e.getMessage()};
+                }
+            }
+
+            boolean ok = triggerRestart();
+            if (!ok) {
+                return new Object[]{false, "Files switched but endpoint restart failed"};
             }
         }
 
-        // Step 2: Trigger restart
-        boolean ok = triggerRestart();
-        if (!ok) {
-            return new Object[]{false, "Files switched but endpoint restart failed"};
-        }
+        // Step 2: Set as active on endpoint
+        boolean activated = tryActivateViaApi(dsId);
 
-        // Step 3: Update registry
+        // Step 3: Update local registry
         registryRepo.activate(dsId);
 
-        // Step 4: Save active endpoint config
+        // Step 4: Save active endpoint config (legacy)
         saveActiveEndpointConfig(ontologyPath, mappingPath, propertiesPath);
 
         return new Object[]{true, "Switched to datasource " + reg.getDsName()};
     }
+
+    /**
+     * Try to register the repository via the endpoint's management API.
+     * Returns true if successful, false if endpoint doesn't support it.
+     */
+    private boolean tryRegisterViaApi(String dsId, String ontologyPath, String mappingPath, String propertiesPath) {
+        try {
+            HttpHeaders headers = new HttpHeaders();
+            headers.setContentType(MediaType.APPLICATION_JSON);
+
+            String body = String.format(
+                    "{\"dsId\":\"%s\",\"ontologyPath\":\"%s\",\"mappingPath\":\"%s\",\"propertiesPath\":\"%s\"}",
+                    dsId, ontologyPath, mappingPath, propertiesPath);
+
+            HttpEntity<String> entity = new HttpEntity<>(body, headers);
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    endpointUrl + "/api/v1/repositories",
+                    HttpMethod.POST, entity,
+                    new ParameterizedTypeReference<>() {});
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Registered repository via API for dsId={}", dsId);
+                return true;
+            }
+            log.warn("Repository API returned: {}", response.getStatusCode());
+            return false;
+        } catch (Exception e) {
+            log.debug("Multi-repo API not available: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    /**
+     * Try to set the active repository via the endpoint's management API.
+     */
+    private boolean tryActivateViaApi(String dsId) {
+        try {
+            ResponseEntity<Map<String, Object>> response = restTemplate.exchange(
+                    endpointUrl + "/api/v1/repositories/" + dsId + "/activate",
+                    HttpMethod.PUT, null,
+                    new ParameterizedTypeReference<>() {});
+
+            if (response.getStatusCode().is2xxSuccessful()) {
+                log.info("Activated repository via API for dsId={}", dsId);
+                return true;
+            }
+            return false;
+        } catch (Exception e) {
+            log.debug("Activate API not available: {}", e.getMessage());
+            return false;
+        }
+    }
+
+    // ── Legacy methods ──────────────────────────────────────
 
     private void syncFilesToActive(String ontologyPath, String mappingPath,
                                     String propertiesPath, Path activeDir) throws IOException {

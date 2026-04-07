@@ -1,10 +1,10 @@
 package com.tianzhi.ontop.endpoint.controller;
 
 import com.google.common.collect.ImmutableMultimap;
-import it.unibz.inf.ontop.endpoint.processor.SparqlQueryExecutor;
 import it.unibz.inf.ontop.rdf4j.repository.OntopRepositoryConnection;
 import it.unibz.inf.ontop.rdf4j.repository.impl.OntopVirtualRepository;
 import com.tianzhi.ontop.endpoint.config.OntopRepositoryConfig;
+import com.tianzhi.ontop.endpoint.config.RepositoryRegistry;
 import org.eclipse.rdf4j.query.*;
 import org.eclipse.rdf4j.query.resultio.BooleanQueryResultWriter;
 import org.eclipse.rdf4j.query.resultio.TupleQueryResultWriter;
@@ -46,20 +46,53 @@ public class SparqlController {
 
     private static final Logger log = LoggerFactory.getLogger(SparqlController.class);
     private final OntopRepositoryConfig repositoryConfig;
+    private final RepositoryRegistry registry;
 
     @Autowired
-    public SparqlController(OntopRepositoryConfig repositoryConfig) {
+    public SparqlController(OntopRepositoryConfig repositoryConfig, RepositoryRegistry registry) {
         this.repositoryConfig = repositoryConfig;
+        this.registry = registry;
     }
+
+    // ── Multi-repository routes: /{dsId}/sparql ──────────────
+
+    @RequestMapping(value = "/{dsId}/sparql", method = RequestMethod.GET)
+    public void queryGetByDsId(
+            @PathVariable String dsId,
+            @RequestHeader(ACCEPT) String accept,
+            @RequestParam("query") String query,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
+        executeQuery(dsId, accept, query, request, response);
+    }
+
+    @RequestMapping(value = "/{dsId}/sparql", method = RequestMethod.POST,
+            consumes = APPLICATION_FORM_URLENCODED_VALUE)
+    public void queryPostFormByDsId(
+            @PathVariable String dsId,
+            @RequestHeader(ACCEPT) String accept,
+            @RequestParam("query") String query,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
+        executeQuery(dsId, accept, query, request, response);
+    }
+
+    @RequestMapping(value = "/{dsId}/sparql", method = RequestMethod.POST,
+            consumes = "application/sparql-query")
+    public void queryPostDirectByDsId(
+            @PathVariable String dsId,
+            @RequestHeader(ACCEPT) String accept,
+            @RequestBody String query,
+            HttpServletRequest request, HttpServletResponse response) throws IOException {
+        executeQuery(dsId, accept, query, request, response);
+    }
+
+    // ── Legacy routes: /sparql (uses active repository) ──────
 
     @RequestMapping(value = "/sparql", method = RequestMethod.GET)
     public void queryGet(
             @RequestHeader(ACCEPT) String accept,
             @RequestParam("query") String query,
-            @RequestParam(value = "default-graph-uri", required = false) String[] defaultGraphUri,
-            @RequestParam(value = "named-graph-uri", required = false) String[] namedGraphUri,
             HttpServletRequest request, HttpServletResponse response) throws IOException {
-        executeQuery(accept, query, request, response);
+        executeQuery(null, accept, query, request, response);
     }
 
     @RequestMapping(value = "/sparql", method = RequestMethod.POST,
@@ -67,10 +100,8 @@ public class SparqlController {
     public void queryPostForm(
             @RequestHeader(ACCEPT) String accept,
             @RequestParam("query") String query,
-            @RequestParam(value = "default-graph-uri", required = false) String[] defaultGraphUri,
-            @RequestParam(value = "named-graph-uri", required = false) String[] namedGraphUri,
             HttpServletRequest request, HttpServletResponse response) throws IOException {
-        executeQuery(accept, query, request, response);
+        executeQuery(null, accept, query, request, response);
     }
 
     @RequestMapping(value = "/sparql", method = RequestMethod.POST,
@@ -78,15 +109,32 @@ public class SparqlController {
     public void queryPostDirect(
             @RequestHeader(ACCEPT) String accept,
             @RequestBody String query,
-            @RequestParam(value = "default-graph-uri", required = false) String[] defaultGraphUri,
-            @RequestParam(value = "named-graph-uri", required = false) String[] namedGraphUri,
             HttpServletRequest request, HttpServletResponse response) throws IOException {
-        executeQuery(accept, query, request, response);
+        executeQuery(null, accept, query, request, response);
     }
 
-    private void executeQuery(String accept, String query,
+    // ── Core execution ──────────────────────────────────────
+
+    private void executeQuery(String dsId, String accept, String query,
                               HttpServletRequest request, HttpServletResponse response) throws IOException {
-        OntopVirtualRepository repository = repositoryConfig.getRepository();
+        // Resolve repository: specific dsId or active
+        OntopVirtualRepository repository;
+        if (dsId != null) {
+            repository = registry.get(dsId);
+            if (repository == null) {
+                response.setStatus(HttpStatus.NOT_FOUND.value());
+                response.getWriter().write("Repository not found: " + dsId);
+                return;
+            }
+        } else {
+            repository = repositoryConfig.getRepository();
+            if (repository == null) {
+                response.setStatus(HttpStatus.SERVICE_UNAVAILABLE.value());
+                response.getWriter().write("No active repository");
+                return;
+            }
+        }
+
         ImmutableMultimap<String, String> httpHeaders = extractHttpHeaders(request);
 
         try (OntopRepositoryConnection connection = repository.getConnection()) {
@@ -94,11 +142,11 @@ public class SparqlController {
             OutputStream out = response.getOutputStream();
 
             if (q instanceof TupleQuery) {
-                handleTupleQuery((TupleQuery) q, accept, out, response);
+                handleTupleQuery((TupleQuery) q, accept, out, response, repository);
             } else if (q instanceof BooleanQuery) {
                 handleBooleanQuery((BooleanQuery) q, accept, out, response);
             } else if (q instanceof GraphQuery) {
-                handleGraphQuery((GraphQuery) q, accept, out, response);
+                handleGraphQuery((GraphQuery) q, accept, out, response, repository);
             } else if (q instanceof Update) {
                 response.setStatus(HttpStatus.NOT_IMPLEMENTED.value());
             } else {
@@ -109,9 +157,9 @@ public class SparqlController {
     }
 
     private void handleTupleQuery(TupleQuery query, String accept, OutputStream out,
-                                  HttpServletResponse response) {
+                                  HttpServletResponse response, OntopVirtualRepository repository) {
         response.setCharacterEncoding("UTF-8");
-        addCacheHeaders(response);
+        addCacheHeaders(response, repository);
 
         if ("*/*".equals(accept) || accept.contains("json")) {
             response.setHeader(CONTENT_TYPE, "application/sparql-results+json;charset=UTF-8");
@@ -133,7 +181,6 @@ public class SparqlController {
     private void handleBooleanQuery(BooleanQuery query, String accept, OutputStream out,
                                     HttpServletResponse response) throws IOException {
         boolean result = query.evaluate();
-        addCacheHeaders(response);
 
         if ("*/*".equals(accept) || accept.contains("json")) {
             response.setHeader(CONTENT_TYPE, "application/sparql-results+json");
@@ -150,9 +197,9 @@ public class SparqlController {
     }
 
     private void handleGraphQuery(GraphQuery query, String accept, OutputStream out,
-                                  HttpServletResponse response) {
+                                  HttpServletResponse response, OntopVirtualRepository repository) {
         response.setCharacterEncoding("UTF-8");
-        addCacheHeaders(response);
+        addCacheHeaders(response, repository);
 
         if ("*/*".equals(accept) || accept.contains("turtle")) {
             response.setHeader(CONTENT_TYPE, "text/turtle;charset=UTF-8");
@@ -177,8 +224,8 @@ public class SparqlController {
         }
     }
 
-    private void addCacheHeaders(HttpServletResponse response) {
-        repositoryConfig.getRepository().getHttpCacheHeaders().getMap().forEach(response::setHeader);
+    private void addCacheHeaders(HttpServletResponse response, OntopVirtualRepository repository) {
+        repository.getHttpCacheHeaders().getMap().forEach(response::setHeader);
     }
 
     private static ImmutableMultimap<String, String> extractHttpHeaders(HttpServletRequest request) {

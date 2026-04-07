@@ -52,14 +52,16 @@ services:
       postgres:
         condition: service_healthy
     environment:
-      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx1g"
+      JAVA_TOOL_OPTIONS: "-Xms256m -Xmx2g"
       ONTOP_ACTIVE_ONTOLOGY_FILE: /opt/ontop-endpoint/active/active_ontology.ttl
       ONTOP_ACTIVE_MAPPING_FILE: /opt/ontop-endpoint/active/active_mapping.obda
       ONTOP_ACTIVE_PROPERTIES_FILE: /opt/ontop-endpoint/active/active.properties
+      ONTOP_REPOS_DIR: /opt/ontop-repos
     ports:
       - "18080:8080"
     volumes:
       - ./ontop-endpoint/active:/opt/ontop-endpoint/active
+      - ./ontop-repos:/opt/ontop-repos
 
   # ── FastAPI Backend ────────────────────────────────────
   backend:

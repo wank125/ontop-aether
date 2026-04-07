@@ -14,7 +14,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 /**
- * Proxies SPARQL queries to the Ontop endpoint and tracks query history.
+ * Proxies SPARQL queries to the Ontop endpoint, supporting multi-repository routing.
  */
 @Service
 public class SparqlProxyService {
@@ -43,52 +43,56 @@ public class SparqlProxyService {
     }
 
     /**
-     * Execute SPARQL query via proxy. Returns raw response with correct content type.
+     * Execute SPARQL query via proxy.
+     *
+     * @param query  SPARQL query string
+     * @param format output format
+     * @param dsId   optional data source ID; null uses active / legacy endpoint
+     * @return response with SPARQL results
      */
-    public ResponseEntity<byte[]> executeQuery(String query, String format) {
+    public ResponseEntity<byte[]> executeQuery(String query, String format, String dsId) {
         String accept = FORMAT_MAP.getOrDefault(format, "application/sparql-results+json");
         long t0 = System.nanoTime();
         String status = "ok";
         String errorMessage = "";
         Integer resultCount = null;
 
+        // Build target URL: if dsId specified, use /{dsId}/sparql, else /sparql
+        String targetUrl = (dsId != null && !dsId.isBlank())
+                ? endpointUrl + "/" + dsId + "/sparql"
+                : endpointUrl + "/sparql";
+
         try {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_FORM_URLENCODED);
             headers.set("Accept", accept);
 
-            // Send query as form-encoded parameter
             org.springframework.util.MultiValueMap<String, String> formData =
                     new org.springframework.util.LinkedMultiValueMap<>();
             formData.add("query", query);
 
             HttpEntity<org.springframework.util.MultiValueMap<String, String>> entity =
                     new HttpEntity<>(formData, headers);
+
             ResponseEntity<byte[]> response = restTemplate.exchange(
-                    endpointUrl + "/sparql",
-                    HttpMethod.POST, entity, byte[].class);
+                    targetUrl, HttpMethod.POST, entity, byte[].class);
 
             if (!response.getStatusCode().is2xxSuccessful()) {
                 status = "error";
                 errorMessage = new String(response.getBody() != null ? response.getBody() : new byte[0]);
                 errorMessage = errorMessage.substring(0, Math.min(500, errorMessage.length()));
             } else {
-                // Count results for JSON format
                 if (accept.contains("json") && response.getBody() != null) {
                     try {
                         String body = new String(response.getBody());
-                        int idx = body.indexOf("\"bindings\"");
-                        if (idx > 0) {
-                            // Simple count of "binding" entries
-                            resultCount = countBindings(body);
-                        }
+                        resultCount = countBindings(body);
                     } catch (Exception ignored) {
                     }
-                }
+            }
             }
 
             double durationMs = (System.nanoTime() - t0) / 1_000_000.0;
-            historyRepo.save(query, resultCount, "", "web", durationMs, status, errorMessage);
+            historyRepo.save(query, resultCount, dsId != null ? dsId : "", "web", durationMs, status, errorMessage);
 
             if ("error".equals(status)) {
                 return ResponseEntity.status(response.getStatusCode()).body(response.getBody());
@@ -105,19 +109,29 @@ public class SparqlProxyService {
             status = "error";
             errorMessage = e.getMessage() != null ? e.getMessage().substring(0, Math.min(500, e.getMessage().length())) : "Unknown";
             double durationMs = (System.nanoTime() - t0) / 1_000_000.0;
-            historyRepo.save(query, null, "", "web", durationMs, status, errorMessage);
+            historyRepo.save(query, null, dsId != null ? dsId : "", "web", durationMs, status, errorMessage);
             throw new RuntimeException("Ontop endpoint is not running: " + errorMessage);
         }
     }
 
     /**
-     * Get SQL reformulation of a SPARQL query.
+     * Get SQL reformulation of a SPARQL query (active repository).
      */
     public Map<String, String> reformulate(String query) {
+        return reformulate(query, null);
+    }
+
+    /**
+     * Get SQL reformulation targeting a specific repository.
+     */
+    public Map<String, String> reformulate(String query, String dsId) {
         try {
+            String targetUrl = (dsId != null && !dsId.isBlank())
+                    ? endpointUrl + "/" + dsId + "/ontop/reformulate"
+                    : endpointUrl + "/ontop/reformulate";
+
             ResponseEntity<String> response = restTemplate.getForEntity(
-                    endpointUrl + "/ontop/reformulate?query={query}",
-                    String.class, query);
+                    targetUrl + "?query={query}", String.class, query);
 
             if (response.getStatusCode().is2xxSuccessful()) {
                 return Map.of("sql", response.getBody() != null ? response.getBody() : "");
@@ -129,7 +143,7 @@ public class SparqlProxyService {
     }
 
     /**
-     * Check endpoint status by sending a simple ASK query.
+     * Check endpoint status and list available repositories.
      */
     public Map<String, Object> getEndpointStatus() {
         Map<String, Object> result = new HashMap<>();
@@ -153,6 +167,17 @@ public class SparqlProxyService {
             result.put("running", false);
         }
 
+        // Try to get repository list from endpoint
+        try {
+            ResponseEntity<java.util.List> reposResponse = restTemplate.getForEntity(
+                    endpointUrl + "/api/v1/repositories", java.util.List.class);
+            if (reposResponse.getStatusCode().is2xxSuccessful() && reposResponse.getBody() != null) {
+                result.put("repositories", reposResponse.getBody());
+            }
+        } catch (Exception ignored) {
+            // Endpoint may not support multi-repo yet
+        }
+
         // Attach current endpoint file paths
         try {
             EndpointRegistration current = endpointRegistryRepo.getCurrent();
@@ -170,16 +195,13 @@ public class SparqlProxyService {
     }
 
     private int countBindings(String json) {
-        // Simple heuristic: count occurrences of },{ within bindings array
         int count = 0;
         int idx = json.indexOf("\"bindings\"");
         if (idx < 0) return 0;
-        // Find the array start
         int start = json.indexOf('[', idx);
         int end = json.indexOf(']', start);
         if (start < 0 || end < 0) return 0;
         String bindings = json.substring(start, end);
-        // Count objects in array by counting "{"
         for (int i = 0; i < bindings.length(); i++) {
             if (bindings.charAt(i) == '{') count++;
         }

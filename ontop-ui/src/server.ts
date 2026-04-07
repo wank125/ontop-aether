@@ -22,6 +22,7 @@ const ENGINE_PREFIXES = [
   '/api/v1/mappings',
   '/api/v1/ontology',
   '/api/v1/sparql/',
+  '/api/v1/repositories',
 ];
 
 // Bootstrap paths stay on Python backend (need LLM)

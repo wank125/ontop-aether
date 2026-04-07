@@ -23,14 +23,36 @@ public class SparqlProxyController {
         this.historyRepo = historyRepo;
     }
 
+    /**
+     * Execute SPARQL query using the active data source.
+     */
     @PostMapping("/query")
     public ResponseEntity<byte[]> query(@RequestBody SparqlQueryRequest req) {
-        return service.executeQuery(req.getQuery(), req.getFormat());
+        String dsId = req.getDsId(); // may be null → use active
+        return service.executeQuery(req.getQuery(), req.getFormat(), dsId);
+    }
+
+    /**
+     * Execute SPARQL query targeting a specific data source.
+     */
+    @PostMapping("/{dsId}/query")
+    public ResponseEntity<byte[]> queryByDsId(@PathVariable String dsId,
+                                               @RequestBody SparqlQueryRequest req) {
+        return service.executeQuery(req.getQuery(), req.getFormat(), dsId);
     }
 
     @PostMapping("/reformulate")
     public Map<String, String> reformulate(@RequestBody ReformulateRequest req) {
         return service.reformulate(req.getQuery());
+    }
+
+    /**
+     * Reformulate targeting a specific data source.
+     */
+    @PostMapping("/{dsId}/reformulate")
+    public Map<String, String> reformulateByDsId(@PathVariable String dsId,
+                                                  @RequestBody ReformulateRequest req) {
+        return service.reformulate(req.getQuery(), dsId);
     }
 
     @GetMapping("/history")

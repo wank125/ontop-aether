@@ -51,6 +51,14 @@ const nextConfig: NextConfig = {
         source: '/api/v1/sparql/:path*',
         destination: `${engineUrl}/api/v1/sparql/:path*`,
       },
+      {
+        source: '/api/v1/repositories/:path*',
+        destination: `${engineUrl}/api/v1/repositories/:path*`,
+      },
+      {
+        source: '/api/v1/repositories',
+        destination: `${engineUrl}/api/v1/repositories`,
+      },
 
       // ── Everything else → Python backend ──
       {
