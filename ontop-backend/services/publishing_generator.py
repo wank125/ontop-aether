@@ -7,62 +7,17 @@ from services.obda_parser import parse_obda
 
 
 def get_ontology_tools() -> list[dict]:
-    """Build the list of MCP tools derived from the current ontology."""
-    tools = [
-        {
-            "name": "sparql_query",
-            "description": "Execute a SPARQL query against the Ontop virtual knowledge graph",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "query": {
-                        "type": "string",
-                        "description": "SPARQL query string",
-                    }
-                },
-                "required": ["query"],
-            },
-        },
-        {
-            "name": "list_ontology_classes",
-            "description": "List all classes in the ontology with their labels",
-            "parameters": {"type": "object", "properties": {}},
-        },
-        {
-            "name": "describe_class",
-            "description": "Get properties and relationships of a specific class",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "class_name": {
-                        "type": "string",
-                        "description": "Name of the ontology class (e.g. PropertyProject)",
-                    }
-                },
-                "required": ["class_name"],
-            },
-        },
-        {
-            "name": "get_sample_data",
-            "description": "Get sample instances of a class from the knowledge graph",
-            "parameters": {
-                "type": "object",
-                "properties": {
-                    "class_name": {
-                        "type": "string",
-                        "description": "Name of the ontology class",
-                    },
-                    "limit": {
-                        "type": "integer",
-                        "description": "Max number of results (default 10)",
-                        "default": 10,
-                    },
-                },
-                "required": ["class_name"],
-            },
-        },
+    """Build the list of tools derived from the current ontology.
+
+    Delegates to tool_registry (single source of truth).
+    """
+    from services.tool_registry import register_builtin_tools, get_all_specs
+
+    register_builtin_tools()
+    return [
+        {"name": s.name, "description": s.description, "parameters": s.parameters}
+        for s in get_all_specs()
     ]
-    return tools
 
 
 def _load_parsed_obda() -> tuple[dict, list]:
@@ -155,53 +110,31 @@ def generate_cursor_config(sse_url: str) -> str:
 
 def generate_openai_function_tools(selected_tools: list[str]) -> list[dict]:
     """Generate OpenAI Function Calling schema for selected tools."""
-    all_tools = get_ontology_tools()
-    filtered = [t for t in all_tools if t["name"] in selected_tools] if selected_tools else all_tools
-    return [
-        {"type": "function", "function": {"name": t["name"], "description": t["description"], "parameters": t["parameters"]}}
-        for t in filtered
-    ]
+    from services.tool_registry import register_builtin_tools, render_openai_function
+
+    register_builtin_tools()
+    return render_openai_function(selected_tools)
 
 
 def generate_anthropic_tool_definitions(selected_tools: list[str]) -> list[dict]:
     """Generate Anthropic Tool Use schema for selected tools."""
-    all_tools = get_ontology_tools()
-    filtered = [t for t in all_tools if t["name"] in selected_tools] if selected_tools else all_tools
-    return [
-        {"name": t["name"], "description": t["description"], "input_schema": t["parameters"]}
-        for t in filtered
-    ]
+    from services.tool_registry import register_builtin_tools, render_anthropic_tool
+
+    register_builtin_tools()
+    return render_anthropic_tool(selected_tools)
 
 
 def generate_openapi_spec(base_url: str, selected_tools: list[str]) -> dict:
     """Generate OpenAPI 3.0 spec snippet for selected tools."""
-    all_tools = get_ontology_tools()
-    filtered = [t for t in all_tools if t["name"] in selected_tools] if selected_tools else all_tools
-    paths = {}
-    for t in filtered:
-        paths[f"/tools/{t['name']}"] = {
-            "post": {
-                "summary": t["description"],
-                "requestBody": {
-                    "content": {
-                        "application/json": {
-                            "schema": t["parameters"]
-                        }
-                    }
-                },
-                "responses": {"200": {"description": "Success"}},
-            }
-        }
-    return {
-        "openapi": "3.0.0",
-        "info": {"title": "Ontop Semantic API", "version": "1.0.0"},
-        "servers": [{"url": base_url}],
-        "paths": paths,
-    }
+    from services.tool_registry import register_builtin_tools, render_openapi
+
+    register_builtin_tools()
+    return render_openapi(base_url, selected_tools)
 
 
 def generate_generic_json_schema(selected_tools: list[str]) -> list[dict]:
     """Generate generic JSON Schema tool definitions."""
-    return get_ontology_tools() if not selected_tools else [
-        t for t in get_ontology_tools() if t["name"] in selected_tools
-    ]
+    from services.tool_registry import register_builtin_tools, render_generic_json
+
+    register_builtin_tools()
+    return render_generic_json(selected_tools)

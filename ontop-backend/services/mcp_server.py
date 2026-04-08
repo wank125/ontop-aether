@@ -1,12 +1,7 @@
 """MCP Server lifecycle management — mounted as ASGI sub-app."""
 
-import json
 import logging
 from typing import Optional
-
-import httpx
-
-from config import ONTOP_ENDPOINT_URL
 
 logger = logging.getLogger(__name__)
 
@@ -16,8 +11,16 @@ _mcp_session_ctx: Optional[object] = None  # session_manager context
 
 
 def create_mcp_server() -> "FastMCP":
-    """Create and configure the MCP server with ontology-derived tools."""
+    """Create and configure the MCP server with ontology-derived tools.
+
+    Tool specs come from tool_registry (single source of truth).
+    The @mcp.tool() wrappers are thin delegates — MCP SDK derives
+    parameter schema from the Python function signature + docstring.
+    """
     from mcp.server.fastmcp import FastMCP
+    from services.tool_registry import register_builtin_tools, get_handler
+
+    register_builtin_tools()
 
     mcp = FastMCP(
         "ontop-semantic",
@@ -32,88 +35,23 @@ def create_mcp_server() -> "FastMCP":
 
     @mcp.tool()
     async def sparql_query(query: str) -> str:
-        """Execute a SPARQL query against the Ontop virtual knowledge graph.
-
-        Args:
-            query: A valid SPARQL query string (SELECT, ASK, CONSTRUCT, etc.)
-        """
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            resp = await client.post(
-                f"{ONTOP_ENDPOINT_URL}/sparql",
-                data=query,
-                headers={
-                    "Content-Type": "application/sparql-query",
-                    "Accept": "application/sparql-results+json",
-                },
-            )
-        if resp.status_code != 200:
-            return json.dumps({"error": f"HTTP {resp.status_code}", "detail": resp.text[:500]})
-        return resp.text
+        """Execute a SPARQL query against the Ontop virtual knowledge graph."""
+        return await get_handler("sparql_query")(query=query)
 
     @mcp.tool()
     async def list_ontology_classes() -> str:
         """List all classes defined in the ontology with their names and descriptions."""
-        from services.publishing_generator import get_ontology_classes_summary
-        classes = get_ontology_classes_summary()
-        return json.dumps(classes, ensure_ascii=False, indent=2)
+        return await get_handler("list_ontology_classes")()
 
     @mcp.tool()
     async def describe_class(class_name: str) -> str:
-        """Get properties and relationships of a specific ontology class.
-
-        Args:
-            class_name: The local name of the class (e.g. PropertyProject, SpaceUnit)
-        """
-        from services.publishing_generator import describe_class_details
-        details = describe_class_details(class_name)
-        return json.dumps(details, ensure_ascii=False, indent=2)
+        """Get properties and relationships of a specific ontology class."""
+        return await get_handler("describe_class")(class_name=class_name)
 
     @mcp.tool()
     async def get_sample_data(class_name: str, limit: int = 10) -> str:
-        """Get sample instances of an ontology class from the knowledge graph.
-
-        Args:
-            class_name: The local name of the class to query
-            limit: Maximum number of results (default 10, max 50)
-        """
-        limit = min(limit, 50)
-        # Read active ontology config to get namespace prefix
-        from services.active_endpoint_config import load_active_endpoint_config
-        from services.obda_parser import parse_obda
-        active = load_active_endpoint_config()
-        mapping_path = active.get("mapping_path", "")
-        class_uri = class_name
-        if mapping_path:
-            try:
-                content = open(mapping_path, "r", encoding="utf-8").read()
-                parsed = parse_obda(content)
-                for prefix, uri in parsed.prefixes.items():
-                    if "ontology" in uri or "example" in uri:
-                        class_uri = f"{prefix}:{class_name}"
-                        break
-            except Exception:
-                pass
-
-        sparql = (
-            f"SELECT ?s ?p ?o WHERE {{ ?s a <{class_uri if ':' not in class_name else class_uri.replace(':', '', 1)}> ; "
-            f"?p ?o . }} LIMIT {limit}"
-        )
-        # Fallback: try with prefix notation
-        sparql_fallback = f"SELECT * WHERE {{ ?s a {class_uri} . ?s ?p ?o . }} LIMIT {limit}"
-
-        async with httpx.AsyncClient(timeout=30.0) as client:
-            for q in [sparql, sparql_fallback]:
-                resp = await client.post(
-                    f"{ONTOP_ENDPOINT_URL}/sparql",
-                    data=q,
-                    headers={
-                        "Content-Type": "application/sparql-query",
-                        "Accept": "application/sparql-results+json",
-                    },
-                )
-                if resp.status_code == 200:
-                    return resp.text
-        return json.dumps({"error": "Query failed", "class_name": class_name})
+        """Get sample instances of an ontology class from the knowledge graph."""
+        return await get_handler("get_sample_data")(class_name=class_name, limit=limit)
 
     return mcp
 
@@ -182,8 +120,9 @@ def get_mcp_status() -> dict:
     tools = []
     if _mcp_instance is not None:
         try:
-            from services.publishing_generator import get_ontology_tools
-            tools = [t["name"] for t in get_ontology_tools()]
+            from services.tool_registry import register_builtin_tools, get_all_specs
+            register_builtin_tools()
+            tools = [s.name for s in get_all_specs()]
         except Exception:
             pass
     return {
